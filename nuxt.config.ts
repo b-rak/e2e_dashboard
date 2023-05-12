@@ -7,14 +7,17 @@ export default defineNuxtConfig({
                 { charset: 'utf-8' },
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' },
             ],
-            /* evtl brauchbar
-            script: [
-                // <script src="https://myawesome-lib.js"></script>
-                { src: 'https://awesome-lib.js' }
-            ],*/
             link: [
                 { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
                 { rel: 'stylesheet', href: 'http://fonts.googleapis.com/css?family=Lato:400,700' },
+                { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Lora' },
+                { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap' },
+                { rel: 'stylesheet', type: 'text/css', href: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css' },
+            ],
+            script: [
+                { src: 'https://cdn.jsdelivr.net/jquery/latest/jquery.min.js', type: 'text/javascript'},
+                { src: 'https://cdn.jsdelivr.net/momentjs/latest/moment.min.js', type: 'text/javascript'},
+                { src: 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js', type: 'text/javascript'},
             ],
             /* evtl brauchbar, oder doch nicht wegen scoped css?
             // please note that this is an area that is likely to change
@@ -27,8 +30,14 @@ export default defineNuxtConfig({
                 lang: 'de'
             },
             title: 'App Monitoring'
-        }
+        },
     },
+    build: {
+        transpile: ["@fortawesome/fontawesome-free", "@fortawesome/fontawesome-svg-core", "@fortawesome/free-regular-svg-icons", "@fortawesome/free-solid-svg-icons", "@fortawesome/vue-fontawesome"],
+    },
+    css: [
+        '@fortawesome/fontawesome-svg-core/styles.css'
+    ],
     imports: {
         autoImport: true,
     },
