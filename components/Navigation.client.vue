@@ -1,7 +1,9 @@
-    <template>
+<template>
     <div v-if="!isMobile" id="nav">
         <div id="part-1">
-            <img src="~/assets/images/logo-appmatics-2.png" alt="Appmatics Logo" id="appmatics-logo"/>
+            <a href="/" id="appmatics">
+                <img src="~/assets/images/logo-appmatics-2.png" alt="Appmatics Logo" id="appmatics-logo"/>
+            </a>
             <div id="cont-1">
                 <a>Dashboard</a>
                 <a href="/testfaelle">Testfälle</a>
@@ -29,7 +31,9 @@
                     </svg>
                 </button>
             </div>
-            <img src="~/assets/images/logo-appmatics-2.png" alt="Appmatics Logo" id="appmatics-logo"/>
+            <a href="/" id="appmatics">
+                <img src="~/assets/images/logo-appmatics-2.png" alt="Appmatics Logo" id="appmatics-logo"/>
+            </a>
             <a href="/login" id="profile">
                 <img src="~/assets/images/profilicon.png" alt="Profil-Icon" id="profile-icon">
             </a>
@@ -45,8 +49,6 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeMount, onUnmounted, ref } from 'vue';
-
 const isMobile = ref(useWindowSize().width.value < 1000)
 
 const removeClasses = function(items: NodeListOf<HTMLElement>) {
@@ -63,19 +65,22 @@ const toggleMenu = function(event: MouseEvent) {
     const t: HTMLElement | null = event.currentTarget as HTMLElement
     t.classList.toggle("open")
 
-    const a: HTMLElement | null = document.getElementById('nav')
+    const a: HTMLElement | null = document.getElementById('nav') as HTMLElement
     a.classList.toggle('open')
 }
 
 onMounted(() => {
-    const menuItems: NodeListOf<HTMLAnchorElement> = document.querySelectorAll("a")
+    setTimeout(() => {
+        const menuItems: NodeListOf<HTMLAnchorElement> = document.querySelectorAll("a")
+        console.log(menuItems)
         for (const menuItem of menuItems) {
             menuItem.addEventListener("click", (): void => {
                 removeClasses(menuItems)
                 menuItem.classList.add("selected")
             })
         }
-    window.addEventListener("resize", ismobile)
+        window.addEventListener("resize", ismobile)
+    }, 1)
 })
 
 onUnmounted(() => {
