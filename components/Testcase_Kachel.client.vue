@@ -1,5 +1,5 @@
 <template>
-    <div class="p-3 bg-white flex flex-col justify-between items-end w-[386px] rounded-xl">
+    <div class="p-3 bg-white flex flex-col justify-between items-end rounded-xl">
         <div class="flex flex-row w-full justify-between items-center h-8">
             <span class="font-lato not-italic font-bold text-lg leading-8">
                 <font-awesome-icon :icon="{prefix: 'fas', iconName: 'desktop'}" class="text-[#222F34] h-[18px] w-[22px]"/>
@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="text-center h-14 my-[21px] w-full">
-            Chart JS
+            <canvas :id="'bar-chart-'+id" style="width: 100%; height: 54px;" class="mx-auto"></canvas>
         </div>
         <div>
             <span class="font-lato not-italic font-normal text-sm leading-6 text-[#677076]">
@@ -29,4 +29,10 @@ const props = withDefaults(defineProps<{
 }>(), {
     result: () => Math.random() < 0.5
 });
+
+onMounted(() => {
+    setTimeout(() => {
+        useChart(props.id as number);
+    }, 1)
+})
 </script>
