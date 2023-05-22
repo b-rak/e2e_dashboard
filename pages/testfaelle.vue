@@ -1,7 +1,7 @@
 <template>
     <div class="w-screen h-screen pt-8">
         <!-- Übersicht oben -->
-        <div id="overview" class="bg-[#DFE4E7] h-[232px] w-11/12 mx-auto rounded-[20px] shadow-[0px_0px_4px_#C2CED6] flex flex-col items-center py-9">
+        <div id="overview" class="bg-[#DFE4E7] h-[232px] w-auto mx-[120px] rounded-[20px] shadow-[0px_0px_4px_#C2CED6] flex flex-col items-center py-9">
 
             <!-- Top Row -->
             <div id="top-row" class="flex flex-row justify-between items-start p-0 w-full px-6">
@@ -26,9 +26,9 @@
                 </div>
             </div>
             <!-- Bottom Row -->
-            <div id="bottom-row" class="flex flex-row  justify-between items-start w-full mt-6 px-[138px]">
+            <div id="bottom-row" class="flex flex-row justify-center gap-x-[33px] items-start w-full mt-6 px-[138px]">
                 <!-- KACHEL ALL OS -->
-                <div id="os-all" class="w-60 h-[168px] bg-[#222F34] rounded-2xl text-white flex flex-col flex-shrink items-center p-0 gap-3 justify-start">
+                <div id="os-all" class="grow max-w-[400px] bg-[#222F34] rounded-2xl text-white flex flex-col flex-shrink items-center p-0 gap-3 justify-start">
                     <div class="flex flex-row gap-2 p-0 items-center my-2">
                         <font-awesome-icon :icon="{prefix: 'fas', iconName: 'shrimp'}" class="text-white fa-xl"/>
                         <span class="font-lato not-italic font-bold text-lg leading-[32px] text-white">Gesamt</span>
@@ -44,7 +44,7 @@
 
                 <!--OS-Kachel v-bind="config"/-->
                 <!-- EINZELNE OS KACHELN -> Vue Component?? -->
-                <div id="os-1" class="w-[355px] h-[151px] bg-white rounded-2xl shadow-[2px_-2px_8px_rgba(0,0,0,0.08),-2px_2px_4px_rgba(0,0,0,0.08)] my-auto flex flex-col flex-shrink gap-3">
+                <div id="os-1" class="grow max-w-[400px] bg-white rounded-2xl shadow-[2px_-2px_8px_rgba(0,0,0,0.08),-2px_2px_4px_rgba(0,0,0,0.08)] my-auto flex flex-col flex-shrink gap-3">
                     <div class="flex flex-row justify-between items-center mx-4 my-2">
                         <span class="font-lato not-italic font-bold text-lg leading-8">
                             <font-awesome-icon :icon="{prefix: 'fas', iconName: 'desktop'}" class="text-[#222F34] h-[18px] w-[22px]"/>
@@ -54,7 +54,7 @@
                             4 Cases 
                         </div>
                     </div>
-                    <div class="h-3/5 flex flex-row justify-between items-center mx-4">
+                    <div class="h-[91px] flex flex-row justify-between items-center mx-4">
                         <div class="h-full w-[165px] bg-slate-200 text-center flex flex-row justify-center items-center">Chart JS</div>
 
                         <div class="h-14 w-[104px] flex flex-col justify-center items-center">
@@ -68,7 +68,7 @@
                 </div>
 
                 <!-- Kachel 2 -->
-                <div id="os-2" class="w-[355px] h-[151px] bg-white rounded-2xl shadow-[2px_-2px_8px_rgba(0,0,0,0.08),-2px_2px_4px_rgba(0,0,0,0.08)] my-auto flex flex-col flex-shrink gap-3">
+                <div id="os-2" class="grow max-w-[400px] bg-white rounded-2xl shadow-[2px_-2px_8px_rgba(0,0,0,0.08),-2px_2px_4px_rgba(0,0,0,0.08)] my-auto flex flex-col gap-3">
                     <div class="flex flex-row justify-between items-center mx-4 my-2">
                         <span class="font-lato not-italic font-bold text-lg leading-8">
                             <font-awesome-icon :icon="{prefix: 'fab', iconName: 'apple'}" class="text-[#053240] h-[19px] w-[16px]"/>
@@ -78,7 +78,7 @@
                             4 Cases 
                         </div>
                     </div>
-                    <div class="h-3/5 flex flex-row justify-between items-center mx-4">
+                    <div class="h-[91px] flex flex-row justify-between items-center mx-4">
                         <div class="h-full w-[165px] bg-slate-200 text-center flex flex-row justify-center items-center">Chart JS</div>
 
                         <div class="h-14 w-[104px] flex flex-col justify-center items-center">
@@ -92,7 +92,7 @@
                 </div>
                 
                 <!-- Kachel 3 -->
-                <div id="os-3" class="w-[355px] h-[151px] bg-white rounded-2xl shadow-[2px_-2px_8px_rgba(0,0,0,0.08),-2px_2px_4px_rgba(0,0,0,0.08)] my-auto flex flex-col flex-shrink gap-3">
+                <div id="os-3" class="grow max-w-[400px] bg-white rounded-2xl shadow-[2px_-2px_8px_rgba(0,0,0,0.08),-2px_2px_4px_rgba(0,0,0,0.08)] my-auto flex flex-col flex-shrink gap-3">
                     <div class="flex flex-row justify-between items-center mx-4 my-2">
                         <span class="font-lato not-italic font-bold text-lg leading-8">
                             <font-awesome-icon :icon="{prefix: 'fab', iconName: 'android'}" class="text-[#053240] h-[16px] w-[14px]"/>
@@ -102,7 +102,7 @@
                             4 Cases 
                         </div>
                     </div>
-                    <div class="h-3/5 flex flex-row justify-between items-center mx-4">
+                    <div class="h-[91px] flex flex-row justify-between items-center mx-4">
                         <div class="h-full w-[165px] bg-slate-200 text-center flex flex-row justify-center items-center">Chart JS</div>
 
                         <div class="h-14 w-[104px] flex flex-col justify-center items-center">
@@ -127,10 +127,42 @@ import DateRangePicker from 'daterangepicker'
 
 onMounted(() => {
     setTimeout(() => {
-        console.log('Mounting....')
         const input = document.querySelector('input[name="daterange"]') as HTMLElement
         let daterangepicker = new DateRangePicker(input, {
-            opens: 'center'
+            opens: 'center',
+            locale: {
+                "format": "DD.MM.YYYY",
+                "separator": " - ",
+                "applyLabel": "OK",
+                "cancelLabel": "Abbrechen",
+                "fromLabel": "Von",
+                "toLabel": "Bis",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    "So",
+                    "Mo",
+                    "Di",
+                    "Mi",
+                    "Do",
+                    "Fr",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "Januar",
+                    "Februar",
+                    "März",
+                    "April",
+                    "Mai",
+                    "Juni",
+                    "Juli",
+                    "August",
+                    "September",
+                    "Oktober",
+                    "November",
+                    "Dezember"
+                ],
+                "firstDay": 1
+            }
         })
 
         document.getElementById('export')?.addEventListener('click', () => {

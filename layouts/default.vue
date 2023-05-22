@@ -14,5 +14,6 @@
     main {
         margin-top: 80px;
         position: relative;
+        height: 1200px;
     }
 </style>
