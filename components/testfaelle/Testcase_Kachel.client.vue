@@ -5,7 +5,7 @@
     <div class="flex flex-row w-full justify-between items-center h-8">
       <div class="flex items-center gap-3">
         <font-awesome-icon
-          :icon="{ prefix: 'fas', iconName: 'desktop' }"
+          :icon="icon"
           class="f_text_neutral_900 fa-xl h-[1.125rem] w-[1.375rem]"
         />
         <span class="h3_bold_18">Testcase {{ id }} </span>
@@ -22,8 +22,8 @@
     </div>
     <div class="text-center h-14 my-[1.313rem] w-full">
       <canvas
-        :id="'bar-chart-' + id"
-        style="width: 100%; height: 54px"
+        :id="'bar-chart-' + groupName + id"
+        style="width: 100%; height: 3.375rem"
         class="mx-auto"
       ></canvas>
     </div>
@@ -43,7 +43,9 @@
 const props = withDefaults(
   defineProps<{
     id: Number;
+    groupName: String;
     result?: Boolean;
+    icon: Object;
   }>(),
   {
     result: () => Math.random() < 0.5,
@@ -52,7 +54,7 @@ const props = withDefaults(
 
 onMounted(() => {
   setTimeout(() => {
-    useChart(props.id as number);
+    useChart(props.groupName + String(props.id));
   }, 1);
 });
 </script>

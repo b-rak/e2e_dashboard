@@ -1,13 +1,18 @@
 <template>
   <div
-    id="os-1"
-    class="w-[22.188rem] h-[9.438rem] basic_white border_medium shadow_light_3 my-auto flex flex-col gap-3"
+    :id="`os-${id}`"
+    class="w-[22.188rem] h-[9.438rem] border_medium shadow_light_3 my-auto flex flex-col gap-3"
+    :class="[!selected ? 'basic_white' : 'f_neutral_900 h-[10.5rem]']"
+    @click="toggleDisplay"
   >
     <div class="flex flex-row justify-between items-center mx-4 my-2">
-      <span class="h3_bold_18">
+      <span
+        class="h3_bold_18"
+        :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
+      >
         <font-awesome-icon
           :icon="getIcon(iconName)"
-          class="f_text_neutral_900 h-[1.125rem] w-[1.375rem]"
+          class="h-[1rem] w-[1rem] fa-xl"
         />
         {{ os_name }}
       </span>
@@ -21,20 +26,23 @@
     </div>
     <div class="h-3/5 flex flex-row justify-between items-center mx-4">
       <div
-        class="h-full w-[10.313rem] bg-slate-200 text-center flex flex-row justify-center items-center"
+        class="h-full w-[10.313rem] bg-slate-200 text-center flex flex-row justify-center items-center rounded-xl"
       >
         Chart JS
       </div>
 
-      <div class="h-14 w-[6.5rem] flex flex-col justify-center items-center">
+      <div
+        class="h-14 w-[6.5rem] flex flex-col justify-center items-center"
+        :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
+      >
         <div class="flex flex-row justify-center items-center gap-2">
           <font-awesome-icon
             :icon="{ prefix: 'fas', iconName: 'arrow-up' }"
             class="status_text_pass_100 h-[0.938rem] w-[0.688rem]"
           />
-          <span class="rate_bold_36 f_text_neutral_900 uppercase">30%</span>
+          <span class="rate_bold_36 uppercase">30%</span>
         </div>
-        <span class="text_regular_14 f_text_neutral_900">Success Rate</span>
+        <span class="text_regular_14">Success Rate</span>
       </div>
     </div>
   </div>
@@ -51,12 +59,18 @@ line 18: pass percentage  -> api request
 -->
 
 <script lang="ts" setup>
-defineProps({
+const props = defineProps({
   id: Number,
   iconName: String,
   os_name: String,
   numberOfCases: Number,
+  selected: {
+    default: true,
+    type: Boolean,
+  },
 });
+
+const emits = defineEmits(["update:display"]);
 
 const getIcon = (iconName: string) => {
   if (iconName === "desktop") {
@@ -70,5 +84,9 @@ const getIcon = (iconName: string) => {
       iconName: iconName,
     };
   }
+};
+
+const toggleDisplay = () => {
+  emits("update:display", { selected: !props.selected, id: props.id });
 };
 </script>
