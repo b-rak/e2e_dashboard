@@ -4,13 +4,19 @@
     :class="[path === '/login' ? 'login' : '']"
   >
     <Navigation v-if="path !== '/login'" style="min-height: 80px" />
-    <a v-else href="/" id="appmatics">
+    <a
+      v-else
+      href="/"
+      style="min-height: 80px"
+      class="ml-[4%] flex items-center"
+    >
       <img
-        class="cursor-pointer h-6 w-[8.75rem] ml-[4%] mt-6"
+        class="cursor-pointer h-6 w-[8.75rem]"
         src="~/assets/images/logo-appmatics-2.png"
         alt="Appmatics Logo"
       />
     </a>
+
     <main style="flex: 1">
       <!-- This is where the content of each page will go -->
       <slot />
