@@ -1,17 +1,14 @@
 <template>
-    <Login />
+  <div class="flex items-center h-[90%]">
+    <Login class="login" />
+  </div>
 </template>
 
 <style scoped>
-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-family: 'Lato';
-    font-size: 18px;
-    font-style: normal;
-    height: 80vh;
+.login {
+  display: flex;
+  flex-direction: column;
+  margin-left: 13.7%;
+  /**margin: auto auto auto 13.7%;*/
 }
 </style>
