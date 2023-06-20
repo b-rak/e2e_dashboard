@@ -15,8 +15,31 @@
 /**
     base font size: 16px
 */
-html {
+/*html {
   font-size: 16px;
+}**/
+@media (min-width: 1000px), (max-width: 1000px) {
+  :root {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 1150px) {
+  :root {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 1350px) {
+  :root {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    font-size: 16px;
+  }
 }
 
 /** 
@@ -183,6 +206,10 @@ html {
 
 .basic_white {
   background-color: #ffffff;
+}
+
+.basic_text_white {
+  color: #ffffff;
 }
 
 /** Foundation */
