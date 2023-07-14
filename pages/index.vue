@@ -1,10 +1,11 @@
-<template>
-  <Tutorial />
-</template>
+<template></template>
 
-
-<style scoped>
-main {
-    z-index: -10;
-}
-</style>
+<script lang="ts" setup>
+definePageMeta({
+  middleware: [
+    function () {
+      return navigateTo("/dashboard");
+    },
+  ],
+});
+</script>
