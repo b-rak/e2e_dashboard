@@ -66,6 +66,15 @@
   font-style: normal;
 }
 
+.h2_medium_28 {
+  font-size: 1.75rem;
+  line-height: 2rem;
+  letter-spacing: 0rem;
+  font-family: "Lato";
+  font-weight: 500;
+  font-style: normal;
+}
+
 .h3_bold_18 {
   font-size: 1.125rem;
   line-height: 2rem;
@@ -195,13 +204,25 @@
   background-color: #fcfcfc;
 }
 
+.bg_text_light {
+  color: #fcfcfc;
+}
+
 /** Basics */
 .basic_black {
   background-color: #000000;
 }
 
+.basic_text_black {
+  color: #000000;
+}
+
 .basic_grey {
   background-color: #707070;
+}
+
+.basic_text_grey {
+  color: #707070;
 }
 
 .basic_white {
@@ -221,12 +242,20 @@
   color: var(--f_secondary_00, #ff4220);
 }
 
+.f_border_secondary_00 {
+  border-color: var(--f_secondary_00, #ff4220);
+}
+
 .f_neutral_900 {
   background-color: var(--f_neutral_900, #222f34);
 }
 
 .f_text_neutral_900 {
   color: var(--f_neutral_900, #222f34);
+}
+
+.f_border_neutral_900 {
+  border-color: var(--f_neutral_900, #222f34);
 }
 
 .f_neutral_700 {
@@ -267,6 +296,10 @@
 
 .f_text_neutral_80 {
   color: var(--f_neutral_80, #dfe4e7);
+}
+
+.f_border_neutral_80 {
+  border-color: var(--f_neutral_80, #dfe4e7);
 }
 
 /** Status */
