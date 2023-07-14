@@ -145,10 +145,10 @@ const ismobile = function () {
 };
 
 const toggleMenu = function (event: MouseEvent) {
-  const t: HTMLElement | null = event.currentTarget as HTMLElement;
+  const t: HTMLElement = event.currentTarget as HTMLElement;
   t.classList.toggle("open");
 
-  const a: HTMLElement | null = document.getElementById("nav") as HTMLElement;
+  const a: HTMLElement = document.getElementById("nav") as HTMLElement;
   a.classList.toggle("open");
 };
 

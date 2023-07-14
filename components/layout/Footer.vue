@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-[74px] flex flex-row justify-between py-[1.312rem] mx-[7.5rem] text_regular_18"
+    class="h-[74px] flex flex-row justify-between items-center py-[1.312rem] mx-[7.5rem] text_regular_18"
   >
     <span class="f_text_neutral_700 h-8">2023 ©appmatics</span>
     <div
