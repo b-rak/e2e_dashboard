@@ -1,18 +1,24 @@
 <template>
   <div
     :id="`os-${id}`"
-    class="w-[22.188rem] h-[9.438rem] border_medium shadow_light_3 my-auto flex flex-col gap-3"
-    :class="[!selected ? 'basic_white' : 'f_neutral_900 h-[10.5rem]']"
+    class="w-[22.188rem] h-[9.438rem] border_medium shadow_light_3 my-auto flex flex-col gap-3 hover:scale-[1.05]"
+    :class="[!selected ? 'basic_white' : 'f_neutral_900']"
     @click="toggleDisplay"
   >
     <div class="flex flex-row justify-between items-center mx-4 my-2">
       <span
-        class="h3_bold_18"
+        class="h3_bold_18 flex items-center gap-2"
         :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
       >
         <font-awesome-icon
+          v-if="iconName !== 'android'"
           :icon="getIcon(iconName)"
-          class="h-[1rem] w-[1rem] fa-xl"
+          class="h-[1.125rem] w-[1.375rem] fa-xl"
+        />
+        <AndroidIcon
+          v-else
+          class="h-[1.25rem] w-[1.25rem] inline-block"
+          :class="[!selected ? 'f_text_neutral_900' : 'basic_text-white']"
         />
         {{ os_name }}
       </span>
@@ -26,11 +32,14 @@
     </div>
     <div class="h-3/5 flex flex-row justify-between items-center mx-4">
       <div
-        class="h-full w-[10.313rem] bg-slate-200 text-center flex flex-row justify-center items-center rounded-xl"
+        class="text-center my-[1.313rem] w-[10.313rem] h-[5.688rem] flex items-end"
       >
-        Chart JS
+        <canvas
+          :id="'chart-' + id"
+          style="width: 10.313rem; height: 5.688rem"
+          class="font-lato font-bold leading-6 tracking-[0.0625rem] text-[2rem]"
+        ></canvas>
       </div>
-
       <div
         class="h-14 w-[6.5rem] flex flex-col justify-center items-center"
         :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
@@ -89,4 +98,10 @@ const getIcon = (iconName: string) => {
 const toggleDisplay = () => {
   emits("update:display", { selected: !props.selected, id: props.id });
 };
+
+onMounted(() => {
+  setTimeout(() => {
+    useOverviewChart(String(props.id));
+  }, 1);
+});
 </script>

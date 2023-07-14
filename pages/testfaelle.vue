@@ -3,7 +3,7 @@
     <!-- Übersicht oben -->
     <div
       id="overview"
-      class="f_neutral_80 h-[14.5rem] w-auto mx-[7.5rem] rounded-[1.25rem] shadow_light_2 flex flex-col items-center py-9"
+      class="f_neutral_80 h-[14.5rem] w-auto mx-[7.5rem] rounded-[1.25rem] shadow_light_1 flex flex-col items-center py-9"
     >
       <!--Top Row -->
       <div
@@ -69,12 +69,8 @@
         <!-- KACHEL ALL OS -->
         <div
           id="os-all"
-          class="grow max-w-[25rem] border_medium text-white flex flex-col flex-shrink items-center p-0 gap-3"
-          :class="[
-            displayAll
-              ? 'f_neutral_900'
-              : 'basic_white shadow_light_3 max-h-[9.438rem]',
-          ]"
+          class="h-[9.438rem] hover:scale-[1.05] border_medium text-white flex flex-col flex-shrink items-center p-0 gap-3"
+          :class="[displayAll ? 'f_neutral_900' : 'basic_white shadow_light_3']"
           @click="selectAll"
         >
           <div class="flex flex-row gap-2 p-0 items-center my-2">

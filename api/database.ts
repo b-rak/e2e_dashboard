@@ -3,7 +3,7 @@ export function getRandomResults(iterations: number) {
   for (let i = 0; i < iterations; i++) {
     data.push({
       id: i,
-      result: Math.random() < 0.5 ? "passed" : "failed",
+      passed: Math.round(Math.random() * 10) / 10,
       runtime: Math.floor(Math.random() * 60),
     });
   }
@@ -23,6 +23,7 @@ export function getResults() {
     },
   ];
 }
+
 /*
 // Test old 'backend'
 const mysql = require("mysql2");

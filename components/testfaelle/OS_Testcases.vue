@@ -1,10 +1,16 @@
 <template>
   <div class="f_neutral_80 border_large shadow_light_1 pb-9 mx-[7.5rem] w-auto">
     <div class="flex flex-row justify-between items-center px-6 pt-6 pb-3">
-      <span class="h2_bold_28 f_text_neutral_900">
+      <span class="h2_bold_28 f_text_neutral_900 flex items-center gap-2">
         <font-awesome-icon
+          v-if="iconName !== 'android'"
           :icon="getIcon(iconName)"
           class="f_text_neutral_900 h-[2.375rem] w-[2.438rem]"
+        />
+        <AndroidIcon
+          v-else
+          class="h-[1.5rem] w-[1.5rem] inline-block"
+          :class="[!selected ? 'f_text_neutral_900' : 'basic_text-white']"
         />
         {{ name }}
       </span>

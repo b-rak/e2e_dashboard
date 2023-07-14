@@ -5,8 +5,14 @@
     <div class="flex flex-row w-full justify-between items-center h-8">
       <div class="flex items-center gap-3">
         <font-awesome-icon
+          v-if="icon.iconName !== 'android'"
           :icon="icon"
           class="f_text_neutral_900 fa-xl h-[1.125rem] w-[1.375rem]"
+        />
+        <AndroidIcon
+          v-else
+          class="h-[1.25rem] w-[1.25rem] inline-block"
+          :class="[!selected ? 'f_text_neutral_900' : 'basic_text-white']"
         />
         <span class="h3_bold_18">Testcase {{ id }} </span>
       </div>
@@ -23,7 +29,7 @@
     <div class="text-center h-14 my-[1.313rem] w-full">
       <canvas
         :id="'bar-chart-' + groupName + id"
-        style="width: 100%; height: 3.375rem"
+        style="width: 100%; height: 3.5rem"
         class="mx-auto"
       ></canvas>
     </div>
