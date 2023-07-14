@@ -1,9 +1,14 @@
 <template>
   <div
     class="h-screen w-screen flex flex-col m-0"
-    :class="[path === '/login' ? 'login' : '']"
+    :class="[
+      path === '/login' || path === '/passwort-zuruecksetzen' ? 'login' : '',
+    ]"
   >
-    <Navigation v-if="path !== '/login'" style="min-height: 80px" />
+    <Navigation
+      v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
+      style="min-height: 80px"
+    />
     <a
       v-else
       href="/"
@@ -21,10 +26,15 @@
       <!-- This is where the content of each page will go -->
       <slot />
     </main>
-    <Footer v-if="path !== '/login'" style="min-height: 32px" />
-    <div v-else class="text_regular_16 text-[#707070] p-2 ml-[4%] mb-12">
+    <Footer
+      v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
+      style="min-height: 32px"
+    />
+    <div v-else class="text_regular_16 basic_text_grey p-2 ml-[4%] mb-12">
       Benötigen Sie Hilfe?
-      <span class="cursor-pointer f_text_secondary_00 pl-1">Zum Support</span>
+      <span class="cursor-pointer f_text_neutral_500 pl-1 underline"
+        >Zum Support</span
+      >
     </div>
   </div>
 </template>
@@ -32,6 +42,11 @@
 <script lang="ts" setup>
 const route = useRoute();
 const path = ref(route.path);
+
+watch(route, () => {
+  console.log(route);
+  //location.reload();
+});
 </script>
 
 <style scoped>

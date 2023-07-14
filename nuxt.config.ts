@@ -66,6 +66,7 @@ export default defineNuxtConfig({
   components: [
     "~/components/",
     "~/components/layout",
+    "~/components/login",
     "~/components/testfaelle",
   ],
   css: [
