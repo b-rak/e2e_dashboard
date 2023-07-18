@@ -13,12 +13,12 @@
     >
     <span class="h2_bold_28 basic_text_grey mb-6">{{ email }}</span>
     <div
-      class="text_regular_16 basic_text_grey py-2 pr-2 pl-[9rem] flex items-center gap-2"
+      class="text_regular_16 basic_text_grey py-2 pr-2 pl-[9.25rem] flex items-center gap-2"
     >
       Keine E-Mail erhalten?
       <span
         v-if="!displaySendAgain"
-        class="cursor-pointer status_text_fail_100 pl-2"
+        class="cursor-pointer status_text_fail_100 inline-flex items-center gap-2"
         @click="loadingAnimation"
         >Erneut senden
         <font-awesome-icon
@@ -26,7 +26,7 @@
           :icon="['far', 'spinner-third']"
           class="text-[1rem] animate-spin"
       /></span>
-      <span v-else class="basic_text_grey pl-2 inline-flex items-center gap-2"
+      <span v-else class="basic_text_grey inline-flex items-center gap-2"
         >Erneut versandt
         <font-awesome-icon
           :icon="['far', 'circle-check']"
