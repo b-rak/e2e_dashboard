@@ -66,7 +66,7 @@ export const useChart = async function (testcaseId: String) {
             borderRadius: getRem() * 0.5,
             barPercentage: 1,
             categoryPercentage: 1,
-            barThickness: 4,
+            barThickness: getRem() * 0.25,
           },
           {
             label: "test results2",
@@ -75,7 +75,7 @@ export const useChart = async function (testcaseId: String) {
             borderRadius: getRem() * 0.5,
             barPercentage: 1,
             categoryPercentage: 1,
-            barThickness: 4,
+            barThickness: getRem() * 0.25,
           },
         ],
       },
@@ -101,8 +101,6 @@ export const useChart = async function (testcaseId: String) {
             display: true,
             grid: {
               display: true,
-              drawTicks: false,
-              tickColor: "#ffffff",
               color: function (ctx, options) {
                 return ctx.tick.value === 0 ? "#677076" : "#FFFFFF";
               },
@@ -112,6 +110,7 @@ export const useChart = async function (testcaseId: String) {
             max: 1.1,
             ticks: {
               display: false,
+              maxTicksLimit: 3,
             },
           },
         },
