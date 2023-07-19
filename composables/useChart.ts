@@ -34,8 +34,11 @@ try {
 }
 
 // Testcase Kachel Chart
-export const useChart = async function (testcaseId: String) {
-  const data = getRandomResults(50);
+export const useChart = async function (
+  testcaseId: String,
+  numberOfResults: Number
+) {
+  const data = getRandomResults(Number(numberOfResults));
   // define Plugin: change the colors of the last results: green (passed) and red (failed)
   const updateColor = {
     id: "updateColor",

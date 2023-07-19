@@ -60,7 +60,7 @@ const props = withDefaults(
 
 onMounted(() => {
   setTimeout(() => {
-    useChart(props.groupName + String(props.id));
+    useChart(props.groupName + String(props.id), 50);
   }, 1);
 });
 </script>
