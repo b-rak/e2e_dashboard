@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-screen w-screen flex flex-col m-0"
+    class="h-screen flex flex-col my-0"
     :class="[
       path === '/login' || path === '/passwort-zuruecksetzen' ? 'login' : '',
     ]"
@@ -22,13 +22,22 @@
       />
     </a>
 
-    <main style="flex: 1">
+    <main
+      style="flex: 1"
+      class="px-[7.5rem] min-[1920px]:px-[6.25%]"
+      :class="[
+        path !== '/login' && path !== '/passwort-zuruecksetzen'
+          ? 'bg_light'
+          : '',
+      ]"
+    >
       <!-- This is where the content of each page will go -->
       <slot />
     </main>
     <Footer
       v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
       style="min-height: 32px"
+      class="bg_light px-[7.5rem] min-[1920px]:px-[6.25%]"
     />
     <div v-else class="text_regular_16 basic_text_grey p-2 ml-[4%] mb-12">
       Benötigen Sie Hilfe?

@@ -1,9 +1,10 @@
 <template>
-  <div v-if="!isMobile" id="nav" class="flex h-20 items-center">
-    <div
-      id="part-1"
-      class="flex justify-around items-center left-[4%] absolute gap-x-[9.188rem]"
-    >
+  <div
+    v-if="!isMobile"
+    id="nav"
+    class="h-20 flex justify-between items-center basic_white px-[7.5rem] min-[1920px]:px-[6.25%]"
+  >
+    <div id="part-1" class="flex justify-around items-center gap-x-[9.188rem]">
       <a href="/" id="appmatics">
         <img
           src="~/assets/images/logo-appmatics-2.png"
@@ -27,10 +28,7 @@
         >
       </div>
     </div>
-    <div
-      id="part-2"
-      class="flex justify-around items-center right-[4%] absolute gap-x-[3.75rem]"
-    >
+    <div id="part-2" class="flex justify-around items-center gap-x-[3.75rem]">
       <div id="cont-2" class="flex gap-x-14">
         <NuxtLink
           to="/mitteilungen"
