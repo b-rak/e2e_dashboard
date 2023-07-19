@@ -266,12 +266,20 @@
   color: var(--f_neutral_700, #3a4f57);
 }
 
+.f_border_neutral_700 {
+  border-color: var(--f_neutral_700, #3a4f57);
+}
+
 .f_neutral_500 {
   background-color: var(--f_neutral_500, #516f7b);
 }
 
 .f_text_neutral_500 {
   color: var(--f_neutral_500, #516f7b);
+}
+
+.f_border_neutral_500 {
+  border-color: var(--f_neutral_500, #516f7b);
 }
 
 .f_neutral_400 {
