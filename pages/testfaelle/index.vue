@@ -22,27 +22,29 @@
           <div class="flex flex-col items-start w-[14.688rem] h-24">
             <div class="w-[14.688rem] h-16 flex flex-row items-center gap-4">
               <p class="display_semibold_48">Testfälle</p>
-              <font-awesome-icon
-                :icon="{ prefix: 'fas', iconName: 'circle-info' }"
-                class="f_text_neutral_900 h-6 w-6 cursor-pointer"
-              />
+              <div class="h-6 w-6 cursor-pointer f_text_neutral_900">
+                <font-awesome-icon
+                  :icon="{ prefix: 'far', iconName: 'circle-info' }"
+                  class="fa-xl"
+                />
+              </div>
             </div>
             <p class="h3_medium_18 f_text_neutral_900">Appmatics</p>
           </div>
         </div>
-        <div id="filter-export" class="h-14 w-auto flex flex-row gap-8">
+        <div id="filter-export" class="h-14 w-auto flex items-center gap-8">
           <ClientOnly>
             <div
-              class="pl-4 h-14 flex flex-row items-center basic_white border border_medium border-solid border-[#DFE4E7] shadow_light_1"
+              class="px-6 py-3 h-14 flex items-center basic_white border border_medium border-solid border-[#DFE4E7] shadow_light_1 gap-2"
             >
               <font-awesome-icon
-                :icon="{ prefix: 'fas', iconName: 'calendar-day' }"
-                class="fa-flip-horizontal f_text_neutral_500 h-[1.25rem] w-[1.125rem] fa-xl"
+                :icon="{ prefix: 'far', iconName: 'calendar-day' }"
+                class="fa-flip-horizontal f_text_neutral_500 h-4 w-4 fa-xl"
               />
               <input
                 type="text"
                 name="daterange"
-                class="h-[1.125rem] w-[12.5rem] text-center text_regular_16"
+                class="h-[1.125rem] w-[10.875rem] text-center text_regular_16"
               />
             </div>
             <button
