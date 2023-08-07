@@ -6,6 +6,7 @@
   --f_neutral_400: #748c95;
   --f_neutral_90: #cbd0d4;
   --f_neutral_80: #dfe4e7;
+  --f_neutral_75: #f4f5f6;
   --status_fail_100: #ff6246;
   --status_fail_75: #ff917e;
   --status_pass_100: #1bb298;
@@ -290,12 +291,20 @@
   color: var(--f_neutral_400, #748c95);
 }
 
+.f_border_neutral_400 {
+  border-color: var(--f_neutral_400, #748c95);
+}
+
 .f_neutral_90 {
   background-color: var(--f_neutral_90, #cbd0d4);
 }
 
 .f_text_neutral_90 {
   color: var(--f_neutral_90, #cbd0d4);
+}
+
+.f_border_neutral_90 {
+  border-color: var(--f_neutral_90, #cbd0d4);
 }
 
 .f_neutral_80 {
@@ -308,6 +317,18 @@
 
 .f_border_neutral_80 {
   border-color: var(--f_neutral_80, #dfe4e7);
+}
+
+.f_neutral_75 {
+  background-color: var(--f_neutral_75, #f4f5f6);
+}
+
+.f_text_neutral_75 {
+  color: var(--f_neutral_75, #f4f5f6);
+}
+
+.f_border_neutral_75 {
+  border-color: var(--f_neutral_75, #f4f5f6);
 }
 
 /** Status */
