@@ -11,11 +11,7 @@
           @click.prevent="toggleRotate"
         />
       </div>
-      <div
-        class="flex items-center justify-center status_bold_12 basic_text_white status_pass_100 border_small p-1"
-      >
-        PASSED
-      </div>
+      <ResultIndicator :result="true" class="p-1" />
       <div
         class="h3_medium_18 w-[20.6875rem] grow"
         :class="[selected ? 'basic_text_white' : '']"
@@ -36,7 +32,7 @@
       </div>
     </div>
     <Transition>
-      <div v-show="selected">
+      <div v-show="selected" class="border-b border-solid f_border_neutral_90">
         <SubcaseResult v-for="n in 10" :key="n" :result="getResult()" />
       </div>
     </Transition>

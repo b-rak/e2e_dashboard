@@ -11,15 +11,7 @@
         </div>
         <span class="h3_bold_18">Testcase {{ id }} </span>
       </div>
-      <div
-        :class="{ status_fail_100: !result, status_pass_100: result }"
-        class="border_small py-0 px-[0.375rem] flex justify-center"
-      >
-        <span
-          class="flex items-center status_bold_12 text-white text-center pl-[0.125rem]"
-          >{{ result ? "PASSED" : "FAILED" }}</span
-        >
-      </div>
+      <ResultIndicator :result="result" class="pl-2 pr-[0.375rem]" />
     </div>
     <div class="text-center h-14 w-full">
       <canvas
