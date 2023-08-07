@@ -3,7 +3,7 @@
     <!-- Übersicht oben -->
     <div
       id="overview"
-      class="f_neutral_80 h-[14.5rem] w-full border_large shadow_light_1 flex flex-col items-center py-9"
+      class="f_neutral_80 h-[14.5rem] w-full border_medium shadow_light_1 flex flex-col items-center py-9"
     >
       <!--Top Row -->
       <div
@@ -71,7 +71,7 @@
         <!-- KACHEL ALL OS -->
         <div
           id="os-all"
-          class="h-[9.6875rem] hover:scale-[1.05] border_large shadow_light_3 text-white flex flex-col flex-shrink items-center pt-[1.375rem] gap-6"
+          class="h-[9.6875rem] hover:scale-[1.05] border_small shadow_light_3 text-white flex flex-col flex-shrink items-center pt-[1.375rem] gap-6"
           :class="[displayAll ? 'f_neutral_900' : 'basic_white shadow_light_3']"
           @click="selectAll"
         >

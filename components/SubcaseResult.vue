@@ -7,7 +7,7 @@
     <div class="flex items-center justify-center w-[3.988rem] min-w-[3.988rem]">
       <ClientOnly>
         <div
-          class="border_small p-2 w-6 h-6"
+          class="border_xsmall p-2 w-6 h-6"
           :class="[!status ? color : colore]"
         ></div>
       </ClientOnly>

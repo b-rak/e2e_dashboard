@@ -35,18 +35,11 @@
         </span>
       </div>
       <CaseIndicator numberOfCases="10" type="Subcase" class="f_neutral_80" />
-      <!--div
-        class="flex items-center justify-center f_neutral_80 border_large h-[3rem] w-[8.5rem] p-4"
-      >
-        <span class="h3_bold_18 f_text_neutral_900">{{
-          numberOfSubcases > 1 ? numberOfSubcases + " Subcases" : "1 Subcase"
-        }}</span>
-      </div-->
     </div>
 
     <!-- 3. Bar Chart and Pie Chart -->
     <div class="flex gap-8 w-full f_neutral_80 px-6 py-8 border_medium">
-      <div class="w-full py-8 px-6 basic_white border_large">
+      <div class="w-full py-8 px-6 basic_white border_small">
         <div class="flex justify-between items-center">
           <span class="h2_bold_28 f_text_neutral_900">Zeitlicher Verlauf</span>
           <font-awesome-icon
@@ -64,13 +57,13 @@
         </div>
       </div>
       <div
-        class="w-[21.3rem] px-6 py-8 basic_white border_large flex flex-col gap-4"
+        class="w-[21.3rem] px-6 py-8 basic_white border_small flex flex-col gap-4"
       >
         <span class="h2_bold_28 basic_text_black">Verteilung</span>
         <select
           name="Verteilung"
           id="Verteilung-select"
-          class="py-2 pr-2 pl-4 f_neutral_80 w-[11.25rem] mt-2 border_small appearance-none caret"
+          class="py-2 pr-2 pl-4 f_neutral_80 w-[11.25rem] mt-2 border_medium appearance-none caret"
         >
           <option value="Letzter Tag">Letzter Tag</option>
           <option value="Letzten 7 Tage">Letzten 7 Tage</option>
@@ -93,7 +86,7 @@
         <span class="h2_bold_28 f_text_neutral_900"> Results</span>
       </div>
       <div
-        class="flex flex-col items-start py-6 border_large basic_white w-full"
+        class="flex flex-col items-start py-6 border_small basic_white w-full"
       >
         <div
           class="flex gap-8 py-3 px-3 border-b border-solid f_border_neutral_80 w-full"

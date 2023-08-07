@@ -1,7 +1,7 @@
 <template>
   <div
     :id="`os-${id}`"
-    class="w-[22.188rem] h-[9.6875rem] border_large shadow_light_3 flex flex-col px-6 pt-[1.375rem] gap-6 hover:scale-[1.05]"
+    class="w-[22.188rem] h-[9.6875rem] border_small shadow_light_3 flex flex-col px-6 pt-[1.375rem] gap-6 hover:scale-[1.05]"
     :class="[!selected ? 'basic_white' : 'f_neutral_900']"
     @click="toggleDisplay"
   >

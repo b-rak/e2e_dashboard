@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-12 h-12 p-2 cursor-pointer border rounded flex items-center justify-center"
+    class="w-12 h-12 p-2 cursor-pointer border border_xxsmall flex items-center justify-center"
     :class="[
       active
         ? 'f_neutral_500 f_border_neutral_500'

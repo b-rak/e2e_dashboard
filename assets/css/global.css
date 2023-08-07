@@ -386,16 +386,20 @@
 */
 
 /** Border */
-.border_large {
-  border-radius: 0.75rem;
-}
-
 .border_medium {
   border-radius: 1rem;
 }
 
 .border_small {
+  border-radius: 0.75rem;
+}
+
+.border_xsmall {
   border-radius: 0.5rem;
+}
+
+.border_xxsmall {
+  border-radius: 0.25rem;
 }
 
 /** 
