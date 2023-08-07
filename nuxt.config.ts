@@ -65,6 +65,7 @@ export default defineNuxtConfig({
   },
   components: [
     "~/components/",
+    "~/components/icons",
     "~/components/layout",
     "~/components/login",
     "~/components/testfaelle",
