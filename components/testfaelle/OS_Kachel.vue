@@ -1,27 +1,27 @@
 <template>
   <div
     :id="`os-${id}`"
-    class="w-[22.188rem] h-[9.438rem] border_medium shadow_light_3 my-auto flex flex-col gap-3 hover:scale-[1.05]"
+    class="w-[22.188rem] h-[9.6875rem] border_large shadow_light_3 flex flex-col px-6 pt-[1.375rem] gap-6 hover:scale-[1.05]"
     :class="[!selected ? 'basic_white' : 'f_neutral_900']"
     @click="toggleDisplay"
   >
-    <div class="flex flex-row justify-between items-center mx-4 my-2">
-      <span
-        class="h3_bold_18 flex items-center gap-2"
+    <div class="h-8 flex flex-row justify-between items-center">
+      <div
+        class="flex items-center gap-4"
         :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
       >
-        <font-awesome-icon
-          v-if="iconName !== 'android'"
-          :icon="getIcon(iconName)"
-          class="h-[1.125rem] w-[1.375rem] fa-xl"
-        />
-        <AndroidIcon
-          v-else
-          class="h-[1.25rem] w-[1.25rem] inline-block"
-          :class="[!selected ? 'f_text_neutral_900' : 'basic_text-white']"
-        />
-        {{ os_name }}
-      </span>
+        <div class="w-6 h-6 flex justify-center items-center">
+          <DesktopIcon
+            v-if="iconName === 'desktop'"
+            :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
+          />
+          <IOSIcon v-else-if="iconName === 'apple'" />
+          <AndroidIcon v-else class="inline-block h-5" />
+        </div>
+        <span class="h3_bold_18">
+          {{ os_name }}
+        </span>
+      </div>
       <div
         class="f_neutral_80 border_small text-center h-7 w-[6.313rem] p-[0.125rem]"
       >
@@ -30,24 +30,22 @@
         </span>
       </div>
     </div>
-    <div class="h-3/5 flex flex-row justify-between items-center mx-4">
-      <div
-        class="text-center my-[1.313rem] w-[10.313rem] h-[5.688rem] flex items-end"
-      >
+    <div class="h-[4.8125rem] flex flex-row items-end gap-6">
+      <div class="text-center w-[10.313rem] h-[4.8125rem] flex items-end">
         <canvas
           :id="'chart-' + id"
-          style="width: 10.313rem; height: 5.688rem"
+          style="width: 10.313rem; height: 4.8125rem"
           class="font-lato font-bold leading-6 tracking-[0.0625rem] text-[2rem]"
         ></canvas>
       </div>
       <div
-        class="h-14 w-[6.5rem] flex flex-col justify-center items-center"
+        class="w-[6.5rem] flex flex-col justify-center items-center p-1"
         :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
       >
         <div class="flex flex-row justify-center items-center gap-2">
           <font-awesome-icon
-            :icon="{ prefix: 'fas', iconName: 'arrow-up' }"
-            class="status_text_pass_100 h-[0.938rem] w-[0.688rem]"
+            :icon="{ prefix: 'far', iconName: 'arrow-up' }"
+            class="status_text_pass_100 h-[1.5rem] w-[1.5rem] text-[1.5rem]"
           />
           <span class="rate_bold_36 uppercase">30%</span>
         </div>
@@ -85,7 +83,7 @@ const getIcon = (iconName: string) => {
   if (iconName === "desktop") {
     return {
       prefix: "fas",
-      iconName: "desktop",
+      iconName: "display",
     };
   } else {
     return {

@@ -47,14 +47,14 @@
             </div>
             <button
               id="export"
-              class="flex flex-row items-center h-[3.375rem] py-2 px-4 gap-2 border_medium f_neutral_500 button_semibold_16 text-center text-white"
+              class="flex items-center h-[3rem] py-3 px-6 gap-2 border_medium f_neutral_500 button_semibold_16 text-center text-white"
             >
               <font-awesome-icon
                 :icon="{
                   prefix: 'fas',
                   iconName: 'arrow-up-right-from-square',
                 }"
-                class="text-white w-4 h-4 fa-xl"
+                class="h-4 w-4 fa-xl"
               />
               Export CSV
             </button>
@@ -69,29 +69,26 @@
         <!-- KACHEL ALL OS -->
         <div
           id="os-all"
-          class="h-[9.438rem] hover:scale-[1.05] border_medium text-white flex flex-col flex-shrink items-center p-0 gap-3"
+          class="h-[9.6875rem] hover:scale-[1.05] border_large shadow_light_3 text-white flex flex-col flex-shrink items-center pt-[1.375rem] gap-6"
           :class="[displayAll ? 'f_neutral_900' : 'basic_white shadow_light_3']"
           @click="selectAll"
         >
-          <div class="flex flex-row gap-2 p-0 items-center my-2">
-            <font-awesome-icon
-              :icon="{ prefix: 'far', iconName: 'laptop-mobile' }"
-              class="text-white fa-xl"
-              :class="[!displayAll ? 'f_text_neutral_900' : 'basic_text_white']"
-            />
-            <span
-              class="h3_bold_18 text-white"
-              :class="[!displayAll ? 'f_text_neutral_900' : 'basic_text_white']"
-              >Gesamt</span
-            >
+          <div
+            class="flex gap-4 items-center"
+            :class="[!displayAll ? 'f_text_neutral_900' : 'basic_text_white']"
+          >
+            <div class="h-6 w-6 flex justify-center items-center">
+              <DevicesIcon />
+            </div>
+            <span class="h3_bold_18">Gesamt</span>
           </div>
           <div
-            class="h-[6.75rem] w-60 flex flex-col justify-center items-center"
+            class="h-[6.75rem] w-60 flex flex-col justify-center items-center p-1"
           >
             <div class="flex flex-row justify-center items-center gap-2">
               <font-awesome-icon
-                :icon="{ prefix: 'fas', iconName: 'arrow-up' }"
-                class="status_text_pass_100 h-[0.938rem] w-[0.688rem]"
+                :icon="{ prefix: 'far', iconName: 'arrow-up' }"
+                class="status_text_pass_100 h-[1.5rem] w-[1.5rem] text-[1.5rem]"
               />
               <span
                 class="rate_bold_36 text-white"

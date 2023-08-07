@@ -1,19 +1,14 @@
 <template>
   <div
-    class="p-3 basic_white flex flex-col justify-between items-end border_large"
+    class="p-3 basic_white flex flex-col justify-between items-end border_medium gap-8 shadow_light_2"
   >
     <div class="flex flex-row w-full justify-between items-center h-8">
-      <div class="flex items-center gap-3">
-        <font-awesome-icon
-          v-if="icon.iconName !== 'android'"
-          :icon="icon"
-          class="f_text_neutral_900 fa-xl h-[1.125rem] w-[1.375rem]"
-        />
-        <AndroidIcon
-          v-else
-          class="h-[1.25rem] w-[1.25rem] inline-block"
-          :class="[!selected ? 'f_text_neutral_900' : 'basic_text-white']"
-        />
+      <div class="flex items-center gap-4 f_text_neutral_900">
+        <div class="h-6 w-6 flex items-center justify-center">
+          <DesktopIcon v-if="icon === 'desktop'" />
+          <IOSIcon v-else-if="icon === 'apple'" />
+          <AndroidIcon v-else class="inline-block h-5" />
+        </div>
         <span class="h3_bold_18">Testcase {{ id }} </span>
       </div>
       <div
@@ -26,21 +21,19 @@
         >
       </div>
     </div>
-    <div class="text-center h-14 my-[1.313rem] w-full">
+    <div class="text-center h-14 w-full">
       <canvas
         :id="'bar-chart-' + groupName + id"
         style="width: 100%; height: 3.5rem"
         class="mx-auto"
       ></canvas>
     </div>
-    <div>
-      <span class="button_regular_14 text-[#677076] cursor-pointer">
-        Details
-        <font-awesome-icon
-          :icon="{ prefix: 'fas', iconName: 'chevron-right' }"
-          class="text-[#677076] h-3 w-2"
-        />
-      </span>
+    <div class="f_text_neutral_400 gap-4 cursor-pointer flex items-center">
+      <span class="button_regular_14">Details</span>
+      <font-awesome-icon
+        :icon="{ prefix: 'fas', iconName: 'chevron-right' }"
+        class="h-4 w-2"
+      />
     </div>
   </div>
 </template>
