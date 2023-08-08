@@ -13,10 +13,20 @@
         <div class="w-6 h-6 flex justify-center items-center">
           <DesktopIcon
             v-if="iconName === 'desktop'"
-            :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
+            width="1.5rem"
+            height="1.5rem"
           />
-          <IOSIcon v-else-if="iconName === 'apple'" />
-          <AndroidIcon v-else class="inline-block h-5" />
+          <IOSIcon
+            v-else-if="iconName === 'apple'"
+            width="1.5rem"
+            height="1.5rem"
+          />
+          <AndroidIcon
+            v-else
+            class="inline-block h-5"
+            width="1.5rem"
+            height="1.5rem"
+          />
         </div>
         <span class="h3_bold_18">
           {{ os_name }}

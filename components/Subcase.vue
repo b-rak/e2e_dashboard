@@ -26,9 +26,9 @@
       <div
         class="w-fit pl-[6.125rem] pr-5 py-2 flex items-center gap-[2.25rem] justify-end"
       >
-        <IconButton iconName="image" type="far" />
-        <IconButton iconName="circle-play" type="far" />
-        <IconButton iconName="file" type="fas" />
+        <IconButton iconName="image" type="far" active="true" />
+        <IconButton iconName="circle-play" type="far" active="true" />
+        <IconButton iconName="file" type="fas" active="true" />
       </div>
     </div>
     <Transition>
