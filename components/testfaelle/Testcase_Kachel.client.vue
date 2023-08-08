@@ -1,13 +1,27 @@
 <template>
   <div
-    class="p-3 basic_white flex flex-col justify-between items-end border_medium gap-8 shadow_light_2"
+    class="p-3 basic_white flex flex-col justify-between items-end border_medium gap-8 shadow_light_2 cursor-pointer"
+    @click="goToDetails()"
   >
     <div class="flex flex-row w-full justify-between items-center h-8">
       <div class="flex items-center gap-4 f_text_neutral_900">
         <div class="h-6 w-6 flex items-center justify-center">
-          <DesktopIcon v-if="icon === 'desktop'" />
-          <IOSIcon v-else-if="icon === 'apple'" />
-          <AndroidIcon v-else class="inline-block h-5" />
+          <DesktopIcon
+            v-if="icon === 'desktop'"
+            width="1.5rem"
+            height="1.5rem"
+          />
+          <IOSIcon
+            v-else-if="icon === 'apple'"
+            width="1.5rem"
+            height="1.5rem"
+          />
+          <AndroidIcon
+            v-else
+            class="inline-block h-5"
+            width="1.5rem"
+            height="1.5rem"
+          />
         </div>
         <span class="h3_bold_18">Testcase {{ id }} </span>
       </div>
@@ -36,7 +50,7 @@ const props = withDefaults(
     id: Number;
     groupName: String;
     result?: Boolean;
-    icon: Object;
+    icon: String;
   }>(),
   {
     result: () => Math.random() < 0.5,
@@ -48,4 +62,13 @@ onMounted(() => {
     useChart(props.groupName + String(props.id), 50);
   }, 1);
 });
+
+const emits = defineEmits(["goTo:details"]);
+const goToDetails = () => {
+  console.log("EMITT");
+  emits("goTo:details", {
+    name: "Testcase" + props.id,
+    icon: props.icon,
+  });
+};
 </script>

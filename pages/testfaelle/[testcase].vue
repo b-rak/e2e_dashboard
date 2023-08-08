@@ -1,7 +1,10 @@
 <template>
   <div class="flex flex-col gap-8 pt-9 pb-[7.5rem] bg_light">
     <!-- 1. Breadcrumb -->
-    <div class="flex items-center gap-6 text_regular_16 f_text_neutral_400">
+    <div
+      class="flex items-center gap-6 text_regular_16 f_text_neutral_400 cursor-pointer"
+      @click="() => navigateTo('/testfaelle')"
+    >
       <font-awesome-icon
         :icon="['fas', 'angle-left']"
         class="h-6 w-4 text-[1.5rem]"
@@ -31,7 +34,7 @@
           />
         </div>
         <span class="text-[2.5rem] font-semibold font-lora">
-          {{ "Produkte" }}
+          {{ testcaseName }}
         </span>
       </div>
       <CaseIndicator numberOfCases="10" type="Subcase" class="f_neutral_80" />
@@ -128,13 +131,30 @@
 </style>
 
 <script lang="ts" setup>
-const route = useRoute();
-console.log(route);
 const numberOfSubcases = 12;
-const iconName = "android";
 onMounted(() => {
   setTimeout(() => {
     useChart("Web1", 85); // TODO: 85 results; display tooltip
   }, 1);
 });
+
+definePageMeta({
+  middleware: "details",
+});
+
+const props = withDefaults(
+  defineProps<{
+    iconName?: String;
+    testcaseName?: String;
+  }>(),
+  {
+    iconName: () => store.icon,
+    testcaseName: () => store.name,
+  }
+);
+</script>
+
+<script lang="ts">
+import { useDetailsStore } from "~/stores/details";
+const store = useDetailsStore();
 </script>

@@ -45,6 +45,7 @@
         :id="index"
         :groupName="name"
         :icon="iconName"
+        @go-to:details="goToDetails"
       />
     </div>
   </div>
@@ -56,6 +57,13 @@ const props = defineProps<{
   iconName: String;
   numberOfCases: Number;
 }>();
+
+const emits = defineEmits(["goTo:details"]);
+const goToDetails = (obj: Object) => {
+  console.log("EMITT 222222");
+  console.log(obj);
+  emits("goTo:details", obj);
+};
 </script>
 
 <!-- 

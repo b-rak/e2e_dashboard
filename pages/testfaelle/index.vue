@@ -131,18 +131,21 @@
         name="Web"
         iconName="desktop"
         numberOfCases="10"
+        @go-to:details="navigate"
       />
       <OS-Testcases
         v-if="config2.selected.value || displayAll"
         name="iOS"
         iconName="apple"
         numberOfCases="6"
+        @go-to:details="navigate"
       />
       <OS-Testcases
         v-if="config3.selected.value || displayAll"
         name="Android"
         iconName="android"
         numberOfCases="1"
+        @go-to:details="navigate"
       />
     </div>
   </div>
@@ -252,5 +255,14 @@ const selectAll = () => {
     config2.selected.value = false;
     config3.selected.value = false;
   }
+};
+
+import { useDetailsStore } from "~/stores/details";
+const store = useDetailsStore();
+const navigate = (obj: Object) => {
+  console.log("I will navigate");
+  store.name = obj.name;
+  store.icon = obj.icon;
+  navigateTo(("/testfaelle/" + obj.name) as string);
 };
 </script>
