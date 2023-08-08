@@ -77,5 +77,5 @@ export default defineNuxtConfig({
   imports: {
     autoImport: true,
   },
-  modules: ["@nuxtjs/tailwindcss", "@vueuse/nuxt"],
+  modules: ["@nuxtjs/tailwindcss", "@vueuse/nuxt", "@pinia/nuxt"],
 });
