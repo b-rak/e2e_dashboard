@@ -1,28 +1,11 @@
 <template>
   <div
-    class="p-3 basic_white flex flex-col justify-between items-end border_medium gap-8 shadow_light_2 cursor-pointer"
+    class="p-3 basic_white flex flex-col justify-between items-end border_small gap-8 shadow_light_2 cursor-pointer"
     @click="goToDetails()"
   >
     <div class="flex flex-row w-full justify-between items-center h-8">
       <div class="flex items-center gap-4 f_text_neutral_900">
-        <div class="h-6 w-6 flex items-center justify-center">
-          <DesktopIcon
-            v-if="icon === 'desktop'"
-            width="1.5rem"
-            height="1.5rem"
-          />
-          <IOSIcon
-            v-else-if="icon === 'apple'"
-            width="1.5rem"
-            height="1.5rem"
-          />
-          <AndroidIcon
-            v-else
-            class="inline-block h-5"
-            width="1.5rem"
-            height="1.5rem"
-          />
-        </div>
+        <GroupIcon :name="icon" iconWidth="1.5rem" iconHeight="1.5rem" />
         <span class="h3_bold_18">Testcase {{ id }} </span>
       </div>
       <ResultIndicator :result="result" class="pl-2 pr-[0.375rem]" />
@@ -65,6 +48,7 @@ onMounted(() => {
 
 const emits = defineEmits(["goTo:details"]);
 const goToDetails = () => {
+  //navigateTo("/testfaelle/" + props.groupName + "/" + props.icon)
   console.log("EMITT");
   emits("goTo:details", {
     name: "Testcase" + props.id,

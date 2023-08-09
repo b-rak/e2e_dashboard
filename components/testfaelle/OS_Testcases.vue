@@ -4,24 +4,7 @@
   >
     <div class="flex justify-between items-center">
       <div class="f_text_neutral_900 flex items-center gap-6">
-        <div class="w-8 h-8 flex items-center justify-center">
-          <DesktopIcon
-            v-if="iconName === 'desktop'"
-            width="2rem"
-            height="2rem"
-          />
-          <IOSIcon
-            v-else-if="iconName === 'apple'"
-            width="2rem"
-            height="2rem"
-          />
-          <AndroidIcon
-            v-else
-            class="inline-block h-6"
-            width="2rem"
-            height="2rem"
-          />
-        </div>
+        <GroupIcon :name="iconName" iconWidth="2rem" iconHeight="2rem" />
         <span class="h2_bold_28">
           {{ name }}
         </span>

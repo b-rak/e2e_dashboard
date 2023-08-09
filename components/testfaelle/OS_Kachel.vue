@@ -10,24 +10,7 @@
         class="flex items-center gap-4"
         :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
       >
-        <div class="w-6 h-6 flex justify-center items-center">
-          <DesktopIcon
-            v-if="iconName === 'desktop'"
-            width="1.5rem"
-            height="1.5rem"
-          />
-          <IOSIcon
-            v-else-if="iconName === 'apple'"
-            width="1.5rem"
-            height="1.5rem"
-          />
-          <AndroidIcon
-            v-else
-            class="inline-block h-5"
-            width="1.5rem"
-            height="1.5rem"
-          />
-        </div>
+        <GroupIcon :name="iconName" iconWidth="1.5rem" iconHeight="1.5rem" />
         <span class="h3_bold_18">
           {{ os_name }}
         </span>

@@ -15,24 +15,7 @@
     <!-- 2. Case Name plus Subcases -->
     <div class="flex justify-between">
       <div class="f_text_neutral_900 flex items-center gap-6">
-        <div class="w-12 h-12 flex items-center justify-center">
-          <DesktopIcon
-            v-if="iconName === 'desktop'"
-            width="3rem"
-            height="3rem"
-          />
-          <IOSIcon
-            v-else-if="iconName === 'apple'"
-            width="3rem"
-            height="3rem"
-          />
-          <AndroidIcon
-            v-else
-            class="inline-block"
-            width="2.5rem"
-            height="2.5rem"
-          />
-        </div>
+        <GroupIcon :name="iconName" iconWidth="3rem" iconHeight="3rem" />
         <span class="text-[2.5rem] font-semibold font-lora">
           {{ testcaseName }}
         </span>
