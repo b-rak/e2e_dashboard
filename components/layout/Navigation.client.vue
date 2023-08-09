@@ -14,40 +14,19 @@
         />
       </a>
       <div id="cont-1" class="flex gap-x-14">
-        <NuxtLink
-          to="/dashboard"
-          exactActiveClass="after:scale-x-100 after:origin-[0%_50%] !font-bold !text-[#303436]"
-          class="tab_inactive_18 cursor-pointer text-[#707070] no-underline hover:font-bold hover:text-[#303436] after:block after:content-[''] after:border-b-[0.188rem] after:border-b-[#ff4220] after:scale-x-0 after:transition after:ease-in-out after:duration-[250ms]"
-          >Dashboard</NuxtLink
-        >
-        <NuxtLink
-          to="/testfaelle"
-          exactActiveClass="after:scale-x-100 after:origin-[0%_50%] !font-bold !text-[#303436]"
-          class="tab_inactive_18 cursor-pointer text-[#707070] no-underline hover:font-bold hover:text-[#303436] after:block after:content-[''] after:border-b-[0.188rem] after:border-b-[#ff4220] after:scale-x-0 after:transition after:ease-in-out after:duration-[250ms]"
-          >Testfälle</NuxtLink
-        >
+        <NavigationLink to="/dashboard" id="dashboard" text="Dashboard" />
+        <NavigationLink to="/testfaelle" id="testfaelle" text="Testfälle" />
       </div>
     </div>
     <div id="part-2" class="flex justify-around items-center gap-x-[3.75rem]">
       <div id="cont-2" class="flex gap-x-14">
-        <NuxtLink
+        <NavigationLink
           to="/mitteilungen"
-          exactActiveClass="after:scale-x-100 after:origin-[0%_50%] !font-bold !text-[#303436]"
-          class="tab_inactive_18 cursor-pointer text-[#707070] no-underline hover:font-bold hover:text-[#303436] after:block after:content-[''] after:border-b-[0.188rem] after:border-b-[#ff4220] after:scale-x-0 after:transition after:ease-in-out after:duration-[250ms]"
-          >Mitteilungen</NuxtLink
-        >
-        <NuxtLink
-          to="/support"
-          exactActiveClass="after:scale-x-100 after:origin-[0%_50%] !font-bold !text-[#303436]"
-          class="tab_inactive_18 cursor-pointer text-[#707070] no-underline hover:font-bold hover:text-[#303436] after:block after:content-[''] after:border-b-[0.188rem] after:border-b-[#ff4220] after:scale-x-0 after:transition after:ease-in-out after:duration-[250ms]"
-          >Support</NuxtLink
-        >
-        <NuxtLink
-          to="/faq"
-          exactActiveClass="after:scale-x-100 after:origin-[0%_50%] !font-bold !text-[#303436]"
-          class="tab_inactive_18 cursor-pointer text-[#707070] no-underline hover:font-bold hover:text-[#303436] after:block after:content-[''] after:border-b-[0.188rem] after:border-b-[#ff4220] after:scale-x-0 after:transition after:ease-in-out after:duration-[250ms]"
-          >FAQ</NuxtLink
-        >
+          id="mitteilungen"
+          text="Mitteilungen"
+        />
+        <NavigationLink to="/support" id="support" text="Support" />
+        <NavigationLink to="/faq" id="faq" text="FAQ" />
       </div>
       <a href="/login" id="profile">
         <img
@@ -159,6 +138,28 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", ismobile);
 });
+
+const active = ref(true);
+const route = useRoute();
+
+/*
+  console.log("ROUTE", route.path);
+  if (route.path.includes("/testfaelle")) {
+    const elems = document.querySelectorAll("a[href]");
+    const elem = document.querySelector(".router-link-active");
+    console.log(elems);
+    console.log(elem);
+
+    elem?.classList.add("after:scale-x-100");
+    elem?.classList.add("after:origin-[0%_50%]");
+    elem?.classList.add("!font-bold");
+    elem?.classList.add("!text-[#303436]");
+  }
+  //active.value = route.path.includes("/testfaelle");
+});*/
+const isRouteActive = (id: String) => {
+  //path.value.includes(id as string) ? true : false;
+};
 </script>
 
 <style scoped>
