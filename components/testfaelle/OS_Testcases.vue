@@ -43,7 +43,6 @@ const props = defineProps<{
 
 const emits = defineEmits(["goTo:details"]);
 const goToDetails = (obj: Object) => {
-  console.log("EMITT 222222");
   console.log(obj);
   emits("goTo:details", obj);
 };

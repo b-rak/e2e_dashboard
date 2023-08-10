@@ -31,19 +31,8 @@
           class="font-lato font-bold leading-6 tracking-[0.0625rem] text-[2rem]"
         ></canvas>
       </div>
-      <div
-        class="w-[6.5rem] flex flex-col justify-center items-center p-1"
-        :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
-      >
-        <div class="flex flex-row justify-center items-center gap-2">
-          <font-awesome-icon
-            :icon="{ prefix: 'far', iconName: 'arrow-up' }"
-            class="status_text_pass_100 h-[1.5rem] w-[1.5rem] text-[1.5rem]"
-          />
-          <span class="rate_bold_36 uppercase">30%</span>
-        </div>
-        <span class="text_regular_14">Success Rate</span>
-      </div>
+
+      <SuccessRate :selected="selected" />
     </div>
   </div>
 </template>
