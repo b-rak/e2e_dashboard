@@ -38,8 +38,8 @@
   </div>
   <div class="flex justify-center items-center h-full w-full">
     <img
-      src="img/LaptopWithACatOnTheScreen.svg"
-      alt="Bild in svg"
+      src="/img/LaptopWithACatOnTheScreen.svg"
+      alt="Laptop mit Katzenbild"
       class="w-[32rem]"
     />
   </div>
