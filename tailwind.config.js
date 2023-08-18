@@ -6,7 +6,7 @@ module.exports = {
         extend: {
             fontFamily: {
                 'lato': ['Lato', 'sans-serif'],
-                'lora': ['Lora', 'sans-serif'],
+                'lora': ['Lora', 'serif'],
                 'roboto': ['Roboto', 'sans-serif'],
             },
         },
