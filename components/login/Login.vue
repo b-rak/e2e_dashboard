@@ -36,6 +36,13 @@
       </SubmitButton>
     </form>
   </div>
+  <div class="flex justify-center items-center h-full w-full">
+    <img
+      src="img/Laptop_with_a_cat_on_the_screen.svg"
+      alt="Bild in svg"
+      class="w-[32rem]"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
