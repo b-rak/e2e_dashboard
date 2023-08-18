@@ -5,7 +5,7 @@
     :class="[!selected ? 'basic_white' : 'f_neutral_900']"
     @click="toggleDisplay"
   >
-    <div class="h-8 flex flex-row justify-between items-center">
+    <div class="h-8 flex justify-between items-center">
       <div
         class="flex items-center gap-4"
         :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
@@ -23,7 +23,7 @@
         </span>
       </div>
     </div>
-    <div class="h-[4.8125rem] flex flex-row items-end gap-6">
+    <div class="h-[4.8125rem] flex items-end gap-6">
       <div class="text-center w-[10.313rem] h-[4.8125rem] flex items-end">
         <canvas
           :id="'chart-' + id"

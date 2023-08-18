@@ -3,7 +3,7 @@
     <!-- Übersicht oben -->
     <div
       id="overview"
-      class="f_neutral_80 h-[14.5rem] w-full border_medium shadow_light_1 flex flex-col items-center py-9"
+      class="f_neutral_80 h-[14.5rem] w-full border_medium flex flex-col items-center py-9"
     >
       <!--Top Row -->
       <div
@@ -27,7 +27,12 @@
         id="bottom-row"
         class="flex flex-row justify-center gap-x-[33px] items-center w-full mt-6 px-[138px]"
       >
-        <GesamtKachel @select-all="selectAll" :displayAll="displayAll" />
+        <GesamtKachel
+          @select-all="selectAll"
+          :displayAll="displayAll"
+          positionHeading="center"
+          class="hover:scale-[1.05]"
+        />
         <OS-Kachel
           v-bind="config"
           @update:display="updateDisplay"
@@ -138,7 +143,7 @@ const selectAll = () => {
 
 import { useDetailsStore } from "~/stores/details";
 const store = useDetailsStore();
-const navigate = (obj: Object) => {
+const navigate = (obj: any) => {
   store.name = obj.name;
   store.icon = obj.icon;
   navigateTo(("/testfaelle/" + obj.name) as string);

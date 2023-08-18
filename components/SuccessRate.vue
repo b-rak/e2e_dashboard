@@ -3,7 +3,7 @@
     class="flex flex-col justify-center items-center p-1"
     :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
   >
-    <div class="flex flex-row justify-center items-center gap-2">
+    <div class="flex justify-center items-center gap-2">
       <font-awesome-icon
         :icon="{ prefix: 'far', iconName: iconName }"
         class="h-[1.5rem] w-[1.5rem] text-[1.5rem]"
