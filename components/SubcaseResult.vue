@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center gap-8 py-[1.5rem] px-3 w-full"
+    class="flex items-center gap-8 py-4 px-3 w-full"
     :class="[!status ? 'bg_light' : 'bg-[#f3f5f6]']"
   >
     <div class="w-[4.5rem] text-center"></div>
@@ -19,11 +19,15 @@
       <span class="text_regular_16 w-[7rem]">27.07.2023</span>
       <span class="text_regular_16">17:33:42</span>
     </div>
-    <div class="w-[45rem] grow flex justify-between">
+    <div class="w-[45rem] grow flex justify-between gap-6">
       <div class="f_neutral_80" :class="[!status ? '' : 'f_text_neutral_400']">
         Text lorem ipsum
       </div>
-      <ToggleButton text="Mark false" @toggle-status="changeStyles" />
+      <ToggleButton
+        class="min-w-[8.5rem]"
+        text="Mark false"
+        @toggle-status="changeStyles"
+      />
     </div>
     <div
       class="w-fit pl-[6.125rem] pr-5 py-2 flex items-center gap-[2.25rem] justify-end"

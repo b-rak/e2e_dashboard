@@ -1,7 +1,7 @@
 <template>
-  <div class="flex items-center">
+  <div class="flex items-center justify-between">
     <span
-      class="mr-3 text_regular_16"
+      class="text_regular_16"
       :class="[!status ? '' : 'f_text_neutral_400']"
       >{{ text }}</span
     >

@@ -24,39 +24,71 @@
     </div>
 
     <!-- 3. Bar Chart and Pie Chart -->
-    <div class="flex gap-8 w-full f_neutral_80 px-6 py-8 border_medium">
-      <div class="w-full py-8 px-6 basic_white border_small">
-        <div class="flex justify-between items-center">
-          <span class="h2_bold_28 f_text_neutral_900">Zeitlicher Verlauf</span>
-          <font-awesome-icon
-            :icon="{ prefix: 'fas', iconName: 'circle-info' }"
-            class="f_text_neutral_500 h-6 w-6 cursor-pointer text-[1.5rem]"
-          />
-        </div>
-        <div>
-          <canvas
-            id="bar-chart-Web1"
-            style="width: 100%; height: 9.1875rem"
-            class="mt-[5.44rem] mb-[4.133rem]"
-          >
-          </canvas>
-        </div>
+    <div
+      class="flex flex-col items-start gap-8 w-full f_neutral_80 px-6 py-8 border_medium"
+    >
+      <div class="flex justify-center items-center gap-6">
+        <font-awesome-icon
+          :icon="['far', 'chart-line']"
+          class="w-8 h-8 text-[2rem]"
+        />
+        <span class="h2_bold_28 f_text_neutral_900"> Results</span>
       </div>
-      <div
-        class="w-[21.3rem] px-6 py-8 basic_white border_small flex flex-col gap-4"
-      >
-        <span class="h2_bold_28 basic_text_black">Verteilung</span>
-        <select
-          name="Verteilung"
-          id="Verteilung-select"
-          class="py-2 pr-2 pl-4 f_neutral_80 w-[11.25rem] mt-2 border_medium appearance-none caret"
+      <div class="flex w-full gap-8">
+        <div class="w-full py-8 px-6 basic_white border_small shadow_light_2">
+          <div class="flex justify-between items-center">
+            <span class="h3_bold_18 f_text_neutral_900"
+              >Zeitlicher Verlauf</span
+            >
+            <font-awesome-icon
+              :icon="{ prefix: 'far', iconName: 'circle-info' }"
+              class="f_text_neutral_900 h-6 w-6 cursor-pointer text-[1.5rem]"
+            />
+          </div>
+          <div>
+            <canvas
+              id="bar-chart-Web1"
+              style="width: 100%; height: 9.1875rem"
+              class="mt-[5.44rem] mb-[4.133rem]"
+            >
+            </canvas>
+          </div>
+        </div>
+        <div
+          class="w-[21.3rem] px-6 py-8 basic_white border_small flex flex-col items-center gap-8 shadow_light_2"
         >
-          <option value="Letzter Tag">Letzter Tag</option>
-          <option value="Letzten 7 Tage">Letzten 7 Tage</option>
-          <option value="Letzten 30 Tage">Letzten 30 Tage</option>
-        </select>
-        <div>
-          <canvas></canvas>
+          <div class="flex flex-col items-start self-stretch gap-6">
+            <span class="h3_bold_18 basic_text_black">Verteilung</span>
+            <select
+              name="Verteilung"
+              id="Verteilung-select"
+              class="py-2 pr-2 pl-4 f_neutral_80 w-[11.25rem] border_medium appearance-none caret"
+              @change="drawChart"
+            >
+              <option value="Letzter Tag">Letzter Tag</option>
+              <option value="Letzten 7 Tage">Letzten 7 Tage</option>
+              <option value="Letzten 30 Tage">Letzten 30 Tage</option>
+            </select>
+          </div>
+          <div style="position: relative; width: 17.125rem; height: 136px">
+            <canvas id="doughnut"></canvas>
+          </div>
+          <div class="flex items-start gap-7">
+            <div class="status_bold_12">
+              <font-awesome-icon
+                :icon="['fas', 'circle']"
+                class="status_text_pass_100 h-3 w-3"
+              />
+              PASSED
+            </div>
+            <div class="status_bold_12">
+              <font-awesome-icon
+                :icon="['fas', 'circle']"
+                class="status_text_fail_100 h-3 w-3"
+              />
+              FAILED
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -72,7 +104,7 @@
         <span class="h2_bold_28 f_text_neutral_900"> Results</span>
       </div>
       <div
-        class="flex flex-col items-start py-6 border_small basic_white w-full"
+        class="flex flex-col items-start py-6 border_small basic_white w-full shadow_light_2"
       >
         <div
           class="flex gap-8 py-3 px-3 border-b border-solid f_border_neutral_80 w-full"
@@ -93,12 +125,7 @@
             Attachment
           </div>
         </div>
-        <Subcase />
-        <Subcase />
-        <Subcase />
-        <Subcase />
-        <Subcase />
-        <Subcase />
+        <Subcase v-for="i in 6" :id="i" :key="i" />
       </div>
     </div>
   </div>
@@ -118,8 +145,23 @@ const numberOfSubcases = 12;
 onMounted(() => {
   setTimeout(() => {
     useChart("Web1", 85); // TODO: 85 results; display tooltip
+    useDoughnutChart([140, 0], false);
   }, 1);
 });
+
+const drawChart = (event: Event) => {
+  let data: [number, number];
+  if ((event.target as HTMLSelectElement).selectedIndex === 0) {
+    data = [140, 0];
+  } else if ((event.target as HTMLSelectElement).selectedIndex === 1) {
+    data = [900, 80];
+  } else if ((event.target as HTMLSelectElement).selectedIndex === 2) {
+    data = [4000, 200];
+  } else {
+    data = [0, 0];
+  }
+  useDoughnutChart(data, true);
+};
 
 definePageMeta({
   middleware: "details",
@@ -138,6 +180,7 @@ const props = withDefaults(
 </script>
 
 <script lang="ts">
+import { useDoughnutChart } from "~/composables/useChart";
 import { useDetailsStore } from "~/stores/details";
 const store = useDetailsStore();
 </script>

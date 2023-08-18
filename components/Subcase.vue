@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <div
-      class="flex items-center gap-8 py-[1.5rem] px-3 border-b border-solid f_border_neutral_90 w-full"
+      class="flex items-center gap-8 py-4 px-3 border-b border-solid f_border_neutral_90 w-full"
       :class="[selected ? 'f_neutral_700' : '']"
     >
       <div class="w-[4.5rem] text-center">
@@ -22,7 +22,9 @@
           <span class="text_regular_16">17:33:42</span>
         </div>
       </div>
-      <div class="w-[45rem] f_neutral_400 grow">ChartJS</div>
+      <div class="w-[45rem] grow relative h-12">
+        <canvas :id="'runtime-' + id" class="border_xsmall"></canvas>
+      </div>
       <div
         class="w-fit pl-[6.125rem] pr-5 py-2 flex items-center gap-[2.25rem] justify-end"
       >
@@ -40,6 +42,10 @@
 </template>
 
 <script lang="ts" setup>
+const props = defineProps<{
+  id: Number;
+}>();
+
 const selected = ref(false);
 const toggleRotate = (event: Event) => {
   selected.value = !selected.value;
@@ -65,6 +71,12 @@ const toggleRotate = (event: Event) => {
 const getResult = () => {
   return Math.random() < 0.5;
 };
+
+onMounted(() => {
+  setTimeout(() => {
+    useRuntimeChart(String(props.id));
+  }, 1);
+});
 </script>
 
 <style scoped>
