@@ -38,7 +38,7 @@
   </div>
   <div class="flex justify-center items-center h-full w-full">
     <img
-      src="img/Laptop_with_a_cat_on_the_screen.svg"
+      src="img/LaptopWithACatOnTheScreen.svg"
       alt="Bild in svg"
       class="w-[32rem]"
     />
