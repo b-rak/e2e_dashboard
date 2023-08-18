@@ -10,7 +10,7 @@
       />
       <ExportButton buttonText="Export as JPG" />
     </div>
-    <div class="flex gap-6 grow">
+    <div class="flex gap-6">
       <!-- OS Übersicht -->
       <div
         class="p-6 border_medium f_neutral_80 h-[45rem] w-[16.5rem] flex flex-col gap-6"
