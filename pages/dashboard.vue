@@ -28,7 +28,7 @@
               </div>
               <span class="h3_bold_18">Gesamt</span>
             </div>
-            <SuccessRate :selected="displayAll" />
+            <SuccessRate :selected="false" />
           </div>
           <!--GesamtKachel class="min-w-[13.5rem]" positionHeading="start" /-->
           <OSPerformance os_name="Web" iconName="desktop" />
@@ -133,6 +133,7 @@
 
 <script lang="ts" setup>
 const togglePassed = ref(true);
+const iconName = ref("arrow-up");
 </script>
 
 <style scoped>
