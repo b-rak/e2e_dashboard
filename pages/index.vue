@@ -2,10 +2,6 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  middleware: [
-    function () {
-      return navigateTo("/dashboard");
-    },
-  ],
+  middleware: ["landing-page"],
 });
 </script>
