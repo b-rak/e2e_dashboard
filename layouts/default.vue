@@ -52,10 +52,12 @@
 const route = useRoute();
 const path = ref(route.path);
 
-watch(route, () => {
-  console.log(route);
-  //location.reload();
-});
+watch(
+  () => route.path,
+  () => {
+    path.value = route.path;
+  }
+);
 </script>
 
 <style scoped>
