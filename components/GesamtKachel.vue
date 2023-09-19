@@ -17,16 +17,15 @@
       </div>
       <span class="h3_bold_18">Gesamt</span>
     </div>
-    <SuccessRate :selected="displayAll" />
+    <SuccessRate :selected="displayAll" :dashboardId="-1" :ratios="ratios" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { emit } from "process";
-
 const props = defineProps<{
   displayAll: Boolean;
   positionHeading: String;
+  ratios: Array<DashboardRatio>;
 }>();
 
 const emits = defineEmits(["selectAll"]);

@@ -1,13 +1,46 @@
 <template>
   <div
-    class="flex flex-col justify-center items-center gap-6 p-6 border_small basic_white shadow_light_2"
+    class="flex flex-col justify-center items-center gap-6 p-6 border_small basic_white shadow_light_2 w-[15.75rem] 2xl:grow grow-0"
   >
     <div class="flex items-center gap-4 f_text_neutral_900 h-6">
-      <GroupIcon name="desktop" iconWidth="1.5rem" iconHeight="1.5rem" />
-      <span class="h3_bold_18">Web</span>
+      <GroupIcon
+        :name="useIcon(dashboard.name, dashboard.icon)"
+        iconWidth="1.5rem"
+        iconHeight="1.5rem"
+      />
+      <span class="h3_bold_18">{{ dashboard.name }}</span>
     </div>
-    <canvas class="h-[12.25rem]"></canvas>
+    <div style="height: 12.25rem">
+      <canvas :id="'polarAreaChart-' + props.numberOfChart"></canvas>
+    </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const props = defineProps<{
+  displaySuccessChart: boolean;
+  numberOfChart: number;
+  dashboard: Dashboard;
+  ratios: CaseRatios;
+}>();
+
+watch(
+  () => props.displaySuccessChart,
+  (value) => {
+    usePolarAreaChart(
+      "polarAreaChart-" + props.numberOfChart,
+      value,
+      props.ratios
+    );
+  }
+);
+onMounted(() => {
+  setTimeout(() => {
+    usePolarAreaChart(
+      "polarAreaChart-" + props.numberOfChart,
+      true,
+      props.ratios
+    );
+  }, 1);
+});
+</script>

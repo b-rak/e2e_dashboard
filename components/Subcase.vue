@@ -4,38 +4,66 @@
       class="flex items-center gap-8 py-4 px-3 border-b border-solid f_border_neutral_90 w-full"
       :class="[selected ? 'f_neutral_700' : '']"
     >
-      <div class="w-[4.5rem] text-center">
-        <font-awesome-icon
-          :icon="{ prefix: 'far', iconName: 'angle-right' }"
-          class="h-8 cursor-pointer text-[2rem] f_text_neutral_500 transition-[transform] duration-100 ease-linear"
-          @click.prevent="toggleRotate"
-        />
-      </div>
-      <ResultIndicator :result="true" class="p-1" />
       <div
-        class="h3_medium_18 w-[20.6875rem] grow"
-        :class="[selected ? 'basic_text_white' : '']"
+        class="flex gap-8 py-4 items-center cursor-pointer"
+        @click.prevent="toggleRotate"
       >
-        Subcase A
-        <div class="flex gap-9">
-          <span class="text_regular_16 w-[7rem]">27.07.2023</span>
-          <span class="text_regular_16">17:33:42</span>
+        <div class="w-[3.5rem] text-center">
+          <font-awesome-icon
+            :icon="{ prefix: 'far', iconName: 'angle-right' }"
+            class="h-8 cursor-pointer text-[2rem] f_text_neutral_500 transition-[transform] duration-100 ease-linear"
+            :id="'arrow-' + id"
+          />
+        </div>
+        <ResultIndicator
+          :result="currentResult.result === 'PASSED'"
+          class="pl-2 pr-[0.375rem] w-16"
+        />
+        <div
+          class="h3_medium_18 w-[20.6875rem] grow"
+          :class="[selected ? 'basic_text_white' : '']"
+        >
+          {{ stepData.readableName }}
+          <div class="flex gap-9">
+            <span class="text_regular_16 w-[7rem]">{{ dateAndTime.date }}</span>
+            <span class="text_regular_16">{{ dateAndTime.time }}</span>
+          </div>
         </div>
       </div>
-      <div class="w-[45rem] grow relative h-12">
+      <div class="w-[45rem] grow relative h-[3rem]">
         <canvas :id="'runtime-' + id" class="border_xsmall"></canvas>
       </div>
       <div
         class="w-fit pl-[6.125rem] pr-5 py-2 flex items-center gap-[2.25rem] justify-end"
       >
-        <IconButton iconName="image" type="far" active="true" />
-        <IconButton iconName="circle-play" type="far" active="true" />
-        <IconButton iconName="file" type="fas" active="true" />
+        <IconButton
+          iconName="image"
+          type="far"
+          active="true"
+          @click="useOpenInNewTab(currentResult.screenshot)"
+        />
+        <IconButton
+          iconName="circle-play"
+          type="far"
+          active="true"
+          @click="useOpenInNewTab(currentResult.video)"
+        />
+        <IconButton
+          iconName="file"
+          type="fas"
+          active="true"
+          @click="useOpenInNewTab(currentResult.randomToken)"
+        />
       </div>
     </div>
     <Transition>
       <div v-show="selected" class="border-b border-solid f_border_neutral_90">
-        <SubcaseResult v-for="n in 10" :key="n" :result="getResult()" />
+        <SubcaseResult
+          v-for="(result, index) in lastResults"
+          :key="result.environment + '-' + result.stepId + '-' + result.id"
+          :stepResult="result"
+          @update:last:result="updateLastResultDisplay"
+        />
       </div>
     </Transition>
   </div>
@@ -43,40 +71,78 @@
 
 <script lang="ts" setup>
 const props = defineProps<{
-  id: Number;
+  id: number;
+  stepData: Step;
+  latestResult: StepResult;
 }>();
 
+const currentResult = ref(props.latestResult);
+const dateAndTime = ref(useDateAndTime(currentResult.value.createdDate));
+
+//Result Data
+const lastResults = await useStepResults(
+  props.stepData.case.group.id,
+  props.stepData.case.id,
+  props.stepData.id,
+  10,
+  0
+);
+
 const selected = ref(false);
-const toggleRotate = (event: Event) => {
+const toggleRotate = () => {
   selected.value = !selected.value;
 
-  // the fontawesome icon is inserted as <svg><path></path></svg>. The click event is fired on both tags, which leads to adding the rotate class to either of both tags which again
-  // leads to faulty behaviour. The rotate class should only be added to the svg element
-  // If the path is clicked then for the parent svg element the class is added
-  if ((event.target as HTMLElement).tagName.toLowerCase() === "path") {
-    (event.target as HTMLElement).parentElement?.classList.toggle(
-      "f_text_neutral_500"
-    );
-    (event.target as HTMLElement).parentElement?.classList.toggle(
-      "basic_text_white"
-    );
-    (event.target as HTMLElement).parentElement?.classList.toggle("rotate-90");
-    return;
-  }
-  (event.target as HTMLElement).classList.toggle("f_text_neutral_500");
-  (event.target as HTMLElement).classList.toggle("basic_text_white");
-  (event.target as HTMLElement).classList.toggle("rotate-90");
-};
-
-const getResult = () => {
-  return Math.random() < 0.5;
+  const arrowElement = document.getElementById(
+    "arrow-" + props.id
+  ) as HTMLElement;
+  arrowElement.classList.toggle("f_text_neutral_500");
+  arrowElement.classList.toggle("basic_text_white");
+  arrowElement.classList.toggle("rotate-90");
 };
 
 onMounted(() => {
-  setTimeout(() => {
-    useRuntimeChart(String(props.id));
+  setTimeout(async () => {
+    const runtimeData = await useStepResultsRuntime(
+      props.stepData.case.group.id,
+      props.stepData.case.id,
+      props.stepData.id,
+      55
+    );
+    useRuntimeChart(String(props.id), runtimeData);
   }, 1);
 });
+
+const updateLastResultDisplay = async (obj: {
+  stepresultId: number;
+  falsePositive: number;
+}) => {
+  let resultAvailable = false;
+  // Update local result list
+  for (const lastResult of lastResults) {
+    if (lastResult.id === obj.stepresultId) {
+      lastResult.falsePositive = obj.falsePositive;
+      break;
+    }
+  }
+  // search for first non false-positive result
+  for (const lastResult of lastResults) {
+    if (lastResult.falsePositive === 0) {
+      currentResult.value = lastResult;
+      resultAvailable = true;
+      break;
+    }
+  }
+  // if all local results are marked as false positive get the latest non falsepositive result from the database
+  if (!resultAvailable) {
+    currentResult.value = await useLatestStepResult(
+      Number(currentResult.value.environment),
+      Number(currentResult.value.caseId),
+      Number(currentResult.value.stepId)
+    );
+  }
+  dateAndTime.value = useDateAndTime(currentResult.value.createdDate);
+  //update runtime chart??
+};
 </script>
 
 <style scoped>

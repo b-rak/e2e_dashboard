@@ -21,7 +21,10 @@ const props = defineProps<{
 
 const route = useRoute();
 const selected = ref(route.path.includes(props.to as string));
-watch(route, () => {
-  selected.value = route.path.includes(props.to as string);
-});
+watch(
+  () => route.path,
+  () => {
+    selected.value = route.path.includes(props.to as string);
+  }
+);
 </script>

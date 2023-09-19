@@ -12,7 +12,12 @@
     >
       <input type="checkbox" class="hidden" />
       <span
-        class="rounded-[2rem] before:content-[''] before:absolute before:h-4 before:w-4 before:left-[0.125rem] before:bottom-[0.125rem] before:rounded-xl before:bg-black before:transition-transform before:duration-100 before:ease-linear"
+        class="rounded-[2rem] before:content-[''] before:absolute before:h-4 before:w-4 before:left-[0.125rem] before:bottom-[0.125rem] before:rounded-xl before:transition-transform before:duration-100 before:ease-linear"
+        :class="[
+          !status
+            ? 'before:bg-black'
+            : 'before:translate-x-4 before:bg-[#e0e3e4]',
+        ]"
       ></span>
     </label>
   </div>
@@ -21,9 +26,10 @@
 <script setup lang="ts">
 const props = defineProps<{
   text: String;
+  value: Boolean;
 }>();
 
-const status = ref(false);
+const status = ref(props.value);
 const markFalse = (event: Event) => {
   let target = event.target as HTMLElement;
   if (target.tagName.toLowerCase() === "label") {
