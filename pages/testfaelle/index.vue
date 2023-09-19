@@ -31,76 +31,49 @@
           @select-all="selectAll"
           :displayAll="displayAll"
           positionHeading="center"
+          :ratios="dashboardsRatio"
           class="hover:scale-[1.05]"
         />
         <OS-Kachel
-          v-bind="config"
+          v-for="config in configs"
+          :key="config"
+          :config="config"
+          :ratios="dashboardsRatio"
           @update:display="updateDisplay"
           :selected="config.selected.value"
-        />
-        <OS-Kachel
-          v-bind="config2"
-          @update:display="updateDisplay"
-          :selected="config2.selected.value"
-        />
-        <OS-Kachel
-          v-bind="config3"
-          @update:display="updateDisplay"
-          :selected="config3.selected.value"
         />
       </div>
     </div>
     <!-- Testfall Übersicht nach OS -->
     <div class="flex flex-col gap-y-9 mt-36">
-      <OS-Testcases
-        v-if="config.selected.value || displayAll"
-        name="Web"
-        iconName="desktop"
-        numberOfCases="10"
-        @go-to:details="navigate"
-      />
-      <OS-Testcases
-        v-if="config2.selected.value || displayAll"
-        name="iOS"
-        iconName="apple"
-        numberOfCases="6"
-        @go-to:details="navigate"
-      />
-      <OS-Testcases
-        v-if="config3.selected.value || displayAll"
-        name="Android"
-        iconName="android"
-        numberOfCases="1"
-        @go-to:details="navigate"
-      />
+      <template v-for="config in configs" :key="config">
+        <OS-Testcases
+          v-if="config.selected.value || displayAll"
+          :name="config.os_name"
+          :iconName="config.iconName"
+          :dashboardId="config.dashboardId"
+          @go-to:details="navigate"
+        />
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-const config = {
-  id: 1,
-  iconName: "desktop",
-  os_name: "Web",
-  numberOfCases: 10,
-  selected: ref(false),
-};
-const config2 = {
-  id: 2,
-  iconName: "apple",
-  os_name: "iOS",
-  numberOfCases: 6,
-  selected: ref(false),
-};
-const config3 = {
-  iconName: "android",
-  id: 3,
-  os_name: "Android",
-  numberOfCases: 1,
-  selected: ref(false),
-};
+const dashboardData = await useDashboards();
+const dashboardsRatio = await useDashboardsRatio();
 
-const configs = [config, config2, config3];
+const configs: object[] = [];
+for (let [index, value] of dashboardData.entries()) {
+  configs.push({
+    id: index + 1,
+    dashboardId: value.id,
+    iconName: useIcon(value.name, value.icon),
+    os_name: value.name,
+    numberOfCases: (await useCases(value.id)).length,
+    selected: ref(false),
+  });
+}
 
 const updateDisplay = (obj: object) => {
   if ("selected" in obj && "id" in obj) {
@@ -110,22 +83,32 @@ const updateDisplay = (obj: object) => {
   }
 };
 
+const allConfigsSelected = () => {
+  for (const config of configs) {
+    if (config.selected.value === false) {
+      return false;
+    }
+  }
+  return true;
+};
+
+const allConfigsDeselected = () => {
+  for (const config of configs) {
+    if (config.selected.value === true) {
+      return false;
+    }
+  }
+  return true;
+};
+
 const displayAll = ref(true);
 const updateGesamt = () => {
-  if (
-    config.selected.value &&
-    config2.selected.value &&
-    config3.selected.value
-  ) {
+  if (allConfigsSelected()) {
     displayAll.value = true;
-    config.selected.value = false;
-    config2.selected.value = false;
-    config3.selected.value = false;
-  } else if (
-    !config.selected.value &&
-    !config2.selected.value &&
-    !config3.selected.value
-  ) {
+    for (const config of configs) {
+      config.selected.value = false;
+    }
+  } else if (allConfigsDeselected()) {
     displayAll.value = true;
   } else {
     displayAll.value = false;
@@ -135,17 +118,17 @@ const updateGesamt = () => {
 const selectAll = () => {
   if (displayAll.value === false) {
     displayAll.value = true;
-    config.selected.value = false;
-    config2.selected.value = false;
-    config3.selected.value = false;
+    for (const config of configs) {
+      config.selected.value = false;
+    }
   }
 };
 
-import { useDetailsStore } from "~/stores/details";
-const store = useDetailsStore();
 const navigate = (obj: any) => {
-  store.name = obj.name;
-  store.icon = obj.icon;
-  navigateTo(("/testfaelle/" + obj.name) as string);
+  navigateTo(("/testfaelle/" + obj.dashboardId + "/" + obj.caseId) as string);
 };
+
+definePageMeta({
+  middleware: ["auth"],
+});
 </script>
