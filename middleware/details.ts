@@ -1,10 +1,9 @@
-import { useDetailsStore } from "~/stores/details";
-
-export default defineNuxtRouteMiddleware((to, from) => {
-  console.log(from);
-  console.log(to);
-  // isAuthenticated() is an example method verifying if a user is authenticated
-  if (!to.path.includes("Testcase")) {
+export default defineNuxtRouteMiddleware(async (to, from) => {
+  const dashboards = [];
+  for (const dashboard of await useDashboards()) {
+    dashboards.push(dashboard.id);
+  }
+  if (!to.path) {
     throw createError({ statusCode: 404, statusMessage: "Page Not Found" });
   }
 });
