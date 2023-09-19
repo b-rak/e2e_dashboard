@@ -6,7 +6,7 @@
     <div class="flex flex-row w-full justify-between items-center h-8">
       <div class="flex items-center gap-4 f_text_neutral_900">
         <GroupIcon :name="icon" iconWidth="1.5rem" iconHeight="1.5rem" />
-        <span class="h3_bold_18">Testcase {{ id }} </span>
+        <span class="h3_bold_18">{{ testcaseName }} </span>
       </div>
       <ResultIndicator :result="result" class="pl-2 pr-[0.375rem]" />
     </div>
@@ -28,30 +28,33 @@
 </template>
 
 <script lang="ts" setup>
-const props = withDefaults(
-  defineProps<{
-    id: Number;
-    groupName: String;
-    result?: Boolean;
-    icon: String;
-  }>(),
-  {
-    result: () => Math.random() < 0.5,
-  }
-);
+const props = defineProps<{
+  id: Number;
+  testcaseName: String;
+  groupName: String;
+  dashboardCase: Object;
+  icon: String;
+}>();
+const result = ref(false);
 
 onMounted(() => {
-  setTimeout(() => {
-    useChart(props.groupName + String(props.id), 50);
+  setTimeout(async () => {
+    const results = await useStepsRatio(
+      props.dashboardCase.dashboardId,
+      props.dashboardCase.caseId,
+      50
+    );
+    result.value = results[0]["failed"] === 0;
+    useBarChart(props.groupName + String(props.id), results, false);
   }, 1);
 });
 
 const emits = defineEmits(["goTo:details"]);
 const goToDetails = () => {
   //navigateTo("/testfaelle/" + props.groupName + "/" + props.icon)
-  console.log("EMITT");
   emits("goTo:details", {
-    name: "Testcase" + props.id,
+    dashboardId: props.dashboardCase.dashboardId,
+    caseId: props.dashboardCase.caseId,
     icon: props.icon,
   });
 };

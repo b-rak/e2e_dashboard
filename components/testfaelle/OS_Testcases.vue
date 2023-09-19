@@ -21,11 +21,13 @@
       style="grid-template-columns: repeat(auto-fill, minmax(24.125rem, 1fr))"
     >
       <Testcase-Kachel
-        v-for="index in parseInt(numberOfCases)"
+        v-for="(testcase, index) in cases"
         :key="index"
         :id="index"
+        :testcaseName="testcase.readableName"
         :groupName="name"
         :icon="iconName"
+        :dashboardCase="{ dashboardId, caseId: testcase.id }"
         @go-to:details="goToDetails"
       />
     </div>
@@ -34,20 +36,15 @@
 
 <script lang="ts" setup>
 const props = defineProps<{
-  name: String;
-  iconName: String;
-  numberOfCases: Number;
+  name: string;
+  iconName: string;
+  dashboardId: number;
 }>();
+const cases = await useCases(props.dashboardId);
+const numberOfCases = cases.length;
 
 const emits = defineEmits(["goTo:details"]);
 const goToDetails = (obj: Object) => {
-  console.log(obj);
   emits("goTo:details", obj);
 };
 </script>
-
-<!-- 
-- Group Name and Icon
-- #Testcases
-- active/displayed status?
--->

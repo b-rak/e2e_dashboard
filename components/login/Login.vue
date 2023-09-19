@@ -88,12 +88,17 @@ const login = () => {
   }
 };
 
+const route = useRoute();
 // actual login method, TODO: replace with connection to backend; move somewhere else?
 const checkUser = async (email: string, password: string) => {
   if (email === "monitoring@appmatics.de" && password === "Test123!") {
+    let redirectTo = `${window.location.origin}`;
+    if (route.redirectedFrom?.fullPath) {
+      redirectTo = `${window.location.origin}${route.redirectedFrom?.fullPath}`;
+    }
     loginError.value = false;
-    await navigateTo("/dashboard", { replace: false });
-    location.reload();
+    sessionStorage.setItem("userLoggedIn", "true");
+    await navigateTo(redirectTo, { replace: false, external: true });
   } else {
     loginError.value = true;
   }
