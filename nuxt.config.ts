@@ -54,6 +54,7 @@ export default defineNuxtConfig({
       title: "App Monitoring",
     },
   },
+
   build: {
     transpile: [
       "@fortawesome/fontawesome-free",
@@ -63,6 +64,7 @@ export default defineNuxtConfig({
       "@fortawesome/vue-fontawesome",
     ],
   },
+
   components: [
     "~/components/",
     "~/components/icons",
@@ -70,12 +72,35 @@ export default defineNuxtConfig({
     "~/components/login",
     "~/components/testfaelle",
   ],
+
   css: [
     "@fortawesome/fontawesome-svg-core/styles.css",
     "@/assets/css/global.css",
   ],
+
   imports: {
     autoImport: true,
+    dirs: [
+      "composables",
+      "composables/charts",
+      "composables/api/**",
+      "composables/utils",
+    ],
   },
+
   modules: ["@nuxtjs/tailwindcss", "@vueuse/nuxt", "@pinia/nuxt"],
+
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
+  runtimeConfig: {
+    public: {
+      BASE_URL: process.env.BASE_URL || "some fallback url",
+    },
+  },
+  ssr: false,
 });
