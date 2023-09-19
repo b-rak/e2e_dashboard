@@ -21,10 +21,6 @@ const emailSent = ref(false);
 
 const pwResetEMail = ref("");
 
-definePageMeta({
-  middleware: ["auth"],
-});
-
 const showPasswordForgot = () => {
   login.value = false;
   pwForgot.value = true;
