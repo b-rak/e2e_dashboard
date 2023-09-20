@@ -40,13 +40,20 @@ export default async (id: number, results: PassRate) => {
           display: false,
         },
         tooltip: {
+          padding: {
+            left: -0.625 * useRem(),
+            right: 0.4375 * useRem(),
+            top: 0.3125 * useRem(),
+            bottom: 0.3125 * useRem(),
+          },
           backgroundColor: fNeutral900,
-          cornerRadius: 8,
+          cornerRadius: 0.5 * useRem(),
           bodyFont: {
             family: "'Lato', 'sans-serif'",
-            size: 12,
+            size: 0.875 * useRem(),
             weight: "400",
             lineHeight: 1.5,
+            style: "normal",
           },
           titleAlign: "center",
           footerAlign: "center",
@@ -63,7 +70,7 @@ export default async (id: number, results: PassRate) => {
             title: (ctx) => "",
             labelPointStyle: () => {
               return {
-                pointStyle: "rectRounded",
+                pointStyle: false,
                 rotation: 0,
               };
             },

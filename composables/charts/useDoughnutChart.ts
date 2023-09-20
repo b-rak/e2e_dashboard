@@ -34,12 +34,13 @@ export default async (data: [number, number], update: Boolean) => {
           },
           tooltip: {
             backgroundColor: fNeutral900,
-            cornerRadius: 8,
+            cornerRadius: 0.5 * useRem(),
             bodyFont: {
               family: "'Lato', 'sans-serif'",
-              size: 12,
+              size: 0.875 * useRem(),
               weight: "400",
               lineHeight: 1.5,
+              style: "normal",
             },
             callbacks: {
               title: () => {

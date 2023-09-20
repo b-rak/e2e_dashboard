@@ -44,20 +44,27 @@ export default async (
     options: {
       plugins: {
         tooltip: {
+          padding: {
+            left: -0.625 * useRem(),
+            right: 0.4375 * useRem(),
+            top: 0.3125 * useRem(),
+            bottom: 0.3125 * useRem(),
+          },
           backgroundColor: fNeutral900,
-          cornerRadius: 8,
+          cornerRadius: 0.5 * useRem(),
           bodyFont: {
             family: "'Lato', 'sans-serif'",
-            size: 12,
+            size: 0.875 * useRem(),
             weight: "400",
             lineHeight: 1.5,
+            style: "normal",
           },
           enabled: true,
           usePointStyle: true,
           callbacks: {
             labelPointStyle: () => {
               return {
-                pointStyle: "rect",
+                pointStyle: false,
                 rotation: 0,
               };
             },

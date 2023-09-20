@@ -30,7 +30,7 @@ export default async (subcaseId: String, results: Array<any>) => {
           },
           tooltip: {
             padding: {
-              left: -0.3125 * useRem(),
+              left: -0.625 * useRem(),
               right: 0.4375 * useRem(),
               top: 0.3125 * useRem(),
               bottom: 0.3125 * useRem(),
@@ -39,9 +39,10 @@ export default async (subcaseId: String, results: Array<any>) => {
             cornerRadius: 0.5 * useRem(),
             bodyFont: {
               family: "'Lato', 'sans-serif'",
-              size: 12,
+              size: 0.875 * useRem(),
               weight: "400",
               lineHeight: 1.5,
+              style: "normal",
             },
             titleAlign: "center",
             footerAlign: "center",
