@@ -117,10 +117,16 @@
               >
                 <font-awesome-icon
                   v-if="trends[index].trend !== 'constant'"
-                  :icon="{ prefix: 'far', iconName: iconName }"
+                  :icon="{
+                    prefix: 'far',
+                    iconName:
+                      trends[index].trend === 'positive'
+                        ? 'arrow-up'
+                        : 'arrow-down',
+                  }"
                   class="h-[1.5rem] w-[1.5rem] text-[1.5rem]"
                   :class="[
-                    iconName === 'arrow-up'
+                    trends[index].trend === 'positive'
                       ? 'status_text_pass_100'
                       : 'status_text_fail_100',
                   ]"
@@ -173,7 +179,6 @@ const lastMonthSuccessRates = await useDashboardsPassRate(
   currentDateString
 );
 const togglePassed = ref(true);
-const iconName = ref("arrow-up");
 definePageMeta({
   middleware: ["auth"],
 });
