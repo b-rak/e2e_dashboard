@@ -13,7 +13,7 @@
     </div>
 
     <!-- 2. Case Name plus Subcases -->
-    <div class="flex justify-between">
+    <div class="flex justify-between items-center">
       <div class="f_text_neutral_900 flex items-center gap-6">
         <GroupIcon :name="caseData.icon" iconWidth="3rem" iconHeight="3rem" />
         <span class="text-[2.5rem] font-semibold font-lora">
@@ -177,6 +177,7 @@ onMounted(() => {
       rangeDates.from,
       rangeDates.current
     );
+    // TODO: case rangeData = [0, 0] --> on test results for the last day; should we display a grey doughnut chart with values 0, 0 or maybe an error message "No test results could be found for the last day"
     useDoughnutChart([rangeData.passed, rangeData.failed], false);
   }, 1);
 });
