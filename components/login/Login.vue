@@ -67,7 +67,7 @@ const login = () => {
     errorMessage.value = "Bitte geben Sie eine E-Mail Adresse ein.";
   } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
     errorMessage.value =
-      "Ungültige E-Mail-Adresse. Das Format sollte test@appmatics.de";
+      "Ungültige E-Mail-Adresse. Das Format sollte test@appmatics.de entsprechen.";
   } else {
     errorMessage.value = "";
   }

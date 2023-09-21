@@ -33,7 +33,7 @@
 const props = defineProps<{
   result: CaseResultAndObject;
 }>();
-const dateAndTime = useDateAndTime(props.result.createdDate);
+const dateAndTime = useDateAndTime(props.result.createdDateAsString);
 
 const goToDetails = () => {
   navigateTo(
