@@ -40,7 +40,8 @@ let statusFail100: string,
   statusPass100: string,
   statusPass75: string,
   fNeutral90: string,
-  fNeutral900: string;
+  fNeutral900: string,
+  fNeutral700: string;
 try {
   const rootStyles = getComputedStyle(document.documentElement);
   statusFail100 = rootStyles.getPropertyValue("--status_fail_100");
@@ -49,6 +50,7 @@ try {
   statusPass75 = rootStyles.getPropertyValue("--status_pass_75");
   fNeutral90 = rootStyles.getPropertyValue("--f_neutral_90");
   fNeutral900 = rootStyles.getPropertyValue("--f_neutral_900");
+  fNeutral700 = rootStyles.getPropertyValue("--f_neutral_700");
 } catch (e) {
   statusFail100 = "#ff6246";
   statusFail75 = "#ff917e";
@@ -56,6 +58,7 @@ try {
   statusPass75 = "#3ecfb6";
   fNeutral90 = "#cbd0d4";
   fNeutral900 = "#222f34";
+  fNeutral700 = "#3a4f57";
 }
 
 export {
@@ -66,6 +69,7 @@ export {
   statusPass75,
   fNeutral90,
   fNeutral900,
+  fNeutral700,
   useRem,
   ChartDataLabels,
 };

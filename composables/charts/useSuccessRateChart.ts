@@ -1,5 +1,5 @@
 import usePercentage from "../utils/usePercentage";
-import { Chart, fNeutral900 } from "./chartConfig";
+import { Chart, fNeutral900, fNeutral700 } from "./chartConfig";
 
 const getRatioPercentage = (results: PassRate) => {
   let ratios = [];
@@ -88,7 +88,6 @@ export default async (id: number, results: PassRate) => {
         },
       },
       responsive: true,
-      aspectRatio: 18,
       maintainAspectRatio: false,
     },
     data: {
@@ -96,7 +95,7 @@ export default async (id: number, results: PassRate) => {
       datasets: [
         {
           data: ratios.map((x) => x.ratio),
-          borderColor: "#000",
+          borderColor: fNeutral700,
           pointStyle: false,
           tension: 0.1,
           borderWidth: 2,

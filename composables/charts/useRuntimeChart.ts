@@ -1,4 +1,4 @@
-import { Chart, fNeutral900, useRem } from "./chartConfig";
+import { Chart, fNeutral900, useRem, fNeutral700 } from "./chartConfig";
 
 export default async (subcaseId: String, results: Array<any>) => {
   results = results.reverse();
@@ -92,7 +92,7 @@ export default async (subcaseId: String, results: Array<any>) => {
             data: results.map((x) => {
               return x.runtime > 60 ? 60 : x.runtime;
             }),
-            borderColor: "#000",
+            borderColor: fNeutral700,
             pointStyle: false,
             //pointBackgroundColor: "#000",
             tension: 0.1,
