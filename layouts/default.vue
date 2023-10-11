@@ -30,7 +30,7 @@
     </main>
     <Footer
       v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
-      class="px-[7.5rem] min-[1920px]:px-[6.25%] h-full"
+      class="px-[7.5rem] min-[1920px]:px-[6.25%]"
     />
     <div v-else class="text_regular_16 basic_text_grey p-2 ml-[4%] mb-12">
       Benötigen Sie Hilfe?
