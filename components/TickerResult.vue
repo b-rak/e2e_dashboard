@@ -24,7 +24,10 @@
         <span>{{ dateAndTime.date }}</span>
         <span>{{ dateAndTime.time }}</span>
       </div>
-      <span class="w-full">{{ result.testParameter }}</span>
+      <span
+        class="w-full text-ellipsis overflow-hidden inline-block whitespace-nowrap text-left mr-8"
+        >{{ result.testParameter }}</span
+      >
     </div>
   </div>
 </template>

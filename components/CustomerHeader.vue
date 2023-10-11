@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-6">
+  <div class="flex items-center gap-6 w-full">
     <img
       :src="imagePath"
       alt="Kundenlogo"
@@ -20,8 +20,8 @@
 
 <script lang="ts" setup>
 const props = defineProps<{
-  customerName: String;
-  pageTitle: String;
-  imagePath: String;
+  customerName: string;
+  pageTitle: string;
+  imagePath: string;
 }>();
 </script>

@@ -13,7 +13,7 @@
     <div class="flex gap-6">
       <!-- OS Übersicht -->
       <div
-        class="p-6 border_medium f_neutral_80 min-h-[45rem] h-fit w-[16.5rem] flex flex-col gap-6 grow"
+        class="p-6 border_medium f_neutral_80 min-h-[45rem] h-fit max-w-[16.5rem] flex flex-col gap-6 top-24 sticky"
       >
         <Heading-2 titleText="Testfallvergleich" class="h-10" />
         <div class="flex flex-col gap-8">
@@ -44,116 +44,148 @@
         </div>
       </div>
 
-      <!-- Charts: Vergleich und Quote -->
-      <div class="flex flex-col gap-6 grow-[10]">
-        <div
-          class="p-6 border_medium f_neutral_80 min-w-[51.75rem] min-h-[25.25rem] flex flex-col gap-6"
-        >
-          <div class="flex justify-between items-center h-full">
-            <Heading-2 titleText="Testfallvergleich" />
-            <div class="flex cursor-pointer">
-              <div
-                class="px-3 py-1 rounded-l-lg status_bold_12"
-                :class="[
-                  togglePassed
-                    ? 'status_pass_100 basic_text_white'
-                    : 'f_neutral_90 f_text_neutral_500',
-                ]"
-                @click="togglePassed ? '' : (togglePassed = true)"
-              >
-                PASSED
-              </div>
-              <div
-                class="px-3 py-1 rounded-r-lg status_bold_12"
-                :class="[
-                  !togglePassed
-                    ? 'status_fail_100 basic_text_white'
-                    : 'f_neutral_90 f_text_neutral_500',
-                ]"
-                @click="togglePassed ? (togglePassed = false) : ''"
-              >
-                FAILED
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-wrap items-start gap-3">
-            <PolarAreaChart
-              v-for="(dashboard, index) of dashboards"
-              :displaySuccessChart="togglePassed"
-              :numberOfChart="index + 1"
-              :dashboard="dashboard"
-              :ratios="dashboardCaseRatios[index]"
-              :class="[index === 0 || index === 1 ? 'grow' : '']"
-            />
-          </div>
-        </div>
-        <div
-          class="p-6 border_medium f_neutral_80 w-[51.75rem] flex flex-col gap-6 min-h-[18.25rem] grow"
-        >
-          <Heading-2
-            titleText="Zeitlicher Verlauf der Erfolgsquote"
-            class="py-1"
-          />
+      <div class="grid 2xl:grid-cols-[1.53fr_1fr] grid-cols-[1fr] gap-6 grow">
+        <!-- Charts: Vergleich und Quote -->
+        <div class="flex flex-col gap-6">
           <div
-            class="p-3 flex flex-col gap-6 border_small basic_white min-h-[11.25rem]"
+            class="p-6 border_medium f_neutral_80 min-w-[51.75rem] min-h-[25.25rem] flex flex-col gap-6"
+            :class="dashboards.length > 3 ? 'h-[45rem]' : ''"
           >
-            <div
-              v-for="(dashboard, index) of dashboards"
-              class="flex items-center gap-6 h-full"
-            >
-              <div class="flex items-center gap-4 f_text_neutral_900 h-6">
-                <GroupIcon
-                  :name="useIcon(dashboard.name, dashboard.icon)"
-                  iconWidth="1.5rem"
-                  iconHeight="1.5rem"
-                />
-                <span class="h3_bold_18 w-[4rem]">{{ dashboard.name }}</span>
-              </div>
-              <div class="relative h-9 w-full">
-                <canvas :id="'successrate-' + dashboard.id"></canvas>
-              </div>
-              <div
-                class="flex justify-center items-center gap-2 min-w-[6.75rem]"
-              >
-                <font-awesome-icon
-                  v-if="trends[index].trend !== 'constant'"
-                  :icon="{
-                    prefix: 'far',
-                    iconName:
-                      trends[index].trend === 'positive'
-                        ? 'arrow-up'
-                        : 'arrow-down',
-                  }"
-                  class="h-[1.5rem] w-[1.5rem] text-[1.5rem]"
+            <div class="flex justify-between items-center h-full">
+              <Heading-2 titleText="Testfallvergleich" />
+              <div class="flex cursor-pointer">
+                <div
+                  class="px-3 py-1 rounded-l-lg status_bold_12"
                   :class="[
-                    trends[index].trend === 'positive'
-                      ? 'status_text_pass_100'
-                      : 'status_text_fail_100',
+                    togglePassed
+                      ? 'status_pass_100 basic_text_white'
+                      : 'f_neutral_90 f_text_neutral_500',
                   ]"
-                />
-                <span class="rate_bold_28 uppercase w-full text-right"
-                  >{{ trends[index].successRate }}%</span
+                  @click="togglePassed ? '' : (togglePassed = true)"
                 >
+                  PASSED
+                </div>
+                <div
+                  class="px-3 py-1 rounded-r-lg status_bold_12"
+                  :class="[
+                    !togglePassed
+                      ? 'status_fail_100 basic_text_white'
+                      : 'f_neutral_90 f_text_neutral_500',
+                  ]"
+                  @click="togglePassed ? (togglePassed = false) : ''"
+                >
+                  FAILED
+                </div>
+              </div>
+            </div>
+            <div
+              class="grid gap-3"
+              :class="{
+                'grid-cols-1': dashboards.length === 1,
+                'grid-cols-2': dashboards.length === 2,
+                'grid-cols-3': dashboards.length > 2,
+              }"
+            >
+              <PolarAreaChart
+                v-for="(dashboard, index) of dashboards"
+                :displaySuccessChart="togglePassed"
+                :numberOfChart="index + 1"
+                :dashboard="dashboard"
+                :ratios="dashboardCaseRatios[index]"
+                :class="[index === 0 || index === 1 ? 'grow' : '']"
+              />
+            </div>
+          </div>
+          <div
+            class="p-6 border_medium f_neutral_80 min-w-[51.75rem] flex flex-col gap-6 min-h-[18.25rem]"
+          >
+            <Heading-2
+              titleText="Zeitlicher Verlauf der Erfolgsquote"
+              class="py-1"
+            />
+            <div
+              class="p-3 flex flex-col gap-6 border_small basic_white min-h-[11.25rem]"
+            >
+              <div
+                v-for="(dashboard, index) of dashboards"
+                class="flex items-center gap-6"
+              >
+                <div class="flex items-center gap-4 f_text_neutral_900 h-6">
+                  <GroupIcon
+                    :name="useIcon(dashboard.name, dashboard.icon)"
+                    iconWidth="1.5rem"
+                    iconHeight="1.5rem"
+                  />
+                  <span class="h3_bold_18 w-[4rem]">{{ dashboard.name }}</span>
+                </div>
+                <div
+                  class="relative w-[28.25rem] grow"
+                  :class="{
+                    'h-[9.75rem]': dashboards.length === 1,
+                    'h-[4.125rem]': dashboards.length === 2,
+                    'h-[2.25rem]': dashboards.length > 2,
+                  }"
+                >
+                  <canvas
+                    :id="'successrate-' + dashboard.id"
+                    class="border_xsmall"
+                  ></canvas>
+                </div>
+                <div
+                  class="flex justify-center items-center gap-2 min-w-[6.75rem]"
+                >
+                  <font-awesome-icon
+                    v-if="trends[index].trend !== 'constant'"
+                    :icon="{ prefix: 'far', iconName: iconName }"
+                    class="h-[1.5rem] w-[1.5rem] text-[1.5rem]"
+                    :class="[
+                      iconName === 'arrow-up'
+                        ? 'status_text_pass_100'
+                        : 'status_text_fail_100',
+                    ]"
+                  />
+                  <span class="rate_bold_28 uppercase w-full text-right"
+                    >{{ trends[index].successRate }}%</span
+                  >
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Ticker -->
-      <div
-        class="p-6 border_medium f_neutral_80 w-[33.75rem] flex flex-col grow-[5] gap-6 h-[45rem]"
-      >
-        <Heading-2 titleText="Ticker" />
-        <div class="overflow-y-scroll grow">
+        <!-- Ticker -->
+        <!--div
+          class="p-6 border_medium f_neutral_80 min-w-[33.75rem] flex flex-col gap-6 h-[45rem]"
+        >
+          <Heading-2 titleText="Ticker" />
           <div
-            class="basic_white border_small px-4 py-3 flex flex-col items-start gap-3 min-w-[28.75rem] max-w-[46.75rem] mr-6"
+            class="basic_white border_small px-4 py-3 flex flex-col items-start gap-3 min-w-[28.75rem] overflow-hidden grow"
           >
-            <TickerResult
-              v-for="(result, index) of latestCaseResult"
-              :key="index"
-              :result="result"
-            />
+            <div class="overflow-y-scroll w-full pr-6">
+              <TickerResult
+                v-for="(result, index) of latestCaseResult"
+                :key="index"
+                :result="result"
+                class="grow"
+              />
+            </div>
+          </div>
+        </div-->
+        <div
+          class="p-6 border_medium f_neutral_80 min-w-[33.75rem] flex flex-col gap-6 h-[45rem]"
+        >
+          <Heading-2 titleText="Ticker" />
+          <div class="overflow-y-scroll grow">
+            <div
+              class="basic_white border_small px-4 py-3 flex flex-col items-start gap-3 min-w-[28.75rem] overflow-hidden grow mr-6"
+            >
+              <TickerResult
+                v-for="(result, index) of latestCaseResult"
+                :key="index"
+                :result="result"
+                class="grow"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -179,6 +211,7 @@ const lastMonthSuccessRates = await useDashboardsPassRate(
   currentDateString
 );
 const togglePassed = ref(true);
+const iconName = ref("arrow-up");
 definePageMeta({
   middleware: ["auth"],
 });
