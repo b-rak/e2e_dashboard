@@ -44,7 +44,9 @@
         </div>
       </div>
 
-      <div class="grid 2xl:grid-cols-[1.53fr_1fr] grid-cols-[1fr] gap-6 grow">
+      <div
+        class="grid min-[1920px]:grid-cols-[1.53fr_1fr] grid-cols-[1fr] gap-6 grow"
+      >
         <!-- Charts: Vergleich und Quote -->
         <div class="flex flex-col gap-6">
           <div
@@ -154,23 +156,6 @@
         </div>
 
         <!-- Ticker -->
-        <!--div
-          class="p-6 border_medium f_neutral_80 min-w-[33.75rem] flex flex-col gap-6 h-[45rem]"
-        >
-          <Heading-2 titleText="Ticker" />
-          <div
-            class="basic_white border_small px-4 py-3 flex flex-col items-start gap-3 min-w-[28.75rem] overflow-hidden grow"
-          >
-            <div class="overflow-y-scroll w-full pr-6">
-              <TickerResult
-                v-for="(result, index) of latestCaseResult"
-                :key="index"
-                :result="result"
-                class="grow"
-              />
-            </div>
-          </div>
-        </div-->
         <div
           class="p-6 border_medium f_neutral_80 min-w-[33.75rem] flex flex-col gap-6 h-[45rem]"
         >

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid min-h-full grid-rows-[auto_1fr_auto] h-screen"
+    class="flex flex-col h-screen"
     :class="[
       path === '/login' || path === '/passwort-zuruecksetzen' ? 'login' : '',
     ]"
@@ -18,10 +18,10 @@
     </a>
 
     <main
-      class="px-[7.5rem] min-[1920px]:px-[6.25%] h-full"
+      class="flex-grow px-[7.5rem] min-[1920px]:px-[6.25%]"
       :class="[
         path !== '/login' && path !== '/passwort-zuruecksetzen'
-          ? 'bg_light pt-20'
+          ? 'bg_light mt-20 pb-10'
           : '',
       ]"
     >
@@ -30,7 +30,7 @@
     </main>
     <Footer
       v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
-      class="min-h-[2rem] bg_light px-[7.5rem] min-[1920px]:px-[6.25%]"
+      class="px-[7.5rem] min-[1920px]:px-[6.25%] h-full"
     />
     <div v-else class="text_regular_16 basic_text_grey p-2 ml-[4%] mb-12">
       Benötigen Sie Hilfe?
