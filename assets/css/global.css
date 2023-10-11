@@ -16,9 +16,10 @@
 /**
     base font size: 16px
 */
-/*html {
+html {
   font-size: 16px;
-}**/
+}
+
 @media (min-width: 1000px), (max-width: 1000px) {
   :root {
     font-size: 10px;
