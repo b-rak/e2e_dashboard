@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center gap-8 py-4 px-3 w-full"
+    class="flex items-start gap-8 py-4 px-3 w-full"
     :class="[!status ? 'bg_light' : 'bg-[#f3f5f6]']"
   >
     <div class="w-[4.5rem] text-center"></div>
@@ -19,7 +19,7 @@
       <span class="text_regular_16 w-[7rem]">{{ dateAndTime.date }}</span>
       <span class="text_regular_16">{{ dateAndTime.time }}</span>
     </div>
-    <div class="w-[45rem] grow flex justify-between gap-6">
+    <div class="w-[45rem] grow flex justify-between items-start gap-6">
       <div
         class="text_regular_16"
         :class="[!status ? '' : 'f_text_neutral_400']"
