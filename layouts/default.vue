@@ -1,20 +1,15 @@
 <template>
   <div
-    class="h-screen flex flex-col my-0"
+    class="grid min-h-full grid-rows-[auto_1fr_auto] h-screen"
     :class="[
       path === '/login' || path === '/passwort-zuruecksetzen' ? 'login' : '',
     ]"
   >
     <Navigation
       v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
-      style="min-height: 80px"
+      class="min-h-[5rem] fixed top-0 z-10"
     />
-    <a
-      v-else
-      href="/"
-      style="min-height: 80px"
-      class="ml-[4%] flex items-center"
-    >
+    <a v-else href="/" class="h-[5rem] ml-[4%] flex items-center">
       <img
         class="cursor-pointer h-6 w-[8.75rem]"
         src="~/assets/images/logo-appmatics-2.png"
@@ -23,11 +18,10 @@
     </a>
 
     <main
-      style="flex: 1"
-      class="px-[7.5rem] min-[1920px]:px-[6.25%]"
+      class="px-[7.5rem] min-[1920px]:px-[6.25%] h-full"
       :class="[
         path !== '/login' && path !== '/passwort-zuruecksetzen'
-          ? 'bg_light'
+          ? 'bg_light pt-20'
           : '',
       ]"
     >
@@ -36,8 +30,7 @@
     </main>
     <Footer
       v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
-      style="min-height: 32px"
-      class="bg_light px-[7.5rem] min-[1920px]:px-[6.25%]"
+      class="min-h-[2rem] bg_light px-[7.5rem] min-[1920px]:px-[6.25%]"
     />
     <div v-else class="text_regular_16 basic_text_grey p-2 ml-[4%] mb-12">
       Benötigen Sie Hilfe?

@@ -2,7 +2,7 @@
   <div
     v-if="!isMobile"
     id="nav"
-    class="h-20 flex justify-between items-center basic_white px-[7.5rem] min-[1920px]:px-[6.25%]"
+    class="h-20 flex justify-between items-center basic_white px-[7.5rem] min-[1920px]:px-[6.25%] w-full"
   >
     <div id="part-1" class="flex justify-around items-center gap-x-[9.188rem]">
       <a href="/" id="appmatics">

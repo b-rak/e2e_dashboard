@@ -1,5 +1,5 @@
 <template>
-  <div
+  <footer
     class="h-[74px] flex justify-between items-center py-[1.312rem] text_regular_18"
   >
     <span class="f_text_neutral_700 h-8">2023 ©appmatics</span>
@@ -8,5 +8,5 @@
       <span class="cursor-pointer">Report a problem</span>
       <span class="cursor-pointer">Contact us</span>
     </div>
-  </div>
+  </footer>
 </template>
