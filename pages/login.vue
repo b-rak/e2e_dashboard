@@ -1,5 +1,13 @@
 <template>
-  <div class="ml-[16%] h-full flex items-center">
+  <div
+    class="flex justify-center"
+    :class="[
+      breakpoint.mobile
+        ? 'w-full absolute top-[12%] px-8'
+        : 'h-full items-center gap-[11rem] pl-[16%]',
+      { '!top-1/4': breakpoint.viewport === 'md' },
+    ]"
+  >
     <Login v-if="login" @go-to:password-forgot="showPasswordForgot" />
     <PasswortVergessen
       v-if="pwForgot"
@@ -10,6 +18,11 @@
       v-if="emailSent"
       @go-to:login="showLogin"
       :email="pwResetEMail"
+    />
+    <Image
+      v-if="!breakpoint.mobile"
+      :src="'/img/LaptopWithACatOnTheScreen.svg'"
+      :alt="'Laptop mit Katzenbild'"
     />
   </div>
 </template>
@@ -37,4 +50,6 @@ const showEMailSent = (email: string) => {
   emailSent.value = true;
   pwResetEMail.value = email;
 };
+
+const breakpoint = useBreakpoint().breakpoints;
 </script>
