@@ -23,13 +23,15 @@ const props = defineProps<{
   iconWidth: String;
 }>();
 
-const getAndroidSize = (initialRem: String) => {
+const getAndroidSize = (initialRem: String): String => {
   if (initialRem === "3rem") {
     return "2.5rem";
   } else if (initialRem === "2rem") {
     return "1.75rem";
   } else if (initialRem === "1.5rem") {
     return "1.5rem";
+  } else {
+    return "1.5rem"; // default size
   }
 };
 </script>

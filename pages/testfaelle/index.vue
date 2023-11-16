@@ -3,19 +3,41 @@
     <!-- Übersicht oben -->
     <div
       id="overview"
-      class="f_neutral_80 h-[14.5rem] w-full border_medium flex flex-col items-center py-9"
+      class="f_neutral_80 w-full border_medium flex flex-col items-center py-8"
+      :class="[
+        { 'h-[13.25rem]': breakpoint.viewport === 'md' },
+        {
+          'h-[14.5rem]':
+            breakpoint.viewport === 'lg' ||
+            breakpoint.viewport === 'xl' ||
+            breakpoint.viewport === 'xxl',
+        },
+      ]"
     >
       <!--Top Row -->
       <div
         id="top-row"
-        class="flex flex-row justify-between items-start p-0 w-full px-6"
+        class="flex items-start w-full px-6"
+        :class="[
+          breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+            ? 'flex-col gap-y-4'
+            : 'justify-between',
+        ]"
       >
         <CustomerHeader
           customerName="Appmatics"
           pageTitle="Testfälle"
           imagePath="./img/logo.png"
         />
-        <div id="filter-export" class="h-14 w-auto flex items-center gap-8">
+        <div
+          id="filter-export"
+          class="h-14 flex items-center"
+          :class="[
+            breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+              ? 'w-full justify-between'
+              : 'gap-8',
+          ]"
+        >
           <ClientOnly>
             <DateRangePicker />
             <ExportButton buttonText="Export CSV" />
@@ -25,7 +47,12 @@
       <!-- Bottom Row -->
       <div
         id="bottom-row"
-        class="flex flex-row justify-center gap-x-[33px] items-center w-full mt-6 px-[138px]"
+        class="flex justify-center items-center w-full mt-6 px-[8.5rem]"
+        :class="[
+          breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+            ? 'gap-x-2'
+            : 'gap-x-8',
+        ]"
       >
         <GesamtKachel
           @select-all="selectAll"
@@ -45,7 +72,14 @@
       </div>
     </div>
     <!-- Testfall Übersicht nach OS -->
-    <div class="flex flex-col gap-y-9 mt-36">
+    <div
+      class="flex flex-col gap-y-9"
+      :class="[
+        breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+          ? 'mt-8'
+          : 'mt-32',
+      ]"
+    >
       <template v-for="config in configs" :key="config">
         <OS-Testcases
           v-if="config.selected.value || displayAll"
@@ -62,6 +96,7 @@
 <script lang="ts" setup>
 const dashboardData = await useDashboards();
 const dashboardsRatio = await useDashboardsRatio();
+const breakpoint = useBreakpoint().breakpoints;
 
 const configs: object[] = [];
 for (let [index, value] of dashboardData.entries()) {

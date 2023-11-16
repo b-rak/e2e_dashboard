@@ -1,23 +1,38 @@
 <template>
   <div
     id="os-all"
-    class="h-[9.6875rem] px-6 border_small shadow_light_3 basic_white flex flex-col items-center justify-start pt-[1.375rem] gap-6"
-    :class="[displayAll ? 'f_neutral_900' : 'basic_white shadow_light_3']"
+    class="border_small shadow_light_3 basic_white flex flex-col items-center justify-center gap-6"
+    :class="[
+      displayAll ? 'f_neutral_900' : 'basic_white shadow_light_3',
+      breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+        ? 'px-2 py-2'
+        : 'px-6 py-[1.375rem]',
+      { 'h-[7.5rem]': breakpoint.viewport === 'md' },
+      { 'h-[9.6875rem]': !breakpoint.mobile },
+    ]"
     @click="selectAll"
   >
     <div
-      class="w-[8.5rem] flex gap-4 items-center self-stretch"
+      class="flex items-center self-stretch"
       :class="[
         !displayAll ? 'f_text_neutral_900' : 'basic_text_white',
         'justify-' + positionHeading,
+        breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+          ? 'gap-2'
+          : 'gap-4',
       ]"
     >
       <div class="h-6 flex justify-center items-center">
-        <DevicesIcon />
+        <DevicesIcon width="1.5rem" height="1.5rem" />
       </div>
       <span class="h3_bold_18">Gesamt</span>
     </div>
-    <SuccessRate :selected="displayAll" :dashboardId="-1" :ratios="ratios" />
+    <SuccessRate
+      v-if="!breakpoint.mobile"
+      :selected="displayAll"
+      :dashboardId="-1"
+      :ratios="ratios"
+    />
   </div>
 </template>
 
@@ -27,6 +42,7 @@ const props = defineProps<{
   positionHeading: String;
   ratios: Array<DashboardRatio>;
 }>();
+const breakpoint = useBreakpoint().breakpoints;
 
 const emits = defineEmits(["selectAll"]);
 const selectAll = () => {

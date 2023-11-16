@@ -1,14 +1,28 @@
 <template>
   <div
     :id="`os-${props.config.id}`"
-    class="w-[22.188rem] h-[9.6875rem] border_small shadow_light_3 flex flex-col px-6 pt-[1.375rem] gap-6 hover:scale-[1.05]"
-    :class="[!selected ? 'basic_white' : 'f_neutral_900']"
+    class="border_small shadow_light_3 flex flex-col gap-6 hover:scale-[1.05]"
+    :class="[
+      !selected ? 'basic_white' : 'f_neutral_900',
+      breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+        ? 'px-2 py-2'
+        : 'px-6 py-[1.375rem]',
+      { 'w-[22.188rem] h-[9.6875rem]': !breakpoint.mobile },
+    ]"
     @click="toggleDisplay"
   >
-    <div class="h-8 flex justify-between items-center">
+    <div
+      class="flex justify-between items-center gap-4"
+      :class="[{ 'flex-col': breakpoint.mobile }]"
+    >
       <div
-        class="flex items-center gap-4"
-        :class="[!selected ? 'f_text_neutral_900' : 'basic_text_white']"
+        class="flex items-center"
+        :class="[
+          !selected ? 'f_text_neutral_900' : 'basic_text_white',
+          breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+            ? 'gap-2'
+            : 'gap-4',
+        ]"
       >
         <GroupIcon
           :name="props.config.iconName"
@@ -20,6 +34,7 @@
         </span>
       </div>
       <div
+        v-if="breakpoint.viewport !== 'xs' && breakpoint.viewport !== 'sm'"
         class="f_neutral_80 border_small text-center h-7 w-[6.313rem] p-[0.125rem]"
       >
         <span class="text_bold_14 f_text_neutral_900">
@@ -31,7 +46,10 @@
         </span>
       </div>
     </div>
-    <div class="h-[4.8125rem] flex items-end gap-6">
+    <div
+      class="h-[4.8125rem] flex items-end gap-6"
+      :class="[{ hidden: breakpoint.mobile }]"
+    >
       <div class="text-center w-[10.313rem] h-[4.8125rem] flex items-end">
         <canvas
           :id="'chart-' + props.config.id"
@@ -69,6 +87,8 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["update:display"]);
+
+const breakpoint = useBreakpoint().breakpoints;
 
 const toggleDisplay = () => {
   emits("update:display", {
