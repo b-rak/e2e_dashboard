@@ -1,8 +1,10 @@
 <template>
+  <!--!breakpoint.mobile-->
   <div
-    v-if="!isMobile"
+    v-if="true"
     id="nav"
-    class="h-20 flex justify-between items-center basic_white px-[7.5rem] min-[1920px]:px-[6.25%] w-full"
+    class="min-h-[5rem] fixed top-0 z-10 flex justify-between items-center basic_white w-full"
+    :class="[breakpoint.mobile ? 'px-[4%]' : 'px-[6.25%]']"
   >
     <div id="part-1" class="flex justify-around items-center gap-x-[9.188rem]">
       <a href="/" id="appmatics">
@@ -115,6 +117,7 @@
 </template>
 
 <script lang="ts" setup>
+const breakpoint = useBreakpoint().breakpoints;
 const isMobile = ref(useWindowSize().width.value < 1000);
 
 const ismobile = function () {
