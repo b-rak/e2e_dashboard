@@ -1,6 +1,6 @@
 <template>
   <div
-    class="py-3 border-b border-solid f_border_neutral_90 w-full cursor-pointer"
+    class="py-3 border-b border-solid f_border_neutral_90 cursor-pointer self-stretch"
     @click="goToDetails"
   >
     <div class="flex items-center gap-2">

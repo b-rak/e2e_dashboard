@@ -24,7 +24,7 @@
               class="w-[8.5rem] h-8 flex gap-4 items-center justify-start f_text_neutral_900"
             >
               <div class="h-6 flex justify-center items-center">
-                <DevicesIcon />
+                <DevicesIcon width="1.5rem" height="1.5rem" />
               </div>
               <span class="h3_bold_18">Gesamt</span>
             </div>
@@ -50,7 +50,7 @@
         <!-- Charts: Vergleich und Quote -->
         <div class="flex flex-col gap-6">
           <div
-            class="p-6 border_medium f_neutral_80 min-w-[51.75rem] min-h-[25.25rem] flex flex-col gap-6"
+            class="p-6 border_medium f_neutral_80 min-h-[25.25rem] flex flex-col gap-6"
             :class="dashboards.length > 3 ? 'h-[45rem]' : ''"
           >
             <div class="flex justify-between items-center h-full">
@@ -99,7 +99,7 @@
             </div>
           </div>
           <div
-            class="p-6 border_medium f_neutral_80 min-w-[51.75rem] flex flex-col gap-6 min-h-[18.25rem]"
+            class="p-6 border_medium f_neutral_80 flex flex-col gap-6 min-h-[18.25rem]"
           >
             <Heading-2
               titleText="Zeitlicher Verlauf der Erfolgsquote"
@@ -121,7 +121,7 @@
                   <span class="h3_bold_18 w-[4rem]">{{ dashboard.name }}</span>
                 </div>
                 <div
-                  class="relative w-[28.25rem] grow"
+                  class="relative grow"
                   :class="{
                     'h-[9.75rem]': dashboards.length === 1,
                     'h-[4.125rem]': dashboards.length === 2,
@@ -157,18 +157,18 @@
 
         <!-- Ticker -->
         <div
-          class="p-6 border_medium f_neutral_80 min-w-[33.75rem] flex flex-col gap-6 h-[45rem]"
+          class="p-6 border_medium f_neutral_80 flex flex-col gap-6 h-[45rem]"
         >
           <Heading-2 titleText="Ticker" />
           <div class="overflow-y-scroll grow">
             <div
-              class="basic_white border_small px-4 py-3 flex flex-col items-start gap-3 min-w-[28.75rem] overflow-hidden grow mr-6"
+              class="basic_white border_small px-4 py-3 flex flex-col items-start gap-3 overflow-hidden mr-6"
             >
               <TickerResult
                 v-for="(result, index) of latestCaseResult"
                 :key="index"
                 :result="result"
-                class="grow"
+                class="flex-grow"
               />
             </div>
           </div>
@@ -197,6 +197,8 @@ const lastMonthSuccessRates = await useDashboardsPassRate(
 );
 const togglePassed = ref(true);
 const iconName = ref("arrow-up");
+
+const breakpoint = useBreakpoint().breakpoints;
 definePageMeta({
   middleware: ["auth"],
 });
@@ -228,6 +230,12 @@ for (const lastMonthSuccessRate of lastMonthSuccessRates) {
   trends.push({
     trend: trend,
     successRate: usePercentage(dashboardRates[0].ratio, 1),
+  });
+}
+for (let i = 0; i < 3; i++) {
+  trends.push({
+    trend: "positive",
+    successRate: 30,
   });
 }
 </script>

@@ -32,8 +32,10 @@ const showTooltip = ref(false);
 
 const setMargin = () => {
   const textElement = document.getElementById(props.id);
-  const leftPos = (textElement?.getBoundingClientRect() as DOMRect).width / 2;
-  textElement.style.marginLeft = (-1 * leftPos) / useRem() + "rem";
+  if (textElement) {
+    const leftPos = (textElement.getBoundingClientRect() as DOMRect).width / 2;
+    textElement.style.marginLeft = (-1 * leftPos) / useRem() + "rem";
+  }
 };
 onMounted(() => {
   setTimeout(() => {
