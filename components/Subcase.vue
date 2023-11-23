@@ -30,11 +30,14 @@
           </div>
         </div>
       </div>
-      <div class="w-[45rem] grow relative h-[3rem]">
+      <div
+        class="w-[45rem] grow relative h-[3rem]"
+        :class="[breakpoint.mobile ? 'hidden' : '']"
+      >
         <canvas :id="'runtime-' + id" class="border_xsmall"></canvas>
       </div>
       <div
-        class="w-fit pl-[6.125rem] pr-5 py-2 flex items-center gap-[2.25rem] justify-end"
+        class="w-fit pl-[6.125rem] pr-5 py-2 flex items-center grow gap-[2.25rem] justify-end"
       >
         <IconButton
           iconName="image"
@@ -75,6 +78,8 @@ const props = defineProps<{
   stepData: Step;
   latestResult: StepResult;
 }>();
+
+const breakpoint = useBreakpoint().breakpoints;
 
 const currentResult = ref(props.latestResult);
 const dateAndTime = ref(useDateAndTime(currentResult.value.createdDate));

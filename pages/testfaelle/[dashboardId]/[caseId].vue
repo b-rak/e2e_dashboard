@@ -38,7 +38,10 @@
         />
         <span class="h2_bold_28 f_text_neutral_900"> Results</span>
       </div>
-      <div class="flex w-full gap-8">
+      <div
+        class="flex w-full gap-8"
+        :class="[breakpoint.mobile ? 'flex-col' : '']"
+      >
         <div class="w-full py-8 px-6 basic_white border_small shadow_light_2">
           <div class="flex justify-between items-center">
             <span class="h3_bold_18 f_text_neutral_900"
@@ -59,7 +62,7 @@
           </div>
         </div>
         <div
-          class="w-[21.3rem] px-6 py-8 basic_white border_small flex flex-col items-center gap-8 shadow_light_2"
+          class="min-w-[21.3rem] px-6 py-8 basic_white border_small flex flex-col items-center gap-8 shadow_light_2"
         >
           <div class="flex flex-col items-start self-stretch gap-6">
             <span class="h3_bold_18 basic_text_black">Verteilung</span>
@@ -120,11 +123,14 @@
           <div class="text_regular_16 f_text_neutral_900 w-[20.6875rem] grow">
             Subcase
           </div>
-          <div class="text_regular_16 f_text_neutral_900 w-[45rem] grow">
+          <div
+            v-if="false"
+            class="text_regular_16 f_text_neutral_900 w-[45rem] grow"
+          >
             Runtime
           </div>
           <div
-            class="text_regular_16 f_text_neutral_900 pl-[6.125rem] mr-[8.625rem]"
+            class="text_regular_16 f_text_neutral_900 pl-[6.125rem] mr-[8.625rem] sm"
           >
             Attachment
           </div>
@@ -161,6 +167,8 @@ const latestResults = await useLatestStepResults(
   Number(caseId)
 );
 const numberOfSubcases = stepData.length;
+
+const breakpoint = useBreakpoint().breakpoints;
 
 onMounted(() => {
   setTimeout(async () => {
