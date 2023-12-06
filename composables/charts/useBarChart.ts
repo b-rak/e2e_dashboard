@@ -5,21 +5,23 @@ let display: boolean;
 // Testcase Kachel Chart
 export default (
   canvasId: string,
-  results: Array<Statistics>,
+  results: Array<CasePassRate>,
   displayTooltip: boolean
 ) => {
   display = displayTooltip;
-  const data = getPassedFraction(results);
+
+  const data = sortResultsAfterStatus(results);
   // define Plugin: change the colors of the last results: green (passed) and red (failed)
   const updateColor = {
     id: "updateColor",
     beforeUpdate: function (chartInstance: Chart) {
-      for (let i = 0; i < 2; i++) {
-        const dataset = chartInstance.data.datasets[i];
-        const numberDataset = dataset.data as number[];
+      console.log("DATASETS", chartInstance.data.datasets);
+      for (const dataset of chartInstance.data.datasets) {
+        dataset.backgroundColor = useResultHexColor(dataset.label as string);
+        /*const numberDataset = dataset.data as number[];
         dataset.backgroundColor = numberDataset.map(function (data: number) {
           return data < 0 ? statusFail100 : statusPass100;
-        });
+        });*/
       }
     },
   };
@@ -31,21 +33,48 @@ export default (
       type: "scatter",
       plugins: [updateColor],
       data: {
-        labels: data.map((x) => x.id),
+        labels: data[0].res.map((x) => x.id),
         datasets: [
           {
-            label: "test results",
+            label: "PASSED",
             type: "bar",
-            data: data.map((x) => x.passed * 1),
+            data: data[0].res.map((x) => x.value),
             borderRadius: useRem() * 0.5,
             barPercentage: 1,
             categoryPercentage: 1,
             barThickness: useRem() * 0.25,
           },
           {
-            label: "test results2",
+            label: "WARNING",
             type: "bar",
-            data: data.map((x) => (1 - x.passed) * -1),
+            data: data[1].res.map((x) => x.value),
+            borderRadius: useRem() * 0.5,
+            barPercentage: 1,
+            categoryPercentage: 1,
+            barThickness: useRem() * 0.25,
+          },
+          {
+            label: "FAILED",
+            type: "bar",
+            data: data[2].res.map((x) => x.value),
+            borderRadius: useRem() * 0.5,
+            barPercentage: 1,
+            categoryPercentage: 1,
+            barThickness: useRem() * 0.25,
+          },
+          {
+            label: "SKIPPED",
+            type: "bar",
+            data: data[3].res.map((x) => x.value),
+            borderRadius: useRem() * 0.5,
+            barPercentage: 1,
+            categoryPercentage: 1,
+            barThickness: useRem() * 0.25,
+          },
+          {
+            label: "FALSEPOSITIVE",
+            type: "bar",
+            data: data[4].res.map((x) => x.value),
             borderRadius: useRem() * 0.5,
             barPercentage: 1,
             categoryPercentage: 1,
@@ -123,20 +152,89 @@ export default (
   );
 };
 
-function getPassedFraction(results: Array<Statistics>) {
+function getPassedFraction(results: Array<CasePassRate>) {
   let data = [];
   for (let i = 0; i < results.length; i++) {
     data.push({
       id: i,
       passed: Number(
-        (results[i].passed / (results[i].passed + results[i].failed)).toFixed(1)
+        (
+          results[i].passedCount /
+          (results[i].passedCount + results[i].failedCount)
+        ).toFixed(1)
       ),
-      createdDate: results[i].caseCreatedDate,
-      absolutePassed: results[i].passed,
-      total: results[i].passed + results[i].failed,
+      createdDate: results[i].createdDate,
+      absolutePassed: results[i].passedCount,
+      total: results[i].passedCount + results[i].failedCount,
     });
   }
   return data.reverse();
+}
+
+function sortResultsAfterStatus(results: Array<CasePassRate>) {
+  const data = [
+    { status: "PASSED", res: Array() },
+    { status: "WARNING", res: Array() },
+    { status: "FAILED", res: Array() },
+    { status: "SKIPPED", res: Array() },
+    { status: "FALSEPOSITIVE", res: Array() },
+  ];
+  for (let i = 0; i < results.length; i++) {
+    const caseResult = useResultStatus(results[i]);
+    for (let j = 0; j < data.length; j++) {
+      if (caseResult === data[j].status) {
+        data[j].res.push({
+          id: i,
+          result: caseResult,
+          value:
+            caseResult === "FALSEPOSITIVE"
+              ? 1
+              : caseResult === "PASSED" || caseResult === "SKIPPED"
+              ? Number(
+                  (
+                    (results[i].passedCount + results[i].skippedCount) /
+                    (results[i].passedCount +
+                      results[i].failedCount +
+                      results[i].skippedCount +
+                      results[i].warningCount)
+                  ).toFixed(1)
+                )
+              : Number(
+                  (-1 * (results[i].warningCount + results[i].failedCount)) /
+                    (results[i].passedCount +
+                      results[i].failedCount +
+                      results[i].skippedCount +
+                      results[i].warningCount)
+                ).toFixed(1),
+          createdDate: results[i].createdDate,
+          absolutePassed:
+            caseResult === "FALSEPOSITIVE"
+              ? 1
+              : results[i].passedCount + results[i].skippedCount,
+          total:
+            caseResult === "FALSEPOSITIVE"
+              ? 1
+              : results[i].passedCount +
+                results[i].failedCount +
+                results[i].skippedCount +
+                results[i].warningCount,
+        });
+      } else {
+        data[j].res.push({
+          id: i,
+          result: caseResult,
+          passed: 0,
+          createdDate: results[i].createdDate,
+          absolutePassed: 0,
+          total: 0,
+        });
+      }
+    }
+  }
+  for (let i = 0; i < data.length; i++) {
+    data[i].res = data[i].res.reverse();
+  }
+  return data;
 }
 
 const getOrCreateTooltip = (chart: Chart) => {

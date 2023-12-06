@@ -10,11 +10,11 @@ import usePercentage from "../utils/usePercentage";
 export default async (
   canvasId: string,
   successChart: boolean,
-  caseRatios: CaseRatios
+  caseRatios: Array<CaseRatio>
 ) => {
-  const data = caseRatios.cases.map((caseRatio) => {
+  const data = caseRatios.map((caseRatio) => {
     return {
-      testcaseName: caseRatio.caseName,
+      testcaseName: caseRatio.caseId,
       successRate: usePercentage(
         caseRatio.passed,
         caseRatio.passed + caseRatio.failed

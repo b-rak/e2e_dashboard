@@ -95,19 +95,21 @@ export default async (groupdId: String, dashboardId: number) => {
           },
         },
       },
-      responsive: false,
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2.81,
     },
   });
 };
 
 async function getResults(dashboardId: number) {
-  const data = await useLatestCasesResults(dashboardId);
+  const data = await useLatestCaseResults(dashboardId);
   let passed = 0;
   let failed = 0;
-  for (const elem of data) {
-    if (elem.result === "PASSED") {
+  for (const caseResult of data) {
+    if (caseResult.result === "PASSED") {
       passed++;
-    } else if (elem.result === "FAILED") {
+    } else if (caseResult.result === "FAILED") {
       failed++;
     }
   }
