@@ -55,7 +55,7 @@
           <div>
             <canvas
               id="bar-chart-details"
-              style="width: 100%; height: 9.1875rem"
+              style="width: 100%; height: 11.1875rem"
               class="mt-[5.44rem] mb-[4.133rem]"
             >
             </canvas>
@@ -77,10 +77,14 @@
               <option value="Letzten 30 Tage">Letzten 30 Tage</option>
             </select>
           </div>
-          <div style="position: relative; width: 17.125rem; height: 136px">
-            <canvas id="doughnut"></canvas>
+          <div
+            style="position: relative; width: 17.125rem; height: 136px"
+            class="flex justify-center items-center"
+          >
+            <canvas v-if="!errorData" id="doughnut"></canvas>
+            <span v-else class="text_regular_16">Error loading data...</span>
           </div>
-          <div class="flex items-start gap-7">
+          <div class="grid grid-cols-2 gap-x-4 gap-y-2">
             <div class="status_bold_12">
               <font-awesome-icon
                 :icon="['fas', 'circle']"
@@ -94,6 +98,20 @@
                 class="status_text_fail_100 h-3 w-3"
               />
               FAILED
+            </div>
+            <div class="status_bold_12">
+              <font-awesome-icon
+                :icon="['fas', 'circle']"
+                class="status_text_warning_100 h-3 w-3"
+              />
+              WARNING
+            </div>
+            <div class="status_bold_12">
+              <font-awesome-icon
+                :icon="['fas', 'circle']"
+                class="status_text_skip_100 h-3 w-3"
+              />
+              SKIPPED
             </div>
           </div>
         </div>
@@ -160,7 +178,7 @@
 const route = useRoute();
 const dashboardId = route.params.dashboardId;
 const caseId = route.params.caseId;
-const caseData = await useCase(Number(dashboardId), Number(caseId));
+const caseData = (await useCases(Number(dashboardId), Number(caseId)))[0];
 const stepData = await useSteps(Number(dashboardId), Number(caseId));
 const latestResults = await useLatestStepResults(
   Number(dashboardId),
@@ -169,24 +187,33 @@ const latestResults = await useLatestStepResults(
 const numberOfSubcases = stepData.length;
 
 const breakpoint = useBreakpoint().breakpoints;
+const errorData = ref(false);
 
 onMounted(() => {
   setTimeout(async () => {
-    const results = await useStepsRatio(
-      Number(dashboardId),
-      Number(caseId),
-      85
+    const results = await useStepsRatio({
+      caseId: Number(caseId),
+      limit: 85,
+    });
+    useBarChart(
+      "details",
+      results.find((element) => element.caseId === Number(caseId))?.results,
+      true
     );
-    useBarChart("details", results, true);
     const rangeDates = getDateRange(1);
-    let rangeData = await useCaseRatio(
-      Number(dashboardId),
-      Number(caseId),
+    let rangeData = await useCasesRatio(
       rangeDates.from,
-      rangeDates.current
+      rangeDates.current,
+      Number(dashboardId),
+      Number(caseId)
     );
-    // TODO: case rangeData = [0, 0] --> on test results for the last day; should we display a grey doughnut chart with values 0, 0 or maybe an error message "No test results could be found for the last day"
-    useDoughnutChart([rangeData.passed, rangeData.failed], false);
+
+    if (rangeData[0].passed === 0 && rangeData[0].failed === 0) {
+      errorData.value = true;
+    } else {
+      useDoughnutChart([rangeData[0].passed, rangeData[0].failed], false);
+      errorData.value = false;
+    }
   }, 1);
 });
 
@@ -202,13 +229,18 @@ const drawChart = async (event: Event) => {
     pastDays = 1;
   }
   const rangeDates = getDateRange(pastDays);
-  let rangeData = await useCaseRatio(
-    Number(dashboardId),
-    Number(caseId),
+  let rangeData = await useCasesRatio(
     rangeDates.from,
-    rangeDates.current
+    rangeDates.current,
+    Number(dashboardId),
+    Number(caseId)
   );
-  useDoughnutChart([rangeData.passed, rangeData.failed], true);
+  if (rangeData[0].passed === 0 && rangeData[0].failed === 0) {
+    errorData.value = true;
+  } else {
+    useDoughnutChart([rangeData[0].passed, rangeData[0].failed], true);
+    errorData.value = false;
+  }
 };
 
 definePageMeta({

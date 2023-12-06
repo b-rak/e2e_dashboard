@@ -5,8 +5,7 @@ export default (result: string | CaseResult) => {
   } else {
     caseResult = result.falsePositive > 0 ? "FALSEPOSITIVE" : result.result;
   }
-  console.log("CASERESULTSSS", caseResult);
-  console.log(caseResult === "PASSED");
+
   if (caseResult === "FALSEPOSITIVE") {
     return "status_false_positive";
   } else if (caseResult === "PASSED") {
@@ -16,7 +15,6 @@ export default (result: string | CaseResult) => {
   } else if (caseResult === "FAILED") {
     return "status_fail_100";
   } else {
-    console.log("HERE");
     return "status_skip_100";
   }
 };

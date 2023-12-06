@@ -15,7 +15,6 @@ export default (
   const updateColor = {
     id: "updateColor",
     beforeUpdate: function (chartInstance: Chart) {
-      console.log("DATASETS", chartInstance.data.datasets);
       for (const dataset of chartInstance.data.datasets) {
         dataset.backgroundColor = useResultHexColor(dataset.label as string);
         /*const numberDataset = dataset.data as number[];
@@ -126,13 +125,13 @@ export default (
             callbacks: {
               label: (ctx) => {
                 let createdDate = useDateAndTime(
-                  data[ctx.dataIndex].createdDate
+                  data[ctx.datasetIndex].res[ctx.dataIndex].createdDate
                 );
                 return [
                   createdDate.date + " " + createdDate.time,
-                  data[ctx.dataIndex].absolutePassed +
+                  data[ctx.datasetIndex].res[ctx.dataIndex].absolutePassed +
                     "/" +
-                    data[ctx.dataIndex].total +
+                    data[ctx.datasetIndex].res[ctx.dataIndex].total +
                     " Subcases",
                 ];
               },

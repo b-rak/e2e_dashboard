@@ -146,10 +146,13 @@
                       trends[index].trend !== 'constant' &&
                       trends[index].trend !== 'error'
                     "
-                    :icon="{ prefix: 'far', iconName: iconName }"
+                    :icon="{
+                      prefix: 'far',
+                      iconName: getTrendIcon(trends[index].trend),
+                    }"
                     class="h-[1.5rem] w-[1.5rem] text-[1.5rem]"
                     :class="[
-                      iconName === 'arrow-up'
+                      getTrendIcon(trends[index].trend) === 'arrow-up'
                         ? 'status_text_pass_100'
                         : 'status_text_fail_100',
                     ]"
@@ -176,6 +179,7 @@
                 v-for="(result, index) of latestCaseResult"
                 :key="index"
                 :result="result"
+                :dashboards="dashboards"
                 class="flex-grow"
               />
             </div>
@@ -205,7 +209,13 @@ const lastMonthSuccessRates = await useDashboardPassRate(
   currentDateString
 );
 const togglePassed = ref(true);
-const iconName = ref("arrow-up");
+const getTrendIcon = (trend: string) => {
+  if (trend === "positive") {
+    return "arrow-up";
+  } else if (trend === "negative") {
+    return "arrow-down";
+  }
+};
 
 const breakpoint = useBreakpoint().breakpoints;
 definePageMeta({

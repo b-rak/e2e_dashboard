@@ -10,7 +10,7 @@
       ></div>
       <h3 class="h3_medium_18 w-full">{{ result.caseReadableName }}</h3>
       <GroupIcon
-        :name="useIcon('iOS', 'apple')"
+        :name="useIcon(environmentName, iconName)"
         :iconWidth="useRem() * 1.5 + ''"
         :iconHeight="useRem() * 1.5 + ''"
       />
@@ -31,9 +31,15 @@
 <script lang="ts" setup>
 const props = defineProps<{
   result: CaseResult;
+  dashboards: Dashboard[];
 }>();
 const dateAndTime = useDateAndTime(props.result.createdDate);
-
+const environmentName = props.dashboards.find(
+  (dashboard) => dashboard.id + "" === props.result.environment
+)?.name as string;
+const iconName = props.dashboards.find(
+  (dashboard) => dashboard.id + "" === props.result.environment
+)?.icon as string;
 const goToDetails = () => {
   navigateTo(
     "/testfaelle/" + props.result.environment + "/" + props.result.caseId

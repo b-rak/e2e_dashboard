@@ -14,6 +14,7 @@ const getRatioPercentage = (results: PassRate) => {
 };
 
 export default async (id: number, results: PassRate) => {
+  if (!results) return;
   const ratios = getRatioPercentage(results);
   const customCanvasBackgroundColor = {
     id: "customCanvasBackgroundColor",
