@@ -24,14 +24,17 @@
               class="w-[8.5rem] h-8 flex gap-4 items-center justify-start f_text_neutral_900"
             >
               <div class="h-6 flex justify-center items-center">
-                <DevicesIcon width="1.5rem" height="1.5rem" />
+                <DevicesIcon
+                  :width="useRem() * 1.5 + ''"
+                  :height="useRem() * 1.5 + ''"
+                />
               </div>
               <span class="h3_bold_18">Gesamt</span>
             </div>
             <SuccessRate
               :selected="false"
               :dashboardId="-1"
-              :ratios="dashboardsRatio"
+              :latestTwoCaseResults="latestTwoCaseResults"
             />
           </div>
           <!--GesamtKachel class="min-w-[13.5rem]" positionHeading="start" /-->
@@ -44,9 +47,7 @@
         </div>
       </div>
 
-      <div
-        class="grid min-[1920px]:grid-cols-[1.53fr_1fr] grid-cols-[1fr] gap-6 grow"
-      >
+      <div class="grid min-[1920px]:grid-cols-[1.53fr_1fr] gap-6 grow">
         <!-- Charts: Vergleich und Quote -->
         <div class="flex flex-col gap-6">
           <div
@@ -94,7 +95,7 @@
                 :numberOfChart="index + 1"
                 :dashboard="dashboard"
                 :ratios="dashboardCaseRatios[index]"
-                :class="[index === 0 || index === 1 ? 'grow' : '']"
+                :class="[index === 0 || index === 1 ? 'grow' : '', ,]"
               />
             </div>
           </div>
@@ -115,13 +116,13 @@
                 <div class="flex items-center gap-4 f_text_neutral_900 h-6">
                   <GroupIcon
                     :name="useIcon(dashboard.name, dashboard.icon)"
-                    iconWidth="1.5rem"
-                    iconHeight="1.5rem"
+                    :iconWidth="useRem() * 1.5 + ''"
+                    :iconHeight="useRem() * 1.5 + ''"
                   />
                   <span class="h3_bold_18 w-[4rem]">{{ dashboard.name }}</span>
                 </div>
                 <div
-                  class="relative grow"
+                  class="relative grow flex items-center justify-center"
                   :class="{
                     'h-[9.75rem]': dashboards.length === 1,
                     'h-[4.125rem]': dashboards.length === 2,
@@ -129,15 +130,22 @@
                   }"
                 >
                   <canvas
+                    v-if="trends[index].trend !== 'error'"
                     :id="'successrate-' + dashboard.id"
                     class="border_xsmall"
                   ></canvas>
+                  <span v-else class="text_regular_16"
+                    >Error loading data...</span
+                  >
                 </div>
                 <div
                   class="flex justify-center items-center gap-2 min-w-[6.75rem]"
                 >
                   <font-awesome-icon
-                    v-if="trends[index].trend !== 'constant'"
+                    v-if="
+                      trends[index].trend !== 'constant' &&
+                      trends[index].trend !== 'error'
+                    "
                     :icon="{ prefix: 'far', iconName: iconName }"
                     class="h-[1.5rem] w-[1.5rem] text-[1.5rem]"
                     :class="[
@@ -180,18 +188,19 @@
 
 <script lang="ts" setup>
 const dashboards = await useDashboards();
-const dashboardsRatio = await useDashboardsRatio();
-const latestCaseResult = await useCasesResults(20);
+const latestTwoCaseResults = await useTwoLatestCaseResult();
+const latestCaseResult = await useCasesResults({ sort: "createdDate,desc" });
 const currentDate = new Date();
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 const currentDateString = useDate(currentDate);
 const thirtyDaysAgoString = useDate(thirtyDaysAgo);
-const dashboardCaseRatios = await useDashboardCasesRatio(
-  thirtyDaysAgoString,
-  currentDateString
-);
-const lastMonthSuccessRates = await useDashboardsPassRate(
+const dashboardCaseRatios = useGroupByProperty(
+  await useCasesRatio(thirtyDaysAgoString, currentDateString),
+  "dashboardId"
+) as Array<Array<CaseRatio>>;
+
+const lastMonthSuccessRates = await useDashboardPassRate(
   thirtyDaysAgoString,
   currentDateString
 );
@@ -210,11 +219,18 @@ onMounted(() => {
   }, 1);
 });
 
-let trends = [];
+let trends: Array<{
+  dashboardId: number;
+  trend: string;
+  successRate: number | string;
+}> = [];
 for (const lastMonthSuccessRate of lastMonthSuccessRates) {
   let dashboardRates = lastMonthSuccessRate.ratios;
   let trend: string;
-  if (
+
+  if (dashboardRates.length === 1) {
+    trend = "constant";
+  } else if (
     usePercentage(dashboardRates[0].ratio, 1) >
     usePercentage(dashboardRates[1].ratio, 1)
   ) {
@@ -228,14 +244,21 @@ for (const lastMonthSuccessRate of lastMonthSuccessRates) {
     trend = "constant";
   }
   trends.push({
+    dashboardId: lastMonthSuccessRate.dashboardId,
     trend: trend,
     successRate: usePercentage(dashboardRates[0].ratio, 1),
   });
 }
-for (let i = 0; i < 3; i++) {
+outerLoop: for (const dashboard of dashboards) {
+  for (const trend of trends) {
+    if (dashboard.id === trend.dashboardId) {
+      continue outerLoop;
+    }
+  }
   trends.push({
-    trend: "positive",
-    successRate: 30,
+    dashboardId: -1,
+    trend: "error",
+    successRate: "-",
   });
 }
 </script>

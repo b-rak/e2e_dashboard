@@ -63,7 +63,7 @@
         />
         <OS-Kachel
           v-for="config in configs"
-          :key="config"
+          :key="config.id"
           :config="config"
           :ratios="dashboardsRatio"
           @update:display="updateDisplay"
@@ -95,10 +95,18 @@
 
 <script lang="ts" setup>
 const dashboardData = await useDashboards();
-const dashboardsRatio = await useDashboardsRatio();
+const dashboardsRatio = await useTwoLatestCaseResult();
 const breakpoint = useBreakpoint().breakpoints;
 
-const configs: object[] = [];
+type DashboardConfig = {
+  id: number;
+  dashboardId: number;
+  iconName: string;
+  os_name: string;
+  numberOfCases: number;
+  selected: Ref<boolean>;
+};
+const configs: DashboardConfig[] = [];
 for (let [index, value] of dashboardData.entries()) {
   configs.push({
     id: index + 1,
