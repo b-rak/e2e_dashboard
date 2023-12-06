@@ -11,27 +11,29 @@
   />
   <AndroidIcon
     v-else-if="name === 'android'"
-    :width="getAndroidSize(iconWidth)"
-    :height="getAndroidSize(iconHeight)"
+    :width="useRem() * getAndroidSize(iconWidth) + ''"
+    :height="useRem() * getAndroidSize(iconHeight) + ''"
   />
 </template>
 
 <script lang="ts" setup>
 const props = defineProps<{
-  name: String;
-  iconHeight: String;
-  iconWidth: String;
+  name: string;
+  iconHeight: string;
+  iconWidth: string;
 }>();
 
-const getAndroidSize = (initialRem: String): String => {
-  if (initialRem === "3rem") {
-    return "2.5rem";
-  } else if (initialRem === "2rem") {
-    return "1.75rem";
-  } else if (initialRem === "1.5rem") {
-    return "1.5rem";
+const getAndroidSize = (initialPx: string): number => {
+  // all numbers are rem values
+  const initialRem = +initialPx / useRem();
+  if (initialRem === 3) {
+    return 2.5;
+  } else if (initialRem === 2) {
+    return 1.75;
+  } else if (initialRem === 1.5) {
+    return 1.5;
   } else {
-    return "1.5rem"; // default size
+    return 1.5; // default size
   }
 };
 </script>

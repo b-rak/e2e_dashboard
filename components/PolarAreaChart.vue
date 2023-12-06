@@ -5,13 +5,15 @@
     <div class="flex items-center gap-4 f_text_neutral_900 h-6">
       <GroupIcon
         :name="useIcon(dashboard.name, dashboard.icon)"
-        iconWidth="1.5rem"
-        iconHeight="1.5rem"
+        :iconWidth="useRem() * 1.5 + ''"
+        :iconHeight="useRem() * 1.5 + ''"
       />
       <span class="h3_bold_18">{{ dashboard.name }}</span>
     </div>
-    <div style="height: 12.25rem">
-      <canvas :id="'polarAreaChart-' + props.numberOfChart"></canvas>
+    <div class="flex items-center h-[12.25rem]">
+      <canvas v-if="!errorData" :id="'polarAreaChart-' + props.numberOfChart">
+      </canvas>
+      <span v-else class="text_regular_16">Error loading data...</span>
     </div>
   </div>
 </template>
@@ -21,26 +23,37 @@ const props = defineProps<{
   displaySuccessChart: boolean;
   numberOfChart: number;
   dashboard: Dashboard;
-  ratios: CaseRatios;
+  ratios: Array<CaseRatio> | undefined;
 }>();
 
+const errorData = ref(false);
 watch(
   () => props.displaySuccessChart,
-  (value) => {
-    usePolarAreaChart(
-      "polarAreaChart-" + props.numberOfChart,
-      value,
-      props.ratios
-    );
+  async (value) => {
+    if (props.ratios === undefined) {
+      errorData.value = true;
+    } else {
+      await usePolarAreaChart(
+        "polarAreaChart-" + props.numberOfChart,
+        value,
+        props.ratios
+      );
+      errorData.value = false;
+    }
   }
 );
 onMounted(() => {
-  setTimeout(() => {
-    usePolarAreaChart(
-      "polarAreaChart-" + props.numberOfChart,
-      true,
-      props.ratios
-    );
+  setTimeout(async () => {
+    if (props.ratios === undefined) {
+      errorData.value = true;
+    } else {
+      await usePolarAreaChart(
+        "polarAreaChart-" + props.numberOfChart,
+        true,
+        props.ratios
+      );
+      errorData.value = false;
+    }
   }, 1);
 });
 </script>

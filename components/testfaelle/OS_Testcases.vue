@@ -28,6 +28,7 @@
         :groupName="name"
         :icon="iconName"
         :dashboardCase="{ dashboardId, caseId: testcase.id }"
+        :lastResults="lastResults(testcase)"
         @go-to:details="goToDetails"
       />
     </div>
@@ -42,6 +43,14 @@ const props = defineProps<{
 }>();
 const cases = await useCases(props.dashboardId);
 const numberOfCases = cases.length;
+
+const results = await useStepsRatio({
+  limit: 50,
+});
+
+const lastResults = (testcase: Case) => {
+  return results.find((element) => element.caseId === testcase.id)?.results;
+};
 
 const emits = defineEmits(["goTo:details"]);
 const goToDetails = (obj: Object) => {

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-start gap-8 py-4 px-3 w-full"
+    class="flex items-center gap-8 py-4 px-3 w-full"
     :class="[!status ? 'bg_light' : 'bg-[#f3f5f6]']"
   >
     <div class="w-[4.5rem] text-center"></div>
@@ -73,9 +73,15 @@ const colorDeactivated = ref("");
 if (props.stepResult.result === "PASSED") {
   color.value = "status_pass_100";
   colorDeactivated.value = "status_pass_75";
-} else {
+} else if (props.stepResult.result === "WARNING") {
+  color.value = "status_warning_100";
+  colorDeactivated.value = "status_warning_75";
+} else if (props.stepResult.result === "FAILED") {
   color.value = "status_fail_100";
   colorDeactivated.value = "status_fail_75";
+} else {
+  color.value = "status_skip_100";
+  colorDeactivated.value = "status_skip_75";
 }
 
 const emits = defineEmits(["update:last:result"]);
@@ -84,13 +90,7 @@ const status = ref(props.stepResult.falsePositive !== 0);
 const updateFalsePositive = async (statusToggle: Boolean) => {
   status.value = statusToggle as boolean;
   // patch in DB
-  await usePatchResult(
-    Number(route.params.dashboardId),
-    Number(route.params.caseId),
-    Number(props.stepResult.stepId),
-    props.stepResult.id,
-    Number(status.value)
-  );
+  await usePatchStepResult(props.stepResult.id, Number(status.value));
   emits("update:last:result", {
     stepresultId: props.stepResult.id,
     falsePositive: Number(status.value),

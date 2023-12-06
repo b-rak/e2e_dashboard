@@ -24,19 +24,19 @@
 const props = defineProps<{
   selected: Boolean;
   dashboardId: Number;
-  ratios: Array<DashboardRatio>;
+  latestTwoCaseResults: Array<LatestCaseResult>;
 }>();
 const trend = computed(() => {
-  let currentRun: Array<DashboardRatio> = [];
-  let lastRun: Array<DashboardRatio> = [];
-  for (const ratio of props.ratios) {
+  let currentRun: Array<LatestCaseResult> = [];
+  let lastRun: Array<LatestCaseResult> = [];
+  for (const latestTwoCaseResult of props.latestTwoCaseResults) {
     if (
       props.dashboardId !== -1 &&
-      ratio.environment !== String(props.dashboardId)
+      latestTwoCaseResult.environment !== String(props.dashboardId)
     )
       continue;
-    if (ratio.row_num === 1) currentRun.push(ratio);
-    if (ratio.row_num === 2) lastRun.push(ratio);
+    if (latestTwoCaseResult.row_num === 1) currentRun.push(latestTwoCaseResult);
+    if (latestTwoCaseResult.row_num === 2) lastRun.push(latestTwoCaseResult);
   }
   const currentRatio = getRatio(currentRun);
   const lastRatio = getRatio(lastRun);
@@ -47,7 +47,7 @@ const trend = computed(() => {
   };
 });
 
-const getRatio = (results: Array<DashboardRatio>) => {
+const getRatio = (results: Array<LatestCaseResult>) => {
   let sumPassed = 0;
   for (const result of results) {
     if (result.result === "PASSED") sumPassed++;

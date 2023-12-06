@@ -10,12 +10,14 @@
       </div>
       <ResultIndicator :result="result" class="pl-2 pr-[0.375rem]" />
     </div>
-    <div class="text-center h-14 w-full">
+    <div class="text-center h-14 w-full flex items-center justify-center">
       <canvas
+        v-if="!errorData"
         :id="'bar-chart-' + groupName + id"
         style="width: 100%; height: 3.5rem"
         class="mx-auto"
       ></canvas>
+      <span v-else class="text_regular_16">Error loading data...</span>
     </div>
     <div class="f_text_neutral_400 gap-4 cursor-pointer flex items-center">
       <span class="button_regular_14">Details</span>
@@ -32,26 +34,27 @@ const props = defineProps<{
   id: Number;
   testcaseName: String;
   groupName: String;
-  dashboardCase: Object;
-  icon: String;
+  dashboardCase: { dashboardId: number; caseId: number };
+  lastResults: CasePassRate[] | undefined;
+  icon: string;
 }>();
-const result = ref(false);
+const result = ref("");
+const errorData = ref(false);
 
 onMounted(() => {
   setTimeout(async () => {
-    const results = await useStepsRatio(
-      props.dashboardCase.dashboardId,
-      props.dashboardCase.caseId,
-      50
-    );
-    result.value = results[0]["failed"] === 0;
-    useBarChart(props.groupName + String(props.id), results, false);
+    if (props.lastResults) {
+      result.value = useResultStatus(props.lastResults[0]);
+      useBarChart(props.groupName + String(props.id), props.lastResults, false);
+      errorData.value = false;
+    } else {
+      errorData.value = true;
+    }
   }, 1);
 });
 
 const emits = defineEmits(["goTo:details"]);
 const goToDetails = () => {
-  //navigateTo("/testfaelle/" + props.groupName + "/" + props.icon)
   emits("goTo:details", {
     dashboardId: props.dashboardCase.dashboardId,
     caseId: props.dashboardCase.caseId,

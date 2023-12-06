@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 const props = defineProps<{
-  height: String;
-  width: String;
+  height: string;
+  width: string;
 }>();
 </script>

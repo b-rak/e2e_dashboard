@@ -16,7 +16,7 @@
           />
         </div>
         <ResultIndicator
-          :result="currentResult.result === 'PASSED'"
+          :result="currentResult.result"
           class="pl-2 pr-[0.375rem] w-16"
         />
         <div
@@ -85,13 +85,13 @@ const currentResult = ref(props.latestResult);
 const dateAndTime = ref(useDateAndTime(currentResult.value.createdDate));
 
 //Result Data
-const lastResults = await useStepResults(
-  props.stepData.case.group.id,
-  props.stepData.case.id,
-  props.stepData.id,
-  10,
-  0
-);
+const lastResults = await useStepResults({
+  dashboardId: props.stepData.caseObject.group.id,
+  caseId: props.stepData.caseObject.id,
+  stepId: props.stepData.id,
+  size: 10,
+  sort: "createdDate,desc",
+});
 
 const selected = ref(false);
 const toggleRotate = () => {
@@ -107,12 +107,7 @@ const toggleRotate = () => {
 
 onMounted(() => {
   setTimeout(async () => {
-    const runtimeData = await useStepResultsRuntime(
-      props.stepData.case.group.id,
-      props.stepData.case.id,
-      props.stepData.id,
-      55
-    );
+    const runtimeData = await useRuntime(props.stepData.id, 55);
     useRuntimeChart(String(props.id), runtimeData);
   }, 1);
 });
@@ -139,11 +134,12 @@ const updateLastResultDisplay = async (obj: {
   }
   // if all local results are marked as false positive get the latest non falsepositive result from the database
   if (!resultAvailable) {
-    currentResult.value = await useLatestStepResult(
+    const latestResults = await useLatestStepResults(
       Number(currentResult.value.environment),
       Number(currentResult.value.caseId),
       Number(currentResult.value.stepId)
     );
+    currentResult.value = latestResults[0];
   }
   dateAndTime.value = useDateAndTime(currentResult.value.createdDate);
   //update runtime chart??

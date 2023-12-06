@@ -23,7 +23,10 @@
       ]"
     >
       <div class="h-6 flex justify-center items-center">
-        <DevicesIcon width="1.5rem" height="1.5rem" />
+        <DevicesIcon
+          :width="useRem() * 1.5 + ''"
+          :height="useRem() * 1.5 + ''"
+        />
       </div>
       <span class="h3_bold_18">Gesamt</span>
     </div>
@@ -31,7 +34,7 @@
       v-if="!breakpoint.mobile"
       :selected="displayAll"
       :dashboardId="-1"
-      :ratios="ratios"
+      :latestTwoCaseResults="ratios"
     />
   </div>
 </template>
@@ -40,7 +43,7 @@
 const props = defineProps<{
   displayAll: Boolean;
   positionHeading: String;
-  ratios: Array<DashboardRatio>;
+  ratios: Array<LatestCaseResult>;
 }>();
 const breakpoint = useBreakpoint().breakpoints;
 

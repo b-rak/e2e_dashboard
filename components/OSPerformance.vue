@@ -3,7 +3,11 @@
     class="flex flex-col gap-4 basic_white border_small shadow_light_2 px-3 pt-3 pb-4"
   >
     <div class="flex items-center gap-4 f_text_neutral_900 h-6">
-      <GroupIcon :name="iconName" iconWidth="1.5rem" iconHeight="1.5rem" />
+      <GroupIcon
+        :name="iconName"
+        :iconWidth="useRem() * 1.5 + ''"
+        :iconHeight="useRem() * 1.5 + ''"
+      />
       <span class="h3_bold_18">
         {{ osName }}
       </span>
@@ -25,5 +29,5 @@ const props = defineProps<{
   iconName: string;
   dashboardId: number;
 }>();
-const caseResults = await useLatestCasesResults(props.dashboardId);
+const caseResults = await useLatestCaseResults(props.dashboardId);
 </script>

@@ -1,9 +1,7 @@
 <template>
   <div
     class="w-6 h-6 border_xsmall relative inline-block cursor-pointer"
-    :class="[
-      result.result === 'PASSED' ? 'status_pass_100' : 'status_fail_100',
-    ]"
+    :class="useResultColor(result.result)"
     @mouseover="showTooltip = true"
     @mouseout="showTooltip = false"
     @click="goToDetails"
