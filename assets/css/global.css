@@ -11,6 +11,11 @@
   --status_fail_75: #ff917e;
   --status_pass_100: #1bb298;
   --status_pass_75: #3ecfb6;
+  --status_warning_100: #ffc700;
+  --status_warning_75: #fae84d;
+  --status_skip_100: #347ead;
+  --status_skip_75: #89bcdc;
+  --status_false_positive: #cbd0d4;
 }
 
 /**
@@ -380,6 +385,45 @@ html {
   color: var(--status_pass_75, #3ecfb6);
 }
 
+.status_warning_100 {
+  background-color: var(--status_warning_100, #fae84d);
+}
+
+.status_text_warning_100 {
+  color: var(--status_warning_100, #fae84d);
+}
+
+.status_warning_75 {
+  background-color: var(--status_warning_75, #e2e227);
+}
+
+.status_text_warning_75 {
+  color: var(--status_warning_75, #e2e227);
+}
+
+.status_skip_100 {
+  background-color: var(--status_skip_100, #34a4eb);
+}
+
+.status_text_skip_100 {
+  color: var(--status_skip_100, #34a4eb);
+}
+
+.status_skip_75 {
+  background-color: var(--status_skip_75, #347ead);
+}
+
+.status_text_skip_75 {
+  color: var(--status_skip_75, #347ead);
+}
+
+.status_false_positive {
+  background-color: var(--status_false_positive, #cbd0d4);
+}
+
+.status_text_false_positive {
+  color: var(--status_false_positive, #cbd0d4);
+}
 /** 
     Shadows/Elevations
 */
