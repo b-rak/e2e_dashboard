@@ -1,18 +1,18 @@
 export default (dateString: string) => {
-  const dateTime = new Date(dateString);
+  //dateString has format yyyy-MM-ddTHH:mm:ss
+  const date = dateString.split("T")[0];
+  const time =
+    dateString.split("T")[1].length > 8
+      ? dateString.split("T")[1].substring(0, 8)
+      : dateString.split("T")[1];
 
   // Extract date components
-  const day = dateTime.getDate().toString().padStart(2, "0");
-  const month = (dateTime.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-based
-  const year = dateTime.getFullYear();
-
-  // Extract time components
-  const hours = dateTime.getHours().toString().padStart(2, "0");
-  const minutes = dateTime.getMinutes().toString().padStart(2, "0");
-  const seconds = dateTime.getSeconds().toString().padStart(2, "0");
+  const day = date.split("-")[2];
+  const month = date.split("-")[1];
+  const year = date.split("-")[0];
 
   return {
     date: `${day}.${month}.${year}`,
-    time: `${hours}:${minutes}:${seconds}`,
+    time: time,
   };
 };

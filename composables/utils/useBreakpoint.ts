@@ -7,6 +7,7 @@ const screens = {
   lg: 992,
   xl: 1200,
   xxl: 1400,
+  xxxl: 1600,
 };
 
 const breakpoints = reactive({ w: 0, h: 0, viewport: "xs", mobile: true });
@@ -16,7 +17,8 @@ const sm = (val: number) => val >= screens.sm && val < screens.md;
 const md = (val: number) => val >= screens.md && val < screens.lg;
 const lg = (val: number) => val >= screens.lg && val < screens.xl;
 const xl = (val: number) => val >= screens.xl && val < screens.xxl;
-const xxl = (val: number) => val >= screens.xxl;
+const xxl = (val: number) => val >= screens.xxl && val < screens.xxxl;
+const xxxl = (val: number) => val >= screens.xxxl;
 
 const getBreakpoint = (w: number) => {
   if (xs(w)) return "xs";
@@ -25,6 +27,7 @@ const getBreakpoint = (w: number) => {
   else if (lg(w)) return "lg";
   else if (xl(w)) return "xl";
   else if (xxl(w)) return "xxl";
+  else if (xxxl(w)) return "xxxl";
   else return "all";
 };
 
@@ -35,7 +38,8 @@ const setBreakpoint = () => {
   breakpoints.mobile = !(
     breakpoints.viewport === "lg" ||
     breakpoints.viewport === "xl" ||
-    breakpoints.viewport === "xxl"
+    breakpoints.viewport === "xxl" ||
+    breakpoints.viewport === "xxxl"
   );
 };
 
