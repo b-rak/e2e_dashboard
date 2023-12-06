@@ -11,7 +11,6 @@
   >
     <Navigation
       v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
-      class="text-center"
     />
     <a v-else href="/" class="h-[5rem] ml-[4%] flex items-center">
       <img
