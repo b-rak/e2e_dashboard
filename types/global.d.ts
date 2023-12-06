@@ -10,33 +10,28 @@ declare global {
     icon: string;
   };
 
-  type DashboardRatio = CaseResult & {
-    case_id: number;
-    row_num: number;
-  };
-
-  type PassRate = {
+  type CaseRatio = {
     dashboardId: number;
-    ratios: Array<{
-      date: string;
-      ratio: nubmer;
-    }>;
+    caseId: number;
+    passed: number;
+    failed: number;
   };
 
-  type Case = {
+  type LatestCaseResult = {
     id: number;
-    identifier: string;
-    readableName: string;
-    subtitle: string;
-    icon: string;
+    case_id: number;
+    environment: string;
     createdDate: string;
-    updatedDate: string;
-    sorting: number;
-    active: number;
-    warningFailedThreshold: number;
-    group: Dashboard;
-    updatedDateAsString: string;
-    createdDateAsString: string;
+    startedDate: string;
+    endedDate: string;
+    runtime: number;
+    screenshot: string;
+    video: string;
+    falsePositive: number;
+    result: string;
+    testparameter: string;
+    randomtoken: string;
+    row_num: number;
   };
 
   type CaseResult = {
@@ -56,24 +51,47 @@ declare global {
     endedDate: string;
   };
 
-  type CaseResultAndObject = CaseResult & {
-    caseObject: Case;
-    createdDateAsString: string;
-    startedDateAsString: string;
-    endedDateAsString: string;
+  type PassRate = {
+    dashboardId: number;
+    ratios: Array<{
+      date: string;
+      ratio: nubmer;
+    }>;
   };
 
-  type DailyCaseRatio = {
+  type Case = {
+    id: number;
+    identifier: string;
     readableName: string;
-    values: Array<{
-      date: string;
-      passed: number;
-      failed: number;
-    }>;
+    subtitle: string;
+    icon: string;
+    createdDate: string;
+    updatedDate: string;
+    sorting: number;
+    groupId: number;
+    active: number;
+    warningFailedThreshold: number;
+  };
+
+  type CasePassRate = {
+    value: string;
+    passedCount: number;
+    failedCount: number;
+    warningCount: number;
+    skippedCount: number;
+    falsePositiveCount: number;
+    environment: string;
+    caseId: number;
+    createdDate: string;
   };
 
   type Step = {
     id: number;
+    caseObject: Omit<Case, groupId> & {
+      group: Dashboard;
+      createdDateAsString: string;
+      updatedDateAsString: string;
+    };
     identifier: string;
     readableName: string;
     createdDate: string;
@@ -81,8 +99,6 @@ declare global {
     active: number;
     sorting: number;
     warningFailedThreshold: number;
-    ticketCreated: number;
-    case: Case;
   };
 
   type StepResult = {
@@ -108,26 +124,11 @@ declare global {
     createdDate: string;
   };
 
-  type CaseIdentifier = {
-    dashboardId: number;
+  type DailyCaseRatio = {
     caseId: number;
-    stepIds: Array<{
-      identifier: string;
-      id: number;
-    }>;
-  };
-
-  type Statistics = {
-    caseID: number;
-    caseCreatedDate: string;
-    passed: number;
-    failed: number;
-  };
-
-  type CaseRatios = {
-    dashboardID: number;
-    cases: Array<{
-      caseName: string;
+    readableName: string;
+    values: Array<{
+      date: string;
       passed: number;
       failed: number;
     }>;

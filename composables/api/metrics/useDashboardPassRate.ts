@@ -1,5 +1,5 @@
 export default async (fromDate: string, toDate: string) =>
-  //date format: yyyy-mm-dd
+  //date format: yyyy-mm-ddThh:mm:ss
   await useBaseFetch<Array<PassRate>>(
-    "/dashboards/pass-rate?from=" + fromDate + "&to=" + toDate
+    "/dashboard-pass-rate?from=" + fromDate + "&to=" + toDate
   );

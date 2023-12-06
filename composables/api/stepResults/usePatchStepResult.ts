@@ -1,22 +1,7 @@
-export default async (
-  dashboardId: number,
-  caseId: number,
-  stepId: number,
-  resultId: number,
-  falsePositive: number
-) => {
+export default async (stepResultId: number, falsePositive: number) => {
   const config = useRuntimeConfig();
-  const url =
-    config.public.BASE_URL +
-    "/dashboards/" +
-    dashboardId +
-    "/cases/" +
-    caseId +
-    "/steps/" +
-    stepId +
-    "/results/" +
-    resultId;
-
+  const url = config.public.BASE_URL + `/stepresults/${stepResultId}`;
+  console.log("URL", url);
   const res = await fetch(url, {
     method: "PATCH",
     headers: {

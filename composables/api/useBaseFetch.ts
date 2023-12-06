@@ -1,5 +1,4 @@
 export default async <T>(url: string) => {
-  // lesson not in cache, so it has to be fetched
   const config = useRuntimeConfig();
   const { data, error } = await useFetch<T>(url, {
     method: "GET",
@@ -10,10 +9,6 @@ export default async <T>(url: string) => {
     server: false,
   });
 
-  //console.log("----------------------------------------------");
-  //console.log("URL", url);
-  //console.log(data.value);
-  //console.log("----------------------------------------------");
   if (error.value) {
     console.error(error);
     throw createError({
