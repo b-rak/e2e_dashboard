@@ -4,16 +4,17 @@
       class="mt-10 px-6 py-8 border_medium f_neutral_80 flex justify-between"
     >
       <CustomerHeader
-        customerName="Appmatics"
+        :customerName="configStoreData.mainName"
         pageTitle="E2E Dashboard"
-        imagePath="./img/logo.png"
+        :imagePath="configStoreData.logo"
       />
       <ExportButton buttonText="Export as JPG" />
     </div>
-    <div class="flex gap-6">
+    <div class="flex gap-6 w-full">
       <!-- OS Übersicht -->
       <div
-        class="p-6 border_medium f_neutral_80 min-h-[45rem] h-fit max-w-[16.5rem] flex flex-col gap-6 top-24 sticky"
+        class="p-6 border_medium f_neutral_80 min-h-[45rem] h-fit flex flex-col gap-6 top-24 sticky"
+        :class="{ 'w-[16.5rem]': !breakpoint.mobile }"
       >
         <Heading-2 titleText="Testfallvergleich" class="h-10" />
         <div class="flex flex-col gap-8">
@@ -47,12 +48,20 @@
         </div>
       </div>
 
-      <div class="grid min-[1920px]:grid-cols-[1.53fr_1fr] gap-6 grow">
+      <div class="grid min-[1920px]:grid-cols-[59.45%_auto] gap-6 w-full">
         <!-- Charts: Vergleich und Quote -->
-        <div class="flex flex-col gap-6">
+        <div
+          class="flex flex-col gap-6"
+          :class="{
+            'min-w-[51.75rem]': !breakpoint.mobile,
+          }"
+        >
           <div
             class="p-6 border_medium f_neutral_80 min-h-[25.25rem] flex flex-col gap-6"
-            :class="dashboards.length > 3 ? 'h-[45rem]' : ''"
+            :class="{
+              'h-[45rem]': dashboards.length > 3,
+              'min-w-[51.75rem]': !breakpoint.mobile,
+            }"
           >
             <div class="flex justify-between items-center h-full">
               <Heading-2 titleText="Testfallvergleich" />
@@ -84,9 +93,9 @@
             <div
               class="grid gap-3"
               :class="{
-                'grid-cols-1': dashboards.length === 1,
-                'grid-cols-2': dashboards.length === 2,
-                'grid-cols-3': dashboards.length > 2,
+                'grid-cols-1': dashboards.length === 1 || breakpoint.mobile,
+                'grid-cols-2': dashboards.length === 2 && !breakpoint.mobile,
+                'grid-cols-3': dashboards.length > 2 && !breakpoint.mobile,
               }"
             >
               <PolarAreaChart
@@ -95,7 +104,7 @@
                 :numberOfChart="index + 1"
                 :dashboard="dashboard"
                 :ratios="dashboardCaseRatios[index]"
-                :class="[index === 0 || index === 1 ? 'grow' : '', ,]"
+                :class="[index === 0 || index === 1 ? '' : '', ,]"
               />
             </div>
           </div>
@@ -119,14 +128,17 @@
                     :iconWidth="useRem() * 1.5 + ''"
                     :iconHeight="useRem() * 1.5 + ''"
                   />
-                  <span class="h3_bold_18 w-[4rem]">{{ dashboard.name }}</span>
+                  <span class="h3_bold_18 w-[6.25rem] !leading-6">{{
+                    dashboard.name
+                  }}</span>
                 </div>
                 <div
-                  class="relative grow flex items-center justify-center"
+                  class="relative flex items-center justify-center"
                   :class="{
                     'h-[9.75rem]': dashboards.length === 1,
                     'h-[4.125rem]': dashboards.length === 2,
                     'h-[2.25rem]': dashboards.length > 2,
+                    'min-w-[28.25rem]': !breakpoint.mobile,
                   }"
                 >
                   <canvas
@@ -169,9 +181,10 @@
         <!-- Ticker -->
         <div
           class="p-6 border_medium f_neutral_80 flex flex-col gap-6 h-[45rem]"
+          :class="{ 'min-w-[33.75rem]': !breakpoint.mobile }"
         >
           <Heading-2 titleText="Ticker" />
-          <div class="overflow-y-scroll grow">
+          <div class="overflow-y-scroll">
             <div
               class="basic_white border_small px-4 py-3 flex flex-col items-start gap-3 overflow-hidden mr-6"
             >
@@ -180,7 +193,7 @@
                 :key="index"
                 :result="result"
                 :dashboards="dashboards"
-                class="flex-grow"
+                class=""
               />
             </div>
           </div>
@@ -191,6 +204,8 @@
 </template>
 
 <script lang="ts" setup>
+const configStoreData = useConfigStore().configData as ConfigData;
+
 const dashboards = await useDashboards();
 const latestTwoCaseResults = await useTwoLatestCaseResult();
 const latestCaseResult = await useCasesResults({ sort: "createdDate,desc" });

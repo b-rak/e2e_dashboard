@@ -5,16 +5,22 @@ import {
   statusPass100,
 } from "./chartConfig";
 
-const checkFraction = (elementIndex: number, data: [number, number]) => {
+const checkFraction = (
+  elementIndex: number,
+  data: [number, number, number, number]
+) => {
   if (data[elementIndex] === 0) return 0;
   else
-    return data[elementIndex] / (data[0] + data[1]) < 0.1
-      ? Math.round((data[0] + data[1]) / 20)
+    return data[elementIndex] / (data[0] + data[1] + data[2] + data[3]) < 0.1
+      ? Math.round((data[0] + data[1] + data[2] + data[3]) / 20)
       : data[elementIndex];
 };
 
 // Details Verteilung Chart
-export default async (data: [number, number], update: Boolean) => {
+export default async (
+  data: [number, number, number, number],
+  update: Boolean
+) => {
   // create an array with objects of the original data value and minimum sized value
   // the minimum sized value is needed to give each data value a minimum fraction for displaying reasons (currently each data value will be displayed at least as 5% of the half-doughnut)
   // the original value is needed so we can still show the correct value on the tooltip
@@ -26,6 +32,14 @@ export default async (data: [number, number], update: Boolean) => {
     {
       original: data[1],
       current: checkFraction(1, data),
+    },
+    {
+      original: data[2],
+      current: checkFraction(2, data),
+    },
+    {
+      original: data[3],
+      current: checkFraction(3, data),
     },
   ];
   if (update) {
@@ -40,11 +54,16 @@ export default async (data: [number, number], update: Boolean) => {
     new Chart(document.getElementById("doughnut") as HTMLCanvasElement, {
       type: "doughnut",
       data: {
-        labels: ["Passed", "Failed"],
+        labels: ["Passed", "Failed", "Warning", "Skipped"],
         datasets: [
           {
             data: dataWithMinimumSize.map((x) => x.current),
-            backgroundColor: [statusPass100, statusFail100],
+            backgroundColor: [
+              statusPass100,
+              statusFail100,
+              statusWarning100,
+              statusSkip100,
+            ],
             borderJoinStyle: "round",
           },
         ],

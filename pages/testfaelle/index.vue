@@ -10,7 +10,8 @@
           'h-[14.5rem]':
             breakpoint.viewport === 'lg' ||
             breakpoint.viewport === 'xl' ||
-            breakpoint.viewport === 'xxl',
+            breakpoint.viewport === 'xxl' ||
+            breakpoint.viewport === 'xxxl',
         },
       ]"
     >
@@ -25,9 +26,9 @@
         ]"
       >
         <CustomerHeader
-          customerName="Appmatics"
+          :customerName="configStoreData.mainName"
           pageTitle="Testfälle"
-          imagePath="./img/logo.png"
+          :imagePath="configStoreData.logo"
         />
         <div
           id="filter-export"
@@ -97,6 +98,8 @@
 const dashboardData = await useDashboards();
 const dashboardsRatio = await useTwoLatestCaseResult();
 const breakpoint = useBreakpoint().breakpoints;
+
+const configStoreData = useConfigStore().configData as ConfigData;
 
 type DashboardConfig = {
   id: number;

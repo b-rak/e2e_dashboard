@@ -1,16 +1,16 @@
 <template>
   <div
     :id="`os-${props.config.id}`"
-    class="border_small shadow_light_3 flex flex-col justify-between hover:scale-[1.05]"
+    class="border_small shadow_light_3 flex flex-col gap-6 hover:scale-[1.05]"
     :class="[
       !selected ? 'basic_white' : 'f_neutral_900',
       {
-        'px-2 pt-2':
+        'px-2 py-2':
           breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm',
-        'px-6 pt-[1.375rem]': breakpoint.viewport === 'md',
-        'w-[22.188rem] h-[9.6875rem] px-6 pt-[1.375rem]':
+        'px-6 py-[1.375rem]': breakpoint.viewport === 'md',
+        'w-[22.188rem] h-[9.6875rem] px-6 py-[1.375rem]':
           !breakpoint.mobile && breakpoint.viewport !== 'lg',
-        'w-[17.75rem] h-[9.6875rem] px-4 pt-[1.375rem]':
+        'w-[17.75rem] h-[9.6875rem] px-4 py-[1.375rem]':
           breakpoint.viewport === 'lg',
       },
     ]"
@@ -34,7 +34,7 @@
           :iconWidth="useRem() * 1.5 + ''"
           :iconHeight="useRem() * 1.5 + ''"
         />
-        <span class="h3_bold_18 !leading-6">
+        <span class="h3_bold_18">
           {{ props.config.os_name }}
         </span>
       </div>
@@ -96,7 +96,7 @@ const props = defineProps({
 });
 const emits = defineEmits(["update:display"]);
 
-const breakpoint = useBreakpoint().breakpoints;
+const breakpoint = ref(useBreakpoint().breakpoints);
 
 const toggleDisplay = () => {
   emits("update:display", {
@@ -107,7 +107,23 @@ const toggleDisplay = () => {
 
 onMounted(() => {
   setTimeout(() => {
-    useOverviewChart(String(props.config.id), props.config.dashboardId);
+    useOverviewTest(
+      String(props.config.id),
+      props.config.dashboardId,
+      false,
+      breakpoint.value.viewport
+    );
+    watch(
+      () => breakpoint.value.viewport,
+      (newValue, oldValue) => {
+        useOverviewTest(
+          String(props.config.id),
+          props.config.dashboardId,
+          true,
+          newValue
+        );
+      }
+    );
   }, 1);
 });
 </script>

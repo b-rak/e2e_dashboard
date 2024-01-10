@@ -1,6 +1,7 @@
 <template>
   <div
     class="flex flex-col justify-center items-center gap-6 p-6 border_small basic_white shadow_light_2"
+    :class="{ 'min-w-[15.75rem]': !breakpoint.mobile }"
   >
     <div class="flex items-center gap-4 f_text_neutral_900 h-6">
       <GroupIcon
@@ -8,7 +9,9 @@
         :iconWidth="useRem() * 1.5 + ''"
         :iconHeight="useRem() * 1.5 + ''"
       />
-      <span class="h3_bold_18">{{ dashboard.name }}</span>
+      <span class="h3_bold_18 !leading-6 text-center">{{
+        dashboard.name
+      }}</span>
     </div>
     <div class="flex items-center h-[12.25rem]">
       <canvas v-if="!errorData" :id="'polarAreaChart-' + props.numberOfChart">
@@ -25,6 +28,8 @@ const props = defineProps<{
   dashboard: Dashboard;
   ratios: Array<CaseRatio> | undefined;
 }>();
+
+const breakpoint = useBreakpoint().breakpoints;
 
 const errorData = ref(false);
 watch(
