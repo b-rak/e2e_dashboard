@@ -95,9 +95,9 @@
             <div class="status_bold_12">
               <font-awesome-icon
                 :icon="['fas', 'circle']"
-                class="status_text_fail_100 h-3 w-3"
+                class="status_text_skip_100 h-3 w-3"
               />
-              FAILED
+              SKIPPED
             </div>
             <div class="status_bold_12">
               <font-awesome-icon
@@ -109,9 +109,9 @@
             <div class="status_bold_12">
               <font-awesome-icon
                 :icon="['fas', 'circle']"
-                class="status_text_skip_100 h-3 w-3"
+                class="status_text_fail_100 h-3 w-3"
               />
-              SKIPPED
+              FAILED
             </div>
           </div>
         </div>
@@ -207,11 +207,23 @@ onMounted(() => {
       Number(dashboardId),
       Number(caseId)
     );
-
-    if (rangeData[0].passed === 0 && rangeData[0].failed === 0) {
+    if (
+      rangeData[0].passed === 0 &&
+      rangeData[0].failed === 0 &&
+      rangeData[0].warning === 0 &&
+      rangeData[0].skipped === 0
+    ) {
       errorData.value = true;
     } else {
-      useDoughnutChart([rangeData[0].passed, rangeData[0].failed], false);
+      useDoughnutChart(
+        [
+          rangeData[0].passed,
+          rangeData[0].failed,
+          rangeData[0].warning,
+          rangeData[0].skipped,
+        ],
+        false
+      );
       errorData.value = false;
     }
   }, 1);
@@ -235,10 +247,23 @@ const drawChart = async (event: Event) => {
     Number(dashboardId),
     Number(caseId)
   );
-  if (rangeData[0].passed === 0 && rangeData[0].failed === 0) {
+  if (
+    rangeData[0].passed === 0 &&
+    rangeData[0].failed === 0 &&
+    rangeData[0].warning === 0 &&
+    rangeData[0].skipped === 0
+  ) {
     errorData.value = true;
   } else {
-    useDoughnutChart([rangeData[0].passed, rangeData[0].failed], true);
+    useDoughnutChart(
+      [
+        rangeData[0].passed,
+        rangeData[0].failed,
+        rangeData[0].warning,
+        rangeData[0].skipped,
+      ],
+      true
+    );
     errorData.value = false;
   }
 };
