@@ -15,6 +15,8 @@ declare global {
     caseId: number;
     passed: number;
     failed: number;
+    warning: number;
+    skipped: number;
   };
 
   type LatestCaseResult = {
@@ -132,5 +134,22 @@ declare global {
       passed: number;
       failed: number;
     }>;
+  };
+
+  type ConfigData = {
+    mainName: string;
+    logo: string;
+    cases: Array<{
+      name: string;
+      icon: string;
+      color: string;
+      casetype: string;
+    }>;
+    numberOfCases: number;
+    dashboards: Array<{
+      name: string;
+      numberOfCases: number;
+    }>;
+    mainFiles: string;
   };
 }
