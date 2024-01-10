@@ -85,6 +85,7 @@ export default defineNuxtConfig({
       "composables/charts",
       "composables/api/**",
       "composables/utils",
+      "stores",
     ],
   },
 
