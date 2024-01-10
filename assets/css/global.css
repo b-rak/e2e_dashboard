@@ -190,6 +190,15 @@ html {
   font-style: normal;
 }
 
+.button_bold_16 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  letter-spacing: 0rem;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
 .button_regular_14 {
   font-size: 0.875rem;
   line-height: 1.5rem;
@@ -361,6 +370,10 @@ html {
   color: var(--status_fail_100, #ff6246);
 }
 
+.status_border_fail_100 {
+  border-color: var(--status_fail_100, #ff6246);
+}
+
 .status_fail_75 {
   background-color: var(--status_fail_75, #ff917e);
 }
@@ -375,6 +388,10 @@ html {
 
 .status_text_pass_100 {
   color: var(--status_pass_100, #1bb298);
+}
+
+.status_border_pass_100 {
+  border-color: var(--status_pass_100, #1bb298);
 }
 
 .status_pass_75 {
@@ -393,6 +410,10 @@ html {
   color: var(--status_warning_100, #fae84d);
 }
 
+.status_border_warning_100 {
+  border-color: var(--status_warning_100, #fae84d);
+}
+
 .status_warning_75 {
   background-color: var(--status_warning_75, #e2e227);
 }
@@ -407,6 +428,10 @@ html {
 
 .status_text_skip_100 {
   color: var(--status_skip_100, #34a4eb);
+}
+
+.status_border_skip_100 {
+  border-color: var(--status_skip_100, #34a4eb);
 }
 
 .status_skip_75 {
