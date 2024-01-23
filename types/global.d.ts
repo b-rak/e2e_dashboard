@@ -148,7 +148,10 @@ declare global {
     numberOfCases: number;
     dashboards: Array<{
       name: string;
+      id: number;
       numberOfCases: number;
+      icon: string;
+      cases: Array<string>;
     }>;
     mainFiles: string;
   };
