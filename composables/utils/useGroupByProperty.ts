@@ -1,8 +1,10 @@
-export default (arr: Array<Object>, prop: any) => {
-  const grouped = {};
+type GroupedArray<T> = { [key: string]: T[] };
+
+export default <T>(arr: T[], prop: keyof T): T[][] => {
+  const grouped: GroupedArray<T> = {};
 
   arr.forEach((obj) => {
-    const key = obj[prop];
+    const key = obj[prop] as string;
     if (!grouped[key]) {
       grouped[key] = [];
     }
