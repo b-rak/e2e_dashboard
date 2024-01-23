@@ -1,9 +1,10 @@
 import { useConfigStore } from "~/stores/configStore";
 
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   const loggedIn = sessionStorage.getItem("userLoggedIn");
 
   const configStore = useConfigStore();
+  const dashboardCasesStore = useDashboardCasesStore();
 
   if (loggedIn !== "true") {
     return navigateTo("/login", { replace: true });
@@ -16,7 +17,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
     }
 
     // Load config file using the store's action
-    configStore.loadConfigFile(configName);
+    await configStore.loadConfigFile(configName);
+    await dashboardCasesStore.getDashboardCases("Rheinbahn");
     return;
   }
 });

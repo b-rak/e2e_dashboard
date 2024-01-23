@@ -14,6 +14,13 @@
     :width="useRem() * getAndroidSize(iconWidth) + ''"
     :height="useRem() * getAndroidSize(iconHeight) + ''"
   />
+  <img
+    v-else
+    :src="name"
+    :width="iconWidth"
+    :height="iconHeight"
+    class="border_xsmall"
+  />
 </template>
 
 <script lang="ts" setup>
