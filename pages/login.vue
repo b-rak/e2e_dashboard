@@ -1,10 +1,10 @@
 <template>
   <div
-    class="flex justify-center"
+    class="flex justify-around"
     :class="[
       breakpoint.mobile
         ? 'w-full absolute top-[12%] px-8'
-        : 'h-full items-center gap-[11rem] pl-[16%]',
+        : 'h-full items-center gap-[11rem]',
       { '!top-1/4': breakpoint.viewport === 'md' },
     ]"
   >
