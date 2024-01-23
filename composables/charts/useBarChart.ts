@@ -1,7 +1,6 @@
-import { Chart, useRem, statusPass100, statusFail100 } from "./chartConfig";
+import { Chart, useRem } from "./chartConfig";
 
 let display: boolean;
-
 // Testcase Kachel Chart
 export default (
   canvasId: string,
@@ -9,75 +8,65 @@ export default (
   displayTooltip: boolean
 ) => {
   display = displayTooltip;
-
-  const data = sortResultsAfterStatus(results);
+  const data = getFractionResults(results);
   // define Plugin: change the colors of the last results: green (passed) and red (failed)
   const updateColor = {
     id: "updateColor",
     beforeUpdate: function (chartInstance: Chart) {
       for (const dataset of chartInstance.data.datasets) {
         dataset.backgroundColor = useResultHexColor(dataset.label as string);
-        /*const numberDataset = dataset.data as number[];
-        dataset.backgroundColor = numberDataset.map(function (data: number) {
-          return data < 0 ? statusFail100 : statusPass100;
-        });*/
       }
     },
   };
 
   // Define Bar Chart
-  new Chart(
+  const chart = new Chart(
     document.getElementById("bar-chart-" + canvasId) as HTMLCanvasElement,
     {
       type: "scatter",
       plugins: [updateColor],
       data: {
-        labels: data[0].res.map((x) => x.id),
+        labels: data[0].map((x) => x.id),
         datasets: [
           {
             label: "PASSED",
             type: "bar",
-            data: data[0].res.map((x) => x.value),
+            data: data[0].map((x) => x.passed),
             borderRadius: useRem() * 0.5,
-            barPercentage: 1,
-            categoryPercentage: 1,
-            barThickness: useRem() * 0.25,
-          },
-          {
-            label: "WARNING",
-            type: "bar",
-            data: data[1].res.map((x) => x.value),
-            borderRadius: useRem() * 0.5,
-            barPercentage: 1,
-            categoryPercentage: 1,
-            barThickness: useRem() * 0.25,
+            //barThickness: useRem() * 0.25,
+            maxBarThickness: useRem() * 0.5,
           },
           {
             label: "FAILED",
             type: "bar",
-            data: data[2].res.map((x) => x.value),
+            data: data[1].map((x) => x.failed),
             borderRadius: useRem() * 0.5,
-            barPercentage: 1,
-            categoryPercentage: 1,
-            barThickness: useRem() * 0.25,
+            //barThickness: useRem() * 0.25,
+            maxBarThickness: useRem() * 0.5,
+          },
+          {
+            label: "WARNING",
+            type: "bar",
+            data: data[2].map((x) => x.warning),
+            borderRadius: useRem() * 0.5,
+            //barThickness: useRem() * 0.25,
+            maxBarThickness: useRem() * 0.5,
           },
           {
             label: "SKIPPED",
             type: "bar",
-            data: data[3].res.map((x) => x.value),
+            data: data[3].map((x) => x.skipped),
             borderRadius: useRem() * 0.5,
-            barPercentage: 1,
-            categoryPercentage: 1,
-            barThickness: useRem() * 0.25,
+            //barThickness: useRem() * 0.25,
+            maxBarThickness: useRem() * 0.5,
           },
           {
             label: "FALSEPOSITIVE",
             type: "bar",
-            data: data[4].res.map((x) => x.value),
+            data: data[4].map((x) => x.falsepos),
             borderRadius: useRem() * 0.5,
-            barPercentage: 1,
-            categoryPercentage: 1,
-            barThickness: useRem() * 0.25,
+            //barThickness: useRem() * 0.25,
+            maxBarThickness: useRem() * 0.5,
           },
         ],
       },
@@ -115,125 +104,196 @@ export default (
               display: false,
               maxTicksLimit: 3,
             },
+            stacked: true,
           },
         },
         plugins: {
-          legend: {
-            display: false,
-          },
           tooltip: {
+            enabled: displayTooltip,
+            padding: {
+              left: 0.4375 * useRem(),
+              right: 0.4375 * useRem(),
+              top: 0.3125 * useRem(),
+              bottom: 0.3125 * useRem(),
+            },
+            backgroundColor: fNeutral900,
+            cornerRadius: 0.5 * useRem(),
+            bodyFont: {
+              family: "'Lato', 'sans-serif'",
+              size: 0.875 * useRem(),
+              weight: "400",
+              lineHeight: 1.5,
+              style: "normal",
+            },
+            titleAlign: "center",
+            footerAlign: "center",
+            usePointStyle: true,
             callbacks: {
               label: (ctx) => {
+                console.log("CTX", ctx);
                 let createdDate = useDateAndTime(
-                  data[ctx.datasetIndex].res[ctx.dataIndex].createdDate
+                  data[ctx.datasetIndex][ctx.dataIndex].createdDate
                 );
-                return [
-                  createdDate.date + " " + createdDate.time,
-                  data[ctx.datasetIndex].res[ctx.dataIndex].absolutePassed +
-                    "/" +
-                    data[ctx.datasetIndex].res[ctx.dataIndex].total +
-                    " Subcases",
-                ];
+                if (ctx.dataset.label === "FALSEPOSITIVE") {
+                  return [
+                    createdDate.date + " " + createdDate.time,
+                    "False positive",
+                  ];
+                } else {
+                  return [
+                    createdDate.date + " " + createdDate.time,
+                    data[ctx.datasetIndex][ctx.dataIndex].absolute +
+                      "/" +
+                      data[ctx.datasetIndex][ctx.dataIndex].total +
+                      " Subcases",
+                  ];
+                }
+              },
+              title: () => "",
+              labelPointStyle: () => {
+                return {
+                  pointStyle: "rectRounded",
+                  rotation: 0,
+                };
               },
             },
-            enabled: false,
-            external: externalTooltipHandler as any,
-            xAlign: "center",
-            yAlign: "bottom",
-            intersect: false,
-            mode: "index",
-            position: "average",
+          },
+          legend: {
+            display: false,
           },
         },
         responsive: false,
       },
     }
   );
+  return chart;
 };
 
-function getPassedFraction(results: Array<CasePassRate>) {
-  let data = [];
-  for (let i = 0; i < results.length; i++) {
-    data.push({
-      id: i,
-      passed: Number(
-        (
-          results[i].passedCount /
-          (results[i].passedCount + results[i].failedCount)
-        ).toFixed(1)
-      ),
-      createdDate: results[i].createdDate,
-      absolutePassed: results[i].passedCount,
-      total: results[i].passedCount + results[i].failedCount,
-    });
-  }
-  return data.reverse();
-}
+function getFractionResults(results: Array<CasePassRate>) {
+  const passedData: Array<{
+    id: number;
+    passed: number;
+    absolute: number;
+    total: number;
+    createdDate: string;
+  }> = [];
+  const failedData: Array<{
+    id: number;
+    failed: number;
+    absolute: number;
+    total: number;
+    createdDate: string;
+  }> = [];
+  const warningData: Array<{
+    id: number;
+    warning: number;
+    absolute: number;
+    total: number;
+    createdDate: string;
+  }> = [];
+  const skippedData: Array<{
+    id: number;
+    skipped: number;
+    absolute: number;
+    total: number;
+    createdDate: string;
+  }> = [];
+  const falseposData: Array<{
+    id: number;
+    falsepos: number;
+    total: number;
+    createdDate: string;
+  }> = [];
 
-function sortResultsAfterStatus(results: Array<CasePassRate>) {
-  const data = [
-    { status: "PASSED", res: Array() },
-    { status: "WARNING", res: Array() },
-    { status: "FAILED", res: Array() },
-    { status: "SKIPPED", res: Array() },
-    { status: "FALSEPOSITIVE", res: Array() },
-  ];
-  for (let i = 0; i < results.length; i++) {
+  for (let i = results.length - 1; i >= 0; i--) {
     const caseResult = useResultStatus(results[i]);
-    for (let j = 0; j < data.length; j++) {
-      if (caseResult === data[j].status) {
-        data[j].res.push({
-          id: i,
-          result: caseResult,
-          value:
-            caseResult === "FALSEPOSITIVE"
-              ? 1
-              : caseResult === "PASSED" || caseResult === "SKIPPED"
-              ? Number(
-                  (
-                    (results[i].passedCount + results[i].skippedCount) /
-                    (results[i].passedCount +
-                      results[i].failedCount +
-                      results[i].skippedCount +
-                      results[i].warningCount)
-                  ).toFixed(1)
-                )
-              : Number(
-                  (-1 * (results[i].warningCount + results[i].failedCount)) /
-                    (results[i].passedCount +
-                      results[i].failedCount +
-                      results[i].skippedCount +
-                      results[i].warningCount)
-                ).toFixed(1),
-          createdDate: results[i].createdDate,
-          absolutePassed:
-            caseResult === "FALSEPOSITIVE"
-              ? 1
-              : results[i].passedCount + results[i].skippedCount,
-          total:
-            caseResult === "FALSEPOSITIVE"
-              ? 1
-              : results[i].passedCount +
-                results[i].failedCount +
-                results[i].skippedCount +
-                results[i].warningCount,
-        });
-      } else {
-        data[j].res.push({
-          id: i,
-          result: caseResult,
-          passed: 0,
-          createdDate: results[i].createdDate,
-          absolutePassed: 0,
-          total: 0,
-        });
-      }
+    if (caseResult === "FALSEPOSITIVE") {
+      falseposData.push({
+        id: i,
+        falsepos: 1,
+        total: 0,
+        createdDate: results[i].createdDate,
+      });
+      const numberOfSubcases =
+        results[i].passedCount +
+        results[i].failedCount +
+        results[i].skippedCount +
+        results[i].warningCount;
+      passedData.push({
+        id: i,
+        passed: 0,
+        absolute: 0,
+        total: numberOfSubcases,
+        createdDate: results[i].createdDate,
+      });
+      failedData.push({
+        id: i,
+        failed: 0,
+        absolute: 0,
+        total: numberOfSubcases,
+        createdDate: results[i].createdDate,
+      });
+      warningData.push({
+        id: i,
+        warning: 0,
+        absolute: 0,
+        total: numberOfSubcases,
+        createdDate: results[i].createdDate,
+      });
+      skippedData.push({
+        id: i,
+        skipped: 0,
+        absolute: 0,
+        total: numberOfSubcases,
+        createdDate: results[i].createdDate,
+      });
+    } else {
+      const numberOfSubcases =
+        results[i].passedCount +
+        results[i].failedCount +
+        results[i].skippedCount +
+        results[i].warningCount;
+      passedData.push({
+        id: i,
+        passed: Number((results[i].passedCount / numberOfSubcases).toFixed(1)),
+        absolute: results[i].passedCount,
+        total: numberOfSubcases,
+        createdDate: results[i].createdDate,
+      });
+      failedData.push({
+        id: i,
+        failed:
+          -1 * Number((results[i].failedCount / numberOfSubcases).toFixed(1)),
+        absolute: results[i].failedCount,
+        total: numberOfSubcases,
+        createdDate: results[i].createdDate,
+      });
+      warningData.push({
+        id: i,
+        warning:
+          -1 * Number((results[i].warningCount / numberOfSubcases).toFixed(1)),
+        absolute: results[i].warningCount,
+        total: numberOfSubcases,
+        createdDate: results[i].createdDate,
+      });
+      skippedData.push({
+        id: i,
+        skipped: Number(
+          (results[i].skippedCount / numberOfSubcases).toFixed(1)
+        ),
+        absolute: results[i].skippedCount,
+        total: numberOfSubcases,
+        createdDate: results[i].createdDate,
+      });
+      falseposData.push({
+        id: i,
+        falsepos: 0,
+        total: 0,
+        createdDate: results[i].createdDate,
+      });
     }
   }
-  for (let i = 0; i < data.length; i++) {
-    data[i].res = data[i].res.reverse();
-  }
-  return data;
+  return [passedData, failedData, warningData, skippedData, falseposData];
 }
 
 const getOrCreateTooltip = (chart: Chart) => {

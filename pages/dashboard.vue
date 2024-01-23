@@ -1,19 +1,24 @@
 <template>
   <div class="flex flex-col gap-6">
     <div
-      class="mt-10 px-6 py-8 border_medium f_neutral_80 flex justify-between"
+      class="mt-10 px-6 py-8 border_medium f_neutral_80 flex"
+      :class="[
+        breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+          ? 'flex-col gap-y-4'
+          : 'justify-between',
+      ]"
     >
       <CustomerHeader
         :customerName="configStoreData.mainName"
         pageTitle="E2E Dashboard"
         :imagePath="configStoreData.logo"
       />
-      <ExportButton buttonText="Export as JPG" />
+      <ExportButton buttonText="Export as JPG" class="ml-auto" />
     </div>
-    <div class="flex gap-6 w-full">
+    <div class="flex flex-col md:flex-row gap-6 w-full">
       <!-- OS Übersicht -->
       <div
-        class="p-6 border_medium f_neutral_80 min-h-[45rem] h-fit flex flex-col gap-6 top-24 sticky"
+        class="p-6 border_medium f_neutral_80 md:min-h-[45rem] h-fit flex flex-col gap-6 top-24 md:sticky"
         :class="{ 'w-[16.5rem]': !breakpoint.mobile }"
       >
         <Heading-2 titleText="Testfallvergleich" class="h-10" />
@@ -48,12 +53,15 @@
         </div>
       </div>
 
-      <div class="grid min-[1920px]:grid-cols-[59.45%_auto] gap-6 w-full">
+      <div
+        class="flex flex-col sm:grid min-[1920px]:grid-cols-[59.45%_auto] gap-6 w-full"
+      >
         <!-- Charts: Vergleich und Quote -->
         <div
-          class="flex flex-col gap-6"
+          class="flex flex-col gap-6 overflow-hidden"
           :class="{
-            'min-w-[51.75rem]': !breakpoint.mobile,
+            'min-w-[51.75rem]':
+              !breakpoint.mobile && breakpoint.viewport !== 'lg',
           }"
         >
           <div
@@ -109,7 +117,7 @@
             </div>
           </div>
           <div
-            class="p-6 border_medium f_neutral_80 flex flex-col gap-6 min-h-[18.25rem]"
+            class="p-6 border_medium f_neutral_80 sm:flex flex-col gap-6 min-h-[18.25rem] hidden"
           >
             <Heading-2
               titleText="Zeitlicher Verlauf der Erfolgsquote"
@@ -133,7 +141,7 @@
                   }}</span>
                 </div>
                 <div
-                  class="relative flex items-center justify-center"
+                  class="flex items-center justify-center min-w-[10rem] grow"
                   :class="{
                     'h-[9.75rem]': dashboards.length === 1,
                     'h-[4.125rem]': dashboards.length === 2,
@@ -184,7 +192,7 @@
           :class="{ 'min-w-[33.75rem]': !breakpoint.mobile }"
         >
           <Heading-2 titleText="Ticker" />
-          <div class="overflow-y-scroll">
+          <div class="overflow-y-scroll grow">
             <div
               class="basic_white border_small px-4 py-3 flex flex-col items-start gap-3 overflow-hidden mr-6"
             >
@@ -193,7 +201,7 @@
                 :key="index"
                 :result="result"
                 :dashboards="dashboards"
-                class=""
+                class="flex-grow"
               />
             </div>
           </div>
@@ -290,7 +298,7 @@ outerLoop: for (const dashboard of dashboards) {
 
 <style scoped>
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 0.4375rem;
   background-color: rgba(0, 0, 0, 0);
   -webkit-appearance: none;
 }
@@ -303,5 +311,11 @@ outerLoop: for (const dashboard of dashboards) {
 ::-webkit-scrollbar-track {
   background-color: #cbd0d4;
   border-radius: 0.75rem;
+}
+
+/* For Firefox and other browsers that support the standard */
+::-webkit-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #fcfcfc #cbd0d4 !important;
 }
 </style>

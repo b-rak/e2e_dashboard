@@ -7,7 +7,15 @@
     />
     <div class="flex flex-col items-start justify-between">
       <div class="flex items-center gap-4">
-        <p class="display_semibold_48">{{ pageTitle }}</p>
+        <p
+          :class="[
+            breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+              ? 'display_semibold_28'
+              : 'display_semibold_48',
+          ]"
+        >
+          {{ pageTitle }}
+        </p>
         <font-awesome-icon
           :icon="{ prefix: 'far', iconName: 'circle-info' }"
           class="fa-xl cursor-pointer f_text_neutral_900"
@@ -24,4 +32,6 @@ const props = defineProps<{
   pageTitle: string;
   imagePath: string;
 }>();
+
+const breakpoint = useBreakpoint().breakpoints;
 </script>

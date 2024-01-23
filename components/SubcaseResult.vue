@@ -3,8 +3,18 @@
     class="flex items-center gap-8 py-4 px-3 w-full"
     :class="[!status ? 'bg_light' : 'bg-[#f3f5f6]']"
   >
-    <div class="w-[4.5rem] text-center"></div>
-    <div class="flex items-center justify-center w-[3.988rem] min-w-[3.988rem]">
+    <div
+      v-if="!breakpoint.mobile && breakpoint.viewport !== 'lg'"
+      class="w-[4.5rem] text-center"
+    ></div>
+    <div
+      class="flex items-center justify-center"
+      :class="
+        breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
+          ? 'w-[2.5rem] min-w-[2.5rem]'
+          : 'w-[3.988rem] min-w-[3.988rem]'
+      "
+    >
       <ClientOnly>
         <div
           class="border_xsmall p-2 w-6 h-6"
@@ -12,47 +22,94 @@
         ></div>
       </ClientOnly>
     </div>
+
     <div
-      class="h3_medium_18 w-[20.6875rem] grow flex gap-9"
-      :class="[!status ? '' : 'f_text_neutral_400']"
+      class="flex flex-col gap-2"
+      :class="{
+        grow: breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm',
+      }"
     >
-      <span class="text_regular_16 w-[7rem]">{{ dateAndTime.date }}</span>
-      <span class="text_regular_16">{{ dateAndTime.time }}</span>
-    </div>
-    <div class="w-[45rem] grow flex justify-between items-start gap-6">
       <div
+        class="h3_medium_18 flex"
+        :class="{
+          f_text_neutral_400: status,
+          'w-[20.6875rem]': !breakpoint.mobile && breakpoint.viewport !== 'lg',
+          'gap-2': breakpoint.viewport === 'xs',
+          'gap-9': breakpoint.viewport !== 'xs',
+        }"
+      >
+        <span
+          class="text_regular_16"
+          :class="{ 'w-[7rem]': breakpoint.viewport !== 'xs' }"
+          >{{ dateAndTime.date }}</span
+        >
+        <span class="text_regular_16">{{ dateAndTime.time }}</span>
+      </div>
+      <div
+        v-if="breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'"
+        class="text_regular_16 line-clamp-2"
+        :class="{
+          f_text_neutral_400: status,
+        }"
+      >
+        {{ stepResult.parameter }}
+      </div>
+    </div>
+
+    <div
+      class="flex justify-between items-start gap-6"
+      :class="{
+        'w-[45rem] grow':
+          breakpoint.viewport !== 'xs' && breakpoint.viewport !== 'sm',
+      }"
+    >
+      <div
+        v-if="breakpoint.viewport !== 'xs' && breakpoint.viewport !== 'sm'"
         class="text_regular_16"
-        :class="[!status ? '' : 'f_text_neutral_400']"
+        :class="{ f_text_neutral_400: status }"
       >
         {{ stepResult.parameter }}
       </div>
       <ToggleButton
-        class="min-w-[8.5rem]"
+        :class="[
+          breakpoint.viewport !== 'xs'
+            ? 'min-w-[8.5rem]'
+            : 'flex-col text-center',
+        ]"
         text="Mark false"
         :value="status"
         @toggle-status="updateFalsePositive"
       />
     </div>
     <div
-      class="w-fit pl-[6.125rem] pr-5 py-2 flex items-center gap-[2.25rem] justify-end"
+      class="w-fit pr-3 py-2 flex items-center gap-8 justify-end relative"
+      :class="[breakpoint.mobile ? 'pl-3' : 'pl-[6.125rem]']"
     >
-      <IconButton
-        iconName="image"
-        type="far"
-        :active="!status"
-        @click="!status && useOpenInNewTab(stepResult.screenshot)"
-      />
-      <IconButton
-        iconName="circle-play"
-        type="far"
-        :active="!status"
-        @click="!status && useOpenInNewTab(stepResult.video)"
-      />
-      <IconButton
-        iconName="file"
-        type="fas"
-        :active="!status"
-        @click="!status && useOpenInNewTab(stepResult.randomToken)"
+      <template v-if="!breakpoint.mobile">
+        <IconButton
+          iconName="image"
+          type="far"
+          :active="!status"
+          @click="!status && useOpenInNewTab(stepResult.screenshot)"
+        />
+        <IconButton
+          iconName="circle-play"
+          type="far"
+          :active="!status"
+          @click="!status && useOpenInNewTab(stepResult.video)"
+        />
+        <IconButton
+          iconName="file"
+          type="fas"
+          :active="!status"
+          @click="!status && useOpenInNewTab(stepResult.randomToken)"
+        />
+      </template>
+      <DreiPunkteMenue
+        v-else
+        :screenshot="stepResult.screenshot"
+        :video="stepResult.video"
+        :logfile="stepResult.randomToken"
       />
     </div>
   </div>
@@ -62,10 +119,11 @@
 const props = defineProps<{
   stepResult: StepResult;
 }>();
-const route = useRoute();
 
 // get Result Date and Time
 const dateAndTime = useDateAndTime(props.stepResult.createdDate);
+
+const breakpoint = useBreakpoint().breakpoints;
 
 // set Colors depending on result
 const color = ref("");

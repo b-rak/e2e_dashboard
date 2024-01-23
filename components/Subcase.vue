@@ -1,14 +1,16 @@
 <template>
   <div class="w-full">
     <div
-      class="flex items-center gap-8 py-4 px-3 border-b border-solid f_border_neutral_90 w-full"
-      :class="[selected ? 'f_neutral_700' : '']"
+      class="flex items-center gap-6 py-4 px-3 border-b border-solid f_border_neutral_90 w-full"
+      :class="[
+        { f_neutral_700: selected, 'justify-between': breakpoint.mobile },
+      ]"
     >
       <div
-        class="flex gap-8 py-4 items-center cursor-pointer"
+        class="flex gap-6 py-4 items-center cursor-pointer"
         @click.prevent="toggleRotate"
       >
-        <div class="w-[3.5rem] text-center">
+        <div class="pl-1 sm:pl-0 sm:w-[3.5rem] text-center">
           <font-awesome-icon
             :icon="{ prefix: 'far', iconName: 'angle-right' }"
             class="h-8 cursor-pointer text-[2rem] f_text_neutral_500 transition-[transform] duration-100 ease-linear"
@@ -17,45 +19,53 @@
         </div>
         <ResultIndicator
           :result="currentResult.result"
-          class="pl-2 pr-[0.375rem] w-16"
+          class="pl-2 pr-[0.375rem]"
         />
         <div
-          class="h3_medium_18 w-[20.6875rem] grow"
+          class="h3_medium_18 grow shrink"
           :class="[selected ? 'basic_text_white' : '']"
         >
           {{ stepData.readableName }}
-          <div class="flex gap-9">
-            <span class="text_regular_16 w-[7rem]">{{ dateAndTime.date }}</span>
+          <div class="flex gap-2 sm:gap-9">
+            <span class="text_regular_16 sm:w-[7rem]">{{
+              dateAndTime.date
+            }}</span>
             <span class="text_regular_16">{{ dateAndTime.time }}</span>
           </div>
         </div>
       </div>
       <div
-        class="w-[45rem] grow relative h-[3rem]"
+        class="min-w-[10rem] grow relative h-[3rem] mx-3"
         :class="[breakpoint.mobile ? 'hidden' : '']"
       >
         <canvas :id="'runtime-' + id" class="border_xsmall"></canvas>
       </div>
-      <div
-        class="w-fit pl-[6.125rem] pr-5 py-2 flex items-center grow gap-[2.25rem] justify-end"
-      >
-        <IconButton
-          iconName="image"
-          type="far"
-          active="true"
-          @click="useOpenInNewTab(currentResult.screenshot)"
-        />
-        <IconButton
-          iconName="circle-play"
-          type="far"
-          active="true"
-          @click="useOpenInNewTab(currentResult.video)"
-        />
-        <IconButton
-          iconName="file"
-          type="fas"
-          active="true"
-          @click="useOpenInNewTab(currentResult.randomToken)"
+      <div class="px-3 py-2 flex items-center gap-8 justify-end relative">
+        <template v-if="!breakpoint.mobile">
+          <IconButton
+            iconName="image"
+            type="far"
+            :active="true"
+            @click="useOpenInNewTab(currentResult.screenshot)"
+          />
+          <IconButton
+            iconName="circle-play"
+            type="far"
+            :active="true"
+            @click="useOpenInNewTab(currentResult.video)"
+          />
+          <IconButton
+            iconName="file"
+            type="fas"
+            :active="true"
+            @click="useOpenInNewTab(currentResult.randomToken)"
+          />
+        </template>
+        <DreiPunkteMenue
+          v-else
+          :screenshot="currentResult.screenshot"
+          :video="currentResult.video"
+          :logfile="currentResult.randomToken"
         />
       </div>
     </div>

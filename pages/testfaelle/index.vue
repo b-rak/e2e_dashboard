@@ -48,11 +48,11 @@
       <!-- Bottom Row -->
       <div
         id="bottom-row"
-        class="flex justify-center items-center w-full mt-6 px-[8.5rem]"
+        class="flex items-center w-full mt-6 min-[500px]:justify-center"
         :class="[
           breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
-            ? 'gap-x-2'
-            : 'gap-x-8',
+            ? 'gap-x-2 px-6 overflow-x-scroll overflow-y-hidden'
+            : 'gap-x-8 px-[8.5rem]',
         ]"
       >
         <GesamtKachel
@@ -95,11 +95,12 @@
 </template>
 
 <script lang="ts" setup>
-const dashboardData = await useDashboards();
 const dashboardsRatio = await useTwoLatestCaseResult();
 const breakpoint = useBreakpoint().breakpoints;
 
 const configStoreData = useConfigStore().configData as ConfigData;
+const dashboardCaseData = useDashboardCasesStore().dashboardCasesData;
+console.log("Dashboard DATA", dashboardCaseData);
 
 type DashboardConfig = {
   id: number;
@@ -110,13 +111,13 @@ type DashboardConfig = {
   selected: Ref<boolean>;
 };
 const configs: DashboardConfig[] = [];
-for (let [index, value] of dashboardData.entries()) {
+for (let [index, value] of configStoreData.dashboards.entries()) {
   configs.push({
     id: index + 1,
     dashboardId: value.id,
     iconName: useIcon(value.name, value.icon),
     os_name: value.name,
-    numberOfCases: (await useCases(value.id)).length,
+    numberOfCases: value.numberOfCases,
     selected: ref(false),
   });
 }

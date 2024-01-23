@@ -1,17 +1,18 @@
 <template>
   <div
     :id="`os-${props.config.id}`"
-    class="border_small shadow_light_3 flex flex-col justify-between hover:scale-[1.05]"
+    class="border_small shadow_light_3 flex flex-col hover:scale-[1.05] self-stretch"
     :class="[
       !selected ? 'basic_white' : 'f_neutral_900',
+      breakpoint.mobile ? 'justify-center' : 'justify-between',
       {
-        'px-2 pt-2':
+        'px-2 py-2 min-w-[9rem] max-w-[9rem]':
           breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm',
-        'px-6 pt-[1.375rem]': breakpoint.viewport === 'md',
-        'w-[22.188rem] h-[9.6875rem] px-6 pt-[1.375rem]':
-          !breakpoint.mobile && breakpoint.viewport !== 'lg',
+        'px-6 py-[1.375rem] w-[15rem]': breakpoint.viewport === 'md',
         'w-[17.75rem] h-[9.6875rem] px-4 pt-[1.375rem]':
           breakpoint.viewport === 'lg',
+        'w-[22.188rem] h-[9.6875rem] px-6 pt-[1.375rem]':
+          !breakpoint.mobile && breakpoint.viewport !== 'lg',
       },
     ]"
     @click="toggleDisplay"
@@ -21,7 +22,7 @@
       :class="[{ 'flex-col': breakpoint.mobile }]"
     >
       <div
-        class="flex items-center"
+        class="flex items-center justify-center"
         :class="[
           !selected ? 'f_text_neutral_900' : 'basic_text_white',
           breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
@@ -34,7 +35,7 @@
           :iconWidth="useRem() * 1.5 + ''"
           :iconHeight="useRem() * 1.5 + ''"
         />
-        <span class="h3_bold_18 !leading-6">
+        <span class="h3_bold_18 !leading-6 text-center">
           {{ props.config.os_name }}
         </span>
       </div>
@@ -52,15 +53,15 @@
       </div>
     </div>
     <div
-      class="h-[4.8125rem] flex items-end gap-6"
+      class="h-[4.8125rem] flex items-end justify-between"
       :class="[{ hidden: breakpoint.mobile }]"
     >
       <div
         class="text-center flex items-end"
         :class="{
-          'w-[10.313rem] h-[4.8125rem]':
+          'w-[10.313rem] h-[4.8125rem] gap-6':
             !breakpoint.mobile && breakpoint.viewport !== 'lg',
-          'w-32 h-[3.9rem]': breakpoint.viewport === 'lg',
+          'w-[10.313rem] h-[3.9rem]': breakpoint.viewport === 'lg',
         }"
       >
         <canvas :id="'chart-' + props.config.id"></canvas>
@@ -69,6 +70,7 @@
         :selected="selected"
         :dashboardId="props.config.dashboardId"
         :latestTwoCaseResults="ratios"
+        :class="{ '!px-0': breakpoint.viewport === 'lg' }"
       />
     </div>
   </div>

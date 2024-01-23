@@ -2,7 +2,11 @@
   <div class="f_neutral_80 border_medium flex flex-col gap-8 px-6 py-8">
     <div class="flex justify-between items-center">
       <div class="f_text_neutral_900 flex items-center gap-6">
-        <GroupIcon :name="iconName" iconWidth="2rem" iconHeight="2rem" />
+        <GroupIcon
+          :name="iconName"
+          :iconWidth="useRem() * 2 + ''"
+          :iconHeight="useRem() * 2 + ''"
+        />
         <span class="h2_bold_28">
           {{ name }}
         </span>

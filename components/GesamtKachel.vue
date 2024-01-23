@@ -1,13 +1,12 @@
 <template>
   <div
     id="os-all"
-    class="border_small shadow_light_3 basic_white flex flex-col items-center justify-center gap-6"
+    class="border_small shadow_light_3 basic_white flex flex-col items-center justify-center gap-6 self-stretch"
     :class="[
       displayAll ? 'f_neutral_900' : 'basic_white shadow_light_3',
       breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
         ? 'px-2 py-2'
         : 'px-6 py-[1.375rem]',
-      { 'h-[7.5rem]': breakpoint.viewport === 'md' },
       { 'h-[9.6875rem]': !breakpoint.mobile },
     ]"
     @click="selectAll"

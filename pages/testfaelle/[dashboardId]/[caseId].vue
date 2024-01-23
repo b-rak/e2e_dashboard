@@ -78,8 +78,7 @@
             </select>
           </div>
           <div
-            style="position: relative; width: 17.125rem; height: 136px"
-            class="flex justify-center items-center"
+            class="flex justify-center items-center relative w-[17.125rem] h-[8.5rem]"
           >
             <canvas v-if="!errorData" id="doughnut"></canvas>
             <span v-else class="text_regular_16">Error loading data...</span>
@@ -134,7 +133,7 @@
         <div
           class="flex gap-8 py-3 px-3 border-b border-solid f_border_neutral_80 w-full"
         >
-          <div class="w-[4.5rem] basic_white"></div>
+          <div class="w-[1rem] sm:w-[3rem] basic_white shrink-0"></div>
           <div class="text_regular_16 f_text_neutral_900 pr-[1.25rem]">
             Status
           </div>
@@ -148,7 +147,8 @@
             Runtime
           </div>
           <div
-            class="text_regular_16 f_text_neutral_900 pl-[6.125rem] mr-[8.625rem] sm"
+            class="text_regular_16 f_text_neutral_900 ml-auto"
+            :class="[breakpoint.mobile ? 'mr-3' : 'mr-[8.625rem]']"
           >
             Attachment
           </div>
@@ -190,10 +190,18 @@ const breakpoint = useBreakpoint().breakpoints;
 const errorData = ref(false);
 
 onMounted(() => {
+  let number: number;
+  if (breakpoint.viewport === "sm" || breakpoint.viewport === "xs") {
+    number = 45;
+  } else if (breakpoint.viewport === "md") {
+    number = 65;
+  } else {
+    number = 85;
+  }
   setTimeout(async () => {
     const results = await useStepsRatio({
       caseId: Number(caseId),
-      limit: 85,
+      limit: number,
     });
     useBarChart(
       "details",
