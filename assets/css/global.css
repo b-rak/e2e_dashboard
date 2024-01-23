@@ -69,6 +69,15 @@ html {
   font-style: normal;
 }
 
+.display_semibold_28 {
+  font-size: 2rem;
+  line-height: 2.25rem;
+  letter-spacing: 0rem;
+  font-family: "Lora", serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
 /** Heading */
 .h2_bold_28 {
   font-size: 1.75rem;
