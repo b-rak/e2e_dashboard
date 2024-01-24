@@ -1,16 +1,22 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "lib": ["ESNext", "ESNext.AsyncIterable", "DOM", "es5", "es6", "dom.iterable"],
+    "target": "es2022",
+    "module": "es2022",
+    "lib": [
+      "ESNext",
+      "ESNext.AsyncIterable",
+      "DOM",
+      "es5",
+      "es6",
+      "dom.iterable"
+    ],
     "outDir": "dist",
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "extends": "./.nuxt/tsconfig.json"
+  "exclude": ["node_modules"],
+  "extends": "./.nuxt/tsconfig.json",
+  "include": [".nuxt/nuxt.d.ts", "./**/*", "."]
 }

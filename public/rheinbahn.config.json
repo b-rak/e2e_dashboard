@@ -1,0 +1,44 @@
+{
+  "mainName": "Rheinbahn",
+  "logo": "/logos/rheinbahn.png",
+  "cases": [
+    {
+      "name": "Login",
+      "icon": "?",
+      "color": "?",
+      "casetype": ""
+    }
+  ],
+  "numberOfCases": 9,
+  "dashboards": [
+    {
+      "name": "Rheinbahn",
+      "id": 19,
+      "numberOfCases": 6,
+      "icon": "/logos/rheinbahn.png",
+      "cases": [
+        "Login",
+        "Liniennetz",
+        "Fahrplanauskunft",
+        "Live Daten",
+        "Meine Tickets",
+        "Pushbenachrichtigung"
+      ]
+    },
+    {
+      "name": "HandyTicket Deutschland",
+      "id": 20,
+      "numberOfCases": 1,
+      "icon": "/logos/rheinbahn.png",
+      "cases": ["Abo Mobile"]
+    },
+    {
+      "name": "Mobile Web",
+      "id": 21,
+      "numberOfCases": 2,
+      "icon": "/logos/rheinbahn.png",
+      "cases": ["Web Shop", "Abo Online"]
+    }
+  ],
+  "mainFiles": "https://d2hwf9qphmsjfe.cloudfront.net/"
+}
