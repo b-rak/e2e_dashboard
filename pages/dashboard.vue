@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-6">
     <div
-      class="mt-10 px-6 py-8 border_medium f_neutral_80 flex"
+      class="px-6 py-8 border_medium f_neutral_80 flex"
       :class="[
         breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
           ? 'flex-col gap-y-4'

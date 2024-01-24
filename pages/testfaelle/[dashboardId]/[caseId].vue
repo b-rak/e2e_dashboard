@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-8 pt-9 pb-[7.5rem] bg_light">
+  <div class="flex flex-col gap-8">
     <!-- 1. Breadcrumb -->
     <div
       class="flex items-center gap-6 text_regular_16 f_text_neutral_400 cursor-pointer"

@@ -7,10 +7,13 @@
           (path === '/login' || path === '/passwort-zuruecksetzen') &&
           !breakpoint.mobile,
       },
+      { 'overflow-y-hidden': menuOpen },
     ]"
   >
     <Navigation
       v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
+      @toggle-menu="(open: boolean) => menu(open)"
+      :openMenu="menuOpen"
     />
     <a v-else href="/" class="h-[5rem] ml-[4%] flex items-center">
       <img
@@ -21,11 +24,14 @@
     </a>
 
     <main
-      class="flex-grow"
+      class="flex-grow bg_light py-10"
       :class="[
         {
-          'bg_light mt-20 pb-10':
-            path !== '/login' && path !== '/passwort-zuruecksetzen',
+          'mt-20':
+            breakpoint.viewport !== 'xs' &&
+            breakpoint.viewport !== 'sm' &&
+            path !== '/login' &&
+            path !== '/passwort-zuruecksetzen',
         },
         { 'px-[6.25%]': !breakpoint.mobile },
         {
@@ -33,6 +39,10 @@
             breakpoint.mobile &&
             path !== '/login' &&
             path !== '/passwort-zuruecksetzen',
+        },
+        {
+          'filter blur-[5px] brightness-[0.7] select-none pointer-events-none':
+            menuOpen,
         },
       ]"
     >
@@ -42,7 +52,13 @@
     <Footer
       v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
       class="min-[1920px]:px-[6.25%]"
-      :class="[breakpoint.mobile ? 'px-[4%]' : 'px-[6.25%]']"
+      :class="[
+        breakpoint.mobile ? 'px-[4%]' : 'px-[6.25%]',
+        {
+          'filter blur-[5px] brightness-[0.7] select-none pointer-events-none':
+            menuOpen,
+        },
+      ]"
     />
     <div
       v-else
@@ -77,6 +93,29 @@ window.addEventListener("resize", () => {
   // We execute the same script as before
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty("--vh", `${vh}px`);
+});
+
+// mobile menu
+const menuOpen = ref(false);
+const menu = (open: boolean) => {
+  menuOpen.value = open;
+};
+
+window.addEventListener("click", (event) => {
+  const menuElement = document.getElementById("menu") as HTMLElement;
+  const hamburgerElement = document.getElementById(
+    "hamburger-button"
+  ) as HTMLElement;
+  const closeElement = document.getElementById("x-button") as HTMLElement;
+  console.log(menuElement);
+
+  if (
+    !menuElement.contains(event.target as Node) &&
+    !hamburgerElement.contains(event.target as Node) &&
+    !closeElement.contains(event.target as Node)
+  ) {
+    menuOpen.value = false;
+  }
 });
 </script>
 
