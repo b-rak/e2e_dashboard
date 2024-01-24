@@ -45,11 +45,7 @@ onMounted(() => {
   setTimeout(async () => {
     if (props.lastResults) {
       result.value = useResultStatus(props.lastResults[0]);
-      useBarChartTEST(
-        props.groupName + String(props.id),
-        props.lastResults,
-        false
-      );
+      useBarChart(props.groupName + String(props.id), props.lastResults, false);
       errorData.value = false;
     } else {
       errorData.value = true;
