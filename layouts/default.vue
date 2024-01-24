@@ -44,6 +44,11 @@
           'filter blur-[5px] brightness-[0.7] select-none pointer-events-none':
             menuOpen,
         },
+        {
+          '!bg-transparent':
+            !breakpoint.mobile &&
+            (path === '/login' || path === '/passwort-zuruecksetzen'),
+        },
       ]"
     >
       <!-- This is where the content of each page will go -->
