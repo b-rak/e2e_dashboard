@@ -39,11 +39,13 @@
 </template>
 
 <script lang="ts" setup>
+const route = useRoute();
+
 const errorMessage = ref("");
 const errorMessagePw = ref("");
 const loginError = ref(false);
 
-const login = () => {
+const login = async () => {
   // get entered values
   const emailElement: HTMLInputElement = document.getElementById(
     "e-mail"
@@ -75,25 +77,45 @@ const login = () => {
     errorMessagePw.value = "";
   }
 
-  //
+  // send login request
   if (errorMessage.value === "" && errorMessagePw.value === "") {
-    checkUser(email, password);
-  }
-};
+    try {
+      const jwt = await useAuthenticate(email, password);
+      const jwtCookie = useCookie<JWT>("jwt");
+      jwtCookie.value = jwt;
+      const jwtStore = useJwtStore();
+      await jwtStore.saveJWTData(jwtCookie.value); // store jwt data in cookies during this method?
 
-const route = useRoute();
-// actual login method, TODO: replace with connection to backend; move somewhere else?
-const checkUser = async (email: string, password: string) => {
-  if (email === "monitoring@appmatics.de" && password === "Test123!") {
-    let redirectTo = `${window.location.origin}`;
-    if (route.redirectedFrom?.fullPath) {
-      redirectTo = `${window.location.origin}${route.redirectedFrom?.fullPath}`;
+      loginError.value = false;
+    } catch (e: any) {
+      console.log("Login Error");
+      if (isNuxtError(e)) {
+        console.log("Login NUXTError");
+        if (e.statusCode === 500) {
+          throw createError({
+            statusCode: e.statusCode,
+            statusMessage: e.message,
+            fatal: true,
+          });
+        } else if (e.statusCode === 403) {
+          throw createError({
+            statusCode: e.statusCode,
+            statusMessage: "Unauthorized!",
+            fatal: true,
+          });
+        } else if (e.statusCode === 401) {
+          loginError.value = true;
+        }
+      }
     }
-    loginError.value = false;
-    sessionStorage.setItem("userLoggedIn", "true");
-    await navigateTo(redirectTo, { replace: false, external: true });
-  } else {
-    loginError.value = true;
+
+    if (!loginError.value) {
+      let redirectTo = `${window.location.origin}`;
+      if (route.redirectedFrom?.fullPath) {
+        redirectTo = `${window.location.origin}${route.redirectedFrom?.fullPath}`;
+      }
+      await navigateTo(redirectTo, { replace: false, external: true });
+    }
   }
 };
 
