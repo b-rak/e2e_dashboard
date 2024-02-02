@@ -31,14 +31,10 @@
         <NavigationLink to="/support" id="support" text="Support" />
         <NavigationLink to="/faq" id="faq" text="FAQ" />
       </div>
-      <a href="/login" id="profile">
-        <img
-          src="~/assets/images/profilicon.png"
-          alt="Profil-Icon"
-          id="profile-icon"
-          class="cursor-pointer h-10 w-10"
-        />
-      </a>
+      <ProfileIcon
+        :openProfileMenu="openProfileMenu"
+        @toggle-profile-menu="(open) => toggleProfileMenu(open)"
+      />
     </div>
   </div>
   <div v-else>
@@ -74,21 +70,14 @@
           class="cursor-pointer h-6 w-[8.75rem]"
         />
       </a>
-      <a
-        href="/login"
-        id="profile"
+      <ProfileIcon
+        :openProfileMenu="openProfileMenu"
+        @toggle-profile-menu="(open) => toggleProfileMenu(open)"
         :class="{
           'filter blur-[5px] brightness-[0.7] select-none pointer-events-none':
             openMenu,
         }"
-      >
-        <img
-          src="~/assets/images/profilicon.png"
-          alt="Profil-Icon"
-          id="profile-icon"
-          class="cursor-pointer h-10 w-10"
-        />
-      </a>
+      />
     </div>
     <div
       class="fixed z-[10] top-0 left-0 md:hidden flex flex-col gap-4 p-6 pt-16 bg-[#eeeeee] transform transition-all duration-[250ms] ease-[cubic-bezier(0.645,0.045,0.355,1)]"
@@ -110,6 +99,7 @@
 <script lang="ts" setup>
 const props = defineProps<{
   openMenu: boolean;
+  openProfileMenu: boolean;
 }>();
 
 const routes = [
@@ -136,17 +126,11 @@ const routes = [
 ];
 
 const breakpoint = useBreakpoint().breakpoints;
-
-const emit = defineEmits(["toggleMenu"]);
+const emit = defineEmits(["toggleMenu", "toggleProfileMenu"]);
 const toggleMenu = () => {
   emit("toggleMenu", !props.openMenu);
 };
+const toggleProfileMenu = (open: boolean) => {
+  emit("toggleProfileMenu", open);
+};
 </script>
-
-<style scoped>
-/**
-:global(#nav a:not([id]).selected) {
-  color: #303436;
-  font-weight: 700;
-} */
-</style>

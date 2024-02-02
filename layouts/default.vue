@@ -11,9 +11,11 @@
     ]"
   >
     <Navigation
-      v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
+      v-if="path !== '/login' && path !== '/passwort-zuruecksetzen' && loggedIn"
       @toggle-menu="(open: boolean) => menu(open)"
       :openMenu="menuOpen"
+      @toggle-profile-menu="(open: boolean) => profileMenu(open)"
+      :openProfileMenu="openProfileMenu"
     />
     <a v-else href="/" class="h-[5rem] ml-[4%] flex items-center">
       <img
@@ -31,7 +33,8 @@
             breakpoint.viewport !== 'xs' &&
             breakpoint.viewport !== 'sm' &&
             path !== '/login' &&
-            path !== '/passwort-zuruecksetzen',
+            path !== '/passwort-zuruecksetzen' &&
+            loggedIn,
         },
         { 'px-[6.25%]': !breakpoint.mobile },
         {
@@ -55,7 +58,7 @@
       <slot />
     </main>
     <Footer
-      v-if="path !== '/login' && path !== '/passwort-zuruecksetzen'"
+      v-if="path !== '/login' && path !== '/passwort-zuruecksetzen' && loggedIn"
       class="min-[1920px]:px-[6.25%]"
       :class="[
         breakpoint.mobile ? 'px-[4%]' : 'px-[6.25%]',
@@ -82,6 +85,8 @@ const route = useRoute();
 const path = ref(route.path);
 const breakpoint = useBreakpoint().breakpoints;
 
+const loggedIn = ref(localStorage.getItem("loggedIn") === "true");
+
 watch(
   () => route.path,
   () => {
@@ -107,6 +112,8 @@ const menu = (open: boolean) => {
 };
 
 window.addEventListener("click", (event) => {
+  if (!menuOpen.value) return;
+
   const menuElement = document.getElementById("menu") as HTMLElement;
   const hamburgerElement = document.getElementById(
     "hamburger-button"
@@ -120,6 +127,30 @@ window.addEventListener("click", (event) => {
     !closeElement.contains(event.target as Node)
   ) {
     menuOpen.value = false;
+  }
+});
+
+// profile menu
+const openProfileMenu = ref(false);
+const profileMenu = (open: boolean) => {
+  openProfileMenu.value = open;
+};
+
+window.addEventListener("click", (event) => {
+  if (!openProfileMenu.value) return;
+
+  const profileMenuElement = document.getElementById(
+    "profile-menu"
+  ) as HTMLElement;
+  const profileIconElement = document.getElementById(
+    "profile-icon"
+  ) as HTMLElement;
+
+  if (
+    !profileMenuElement.contains(event.target as Node) &&
+    !profileIconElement.contains(event.target as Node)
+  ) {
+    openProfileMenu.value = false;
   }
 });
 </script>
