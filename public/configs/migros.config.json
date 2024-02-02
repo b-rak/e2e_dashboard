@@ -1,0 +1,29 @@
+{
+  "mainName": "Migros",
+  "logo": "/logos/migros.png",
+  "numberOfCases": 7,
+  "dashboards": [
+    {
+      "name": "https://theke.migros.ch/de/",
+      "id": 19,
+      "numberOfCases": 3,
+      "icon": "/logos/migros.png",
+      "cases": ["Login", "Content", "Bestellung"]
+    },
+    {
+      "name": "https://weihnachten.migros.ch/de/",
+      "id": 20,
+      "numberOfCases": 3,
+      "icon": "/logos/migros.png",
+      "cases": ["ContentHub", "Traumbaum", "Glücksrad"]
+    },
+    {
+      "name": "https://supportculture.migros.ch/de/",
+      "id": 21,
+      "numberOfCases": 1,
+      "icon": "/logos/migros.png",
+      "cases": ["Registrierung Kulturverein"]
+    }
+  ],
+  "mainFiles": "https://d2hwf9qphmsjfe.cloudfront.net/"
+}

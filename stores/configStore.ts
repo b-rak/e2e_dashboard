@@ -8,7 +8,7 @@ export const useConfigStore = defineStore("config", {
   actions: {
     async loadConfigFile(fileName: string) {
       try {
-        const res = await fetch(`${fileName}`);
+        const res = await fetch(`/configs/${fileName}`);
         console.log(res);
         const data = await res.clone().json();
         this.configData = data;

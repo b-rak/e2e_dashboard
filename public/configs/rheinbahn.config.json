@@ -1,14 +1,6 @@
 {
   "mainName": "Rheinbahn",
   "logo": "/logos/rheinbahn.png",
-  "cases": [
-    {
-      "name": "Login",
-      "icon": "?",
-      "color": "?",
-      "casetype": ""
-    }
-  ],
   "numberOfCases": 9,
   "dashboards": [
     {

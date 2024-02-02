@@ -1,0 +1,24 @@
+{
+  "mainName": "BVG",
+  "logo": "/logos/bvg.png",
+  "numberOfCases": 8,
+  "dashboards": [
+    {
+      "name": "iOS",
+      "id": 22,
+      "numberOfCases": 8,
+      "icon": "/logos/bvg.png",
+      "cases": [
+        "Datenänderung",
+        "Login",
+        "Meine Tickets",
+        "Netzplan",
+        "Registrierung",
+        "Störungsmeldung",
+        "Ticketkauf",
+        "Verbindungsauskunft"
+      ]
+    }
+  ],
+  "mainFiles": "https://d2hwf9qphmsjfe.cloudfront.net/"
+}
