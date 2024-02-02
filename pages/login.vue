@@ -52,4 +52,8 @@ const showEMailSent = (email: string) => {
 };
 
 const breakpoint = useBreakpoint().breakpoints;
+
+definePageMeta({
+  middleware: ["login"],
+});
 </script>

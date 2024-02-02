@@ -31,4 +31,8 @@ const showPasswordResetted = () => {
 };
 
 const breakpoint = useBreakpoint().breakpoints;
+
+definePageMeta({
+  middleware: ["login"],
+});
 </script>
