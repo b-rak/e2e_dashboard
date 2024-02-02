@@ -7,5 +7,5 @@ export default async (dashboardId?: number, caseId?: number) => {
     .join("&");
 
   const url = `/cases${queryParams ? `?${queryParams}` : ""}`;
-  return await useBaseFetch<Array<Case>>(url);
+  return await useSecureBaseFetch<Array<Case>>(url);
 };

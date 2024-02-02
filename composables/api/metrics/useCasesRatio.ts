@@ -15,5 +15,5 @@ export default async (
   const url = `/cases-ratios?from=${fromDate}&to=${toDate}${
     queryParams ? `&${queryParams}` : ""
   }`;
-  return await useBaseFetch<Array<CaseRatio>>(url);
+  return await useSecureBaseFetch<Array<CaseRatio>>(url);
 };

@@ -1,11 +1,14 @@
 export default async (stepResultId: number, falsePositive: number) => {
   const config = useRuntimeConfig();
+  const jwtStore = useJwtStore();
+  const bearerToken = jwtStore.jwtData?.jwt.access_token;
+
   const url = config.public.BASE_URL + `/stepresults/${stepResultId}`;
   console.log("URL", url);
   const res = await fetch(url, {
     method: "PATCH",
     headers: {
-      Authorization: "Basic YXBwbWF0aWNzOnBhc3N3b3Jk",
+      Authorization: "Bearer " + bearerToken,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({

@@ -6,5 +6,5 @@ export default async (dashboardId?: number) => {
     .join("&");
 
   const url = `/dashboards${queryParams ? `?${queryParams}` : ""}`;
-  return await useBaseFetch<Array<Dashboard>>(url);
+  return await useSecureBaseFetch<Array<Dashboard>>(url);
 };

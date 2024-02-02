@@ -14,7 +14,7 @@ export default async ({ dashboardId, caseId, limit }: FetchParameters = {}) => {
     .join("&");
 
   const url = `/steps-ratio${queryParams ? `?${queryParams}` : ""}`;
-  return await useBaseFetch<
+  return await useSecureBaseFetch<
     Array<{ caseId: number; results: Array<CasePassRate> }>
   >(url);
 };

@@ -27,5 +27,5 @@ export default async ({
     .join("&");
 
   const url = `/caseresults${queryParams ? `?${queryParams}` : ""}`;
-  return await useBaseFetch<Array<CaseResult>>(url);
+  return await useSecureBaseFetch<Array<CaseResult>>(url);
 };

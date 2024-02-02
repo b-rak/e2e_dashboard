@@ -4,5 +4,5 @@ export default async (stepId: number, limit?: number) => {
     .join("&");
 
   const url = `/runtime/${stepId}${queryParams ? `?${queryParams}` : ""}`;
-  return await useBaseFetch<Array<Runtime>>(url);
+  return await useSecureBaseFetch<Array<Runtime>>(url);
 };

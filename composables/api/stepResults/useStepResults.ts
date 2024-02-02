@@ -30,5 +30,5 @@ export default async ({
     .join("&");
 
   const url = `/stepresults${queryParams ? `?${queryParams}` : ""}`;
-  return await useBaseFetch<Array<StepResult>>(url);
+  return await useSecureBaseFetch<Array<StepResult>>(url);
 };
