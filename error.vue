@@ -1,8 +1,8 @@
 <template>
   <NuxtLayout>
     <div class="flex flex-col items-center justify-center h-full gap-8">
-      <template v-if="error.statusCode === 404">
-        <h1 class="display_semibold_48">404</h1>
+      <template v-if="error.statusCode === 404 || error.statusCode === 403">
+        <h1 class="display_semibold_48">{{ error.statusCode }}</h1>
         <img
           src="/img/CatAndPortal.svg"
           alt="'Katze steht vor einem Portal'"
@@ -17,7 +17,7 @@
         <p class="text_regular_18">
           Zurück zum
           <a class="font-bold underline cursor-pointer" @click="handleError">
-            Dashboard
+            {{ loggedIn ? "Dashboard" : "Login" }}
           </a>
         </p>
       </template>
@@ -51,12 +51,22 @@
 </template>
 
 <script setup lang="ts">
+const router = useRouter();
+
+const loggedIn = localStorage.getItem("loggedIn") === "true";
+
 const error = useError();
 console.log("ERROR", error.value);
-const handleError = () => {
-  clearError({
-    redirect: "/dashboard",
-  });
+const handleError = async () => {
+  if (loggedIn) {
+    clearError({
+      redirect: "/dashboard",
+    });
+  } else {
+    console.log("not logged in, navigate to login");
+    await router.replace("/login");
+    await navigateTo("/login", { replace: true });
+  }
 };
 
 const refresh = () => {
