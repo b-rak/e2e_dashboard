@@ -213,8 +213,10 @@
 
 <script lang="ts" setup>
 const configStoreData = useConfigStore().configData as ConfigData;
-
+console.log("DASHBOARD START");
+console.log("DASHBOARD COOKIE", useCookie("accessToken").value);
 const dashboards = await useDashboards();
+
 const latestTwoCaseResults = await useTwoLatestCaseResult();
 const latestCaseResult = await useCasesResults({ sort: "createdDate,desc" });
 const currentDate = new Date();
@@ -242,8 +244,9 @@ const getTrendIcon = (trend: string) => {
 
 const breakpoint = useBreakpoint().breakpoints;
 definePageMeta({
-  middleware: ["auth"],
+  middleware: ["check-session"],
 });
+
 onMounted(() => {
   setTimeout(() => {
     for (const [index, dashboard] of dashboards.entries()) {

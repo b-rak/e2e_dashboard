@@ -2,6 +2,6 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  middleware: ["landing-page"],
+  middleware: ["check-session", "landing-page"],
 });
 </script>

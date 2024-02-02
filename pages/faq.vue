@@ -17,8 +17,11 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  middleware: ["auth"],
+  middleware: ["check-session"],
 });
+
+const jwtStore = useJwtStore();
+console.log("STORE LOG", jwtStore.jwtData);
 
 const showModal = ref(false);
 </script>

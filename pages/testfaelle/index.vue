@@ -62,7 +62,7 @@
           :ratios="dashboardsRatio"
           class="hover:scale-[1.05]"
         />
-        <OS-Kachel
+        <OSKachel
           v-for="config in configs"
           :key="config.id"
           :config="config"
@@ -82,7 +82,7 @@
       ]"
     >
       <template v-for="config in configs" :key="config">
-        <OS-Testcases
+        <OSTestcases
           v-if="config.selected.value || displayAll"
           :name="config.os_name"
           :iconName="config.iconName"
@@ -176,6 +176,6 @@ const navigate = (obj: any) => {
 };
 
 definePageMeta({
-  middleware: ["auth"],
+  middleware: ["check-session"],
 });
 </script>
