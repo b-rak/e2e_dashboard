@@ -1,7 +1,7 @@
 <template>
   <div
     :id="`os-${props.config.id}`"
-    class="border_small shadow_light_3 flex flex-col hover:scale-[1.05] self-stretch"
+    class="border_small shadow_light_2 md:shadow_light_3 flex flex-col hover:scale-[1.05] self-stretch"
     :class="[
       !selected ? 'basic_white' : 'f_neutral_900',
       breakpoint.mobile ? 'justify-center' : 'justify-between',

@@ -1,7 +1,7 @@
 <template>
   <div
     id="os-all"
-    class="border_small shadow_light_3 basic_white flex flex-col items-center justify-center gap-6 self-stretch"
+    class="border_small shadow_light_2 md:shadow_light_3 basic_white flex flex-col items-center justify-center gap-6 self-stretch"
     :class="[
       displayAll ? 'f_neutral_900' : 'basic_white shadow_light_3',
       breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
