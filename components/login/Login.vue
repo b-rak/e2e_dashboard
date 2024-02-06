@@ -80,15 +80,13 @@ const login = async () => {
   // send login request
   if (errorMessage.value === "" && errorMessagePw.value === "") {
     try {
-      const jwt = await useAuthenticate(email, password);
-      const jwtCookie = useCookie<JWT>("jwt");
-      jwtCookie.value = jwt;
-      const jwtStore = useJwtStore();
-      await jwtStore.saveJWTData(jwtCookie.value); // store jwt data in cookies during this method?
+      const { message } = await useAuthenticate(email, password);
+      console.log("MESSAGE", message);
 
       loginError.value = false;
     } catch (e: any) {
       console.log("Login Error");
+      console.log(e);
       if (isNuxtError(e)) {
         console.log("Login NUXTError");
         if (e.statusCode === 500) {

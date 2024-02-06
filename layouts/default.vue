@@ -84,8 +84,10 @@
 const route = useRoute();
 const path = ref(route.path);
 const breakpoint = useBreakpoint().breakpoints;
-
-const loggedIn = ref(localStorage.getItem("loggedIn") === "true");
+const user = await useFetch("/api/user", {
+  headers: useRequestHeaders(["cookie"]),
+});
+const loggedIn = user.data.value;
 
 watch(
   () => route.path,
