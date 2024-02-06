@@ -9,6 +9,13 @@ export const useDashboardCasesStore = defineStore("dashboardCases", {
     async getDashboardCases(customerName: string) {
       //TODO: depending on backend different customer?
       //superadmin: switching the project should update the store -> update function?
+      //try {
+      const backendPort = 8000;
+
+      /**
+       * if else customerName -> backendPort = port
+       */
+
       try {
         const dashboards = await useDashboards();
         const cases = await useCases();
@@ -22,17 +29,23 @@ export const useDashboardCasesStore = defineStore("dashboardCases", {
         }
         const obj = { dashboards: dashboards, cases: test };
         this.dashboardCasesData = obj;
-      } catch (error) {
-        console.error("Error loading config file:", error);
+      } catch (e: any) {
+        if (isNuxtError(e)) {
+          console.log("Login NUXTError");
+          throw createError({
+            statusCode: e.statusCode,
+            statusMessage: e.message,
+            fatal: true,
+          });
+        }
       }
+      //} catch (error: any) {
+      //  console.error("Error loading config file:", error);
+      //  throw createError({
+      //    statusCode: 403,
+      //    statusMessage: error.statusMessage,
+      //  });
+      //}
     },
   },
 });
-
-type staticDashboardCases = {
-  dashboards: Array<Dashboard>;
-  cases: Array<{
-    groupId: number;
-    caseList: Array<Case>;
-  }>;
-};
