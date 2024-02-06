@@ -1,2 +1,4 @@
 export default async () =>
-  await useSecureBaseFetch<Array<LatestCaseResult>>("/two-latest-case-result");
+  await useBaseFetch<Array<LatestCaseResult>>(
+    "/api/metrics/twoLatestCaseResult"
+  );

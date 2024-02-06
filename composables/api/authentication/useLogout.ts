@@ -1,3 +1,3 @@
 export default async () => {
-  await useBaseFetch<{}>("/api/v1/auth/logout");
+  await useBaseFetch<{}>("/api/authentication/logout");
 };

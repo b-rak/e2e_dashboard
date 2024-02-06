@@ -6,6 +6,8 @@ export default async (dashboardId?: number, caseId?: number) => {
     .filter(Boolean) // Remove empty strings
     .join("&");
 
-  const url = `/latest-case-results${queryParams ? `?${queryParams}` : ""}`;
-  return await useSecureBaseFetch<Array<CaseResult>>(url);
+  const url = `/api/metrics/latestCaseResults${
+    queryParams ? `?${queryParams}` : ""
+  }`;
+  return await useBaseFetch<Array<CaseResult>>(url);
 };

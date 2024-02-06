@@ -4,7 +4,7 @@ export default async (dashboardId?: number) => {
   ]
     .filter(Boolean) // Remove empty strings
     .join("&");
-
-  const url = `/dashboards${queryParams ? `?${queryParams}` : ""}`;
-  return await useSecureBaseFetch<Array<Dashboard>>(url);
+  return await useBaseFetch<Array<Dashboard>>(
+    `/api/dashboards/dashboards${queryParams ? `?${queryParams}` : ""}`
+  );
 };

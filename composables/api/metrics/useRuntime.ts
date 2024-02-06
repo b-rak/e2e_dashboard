@@ -3,6 +3,8 @@ export default async (stepId: number, limit?: number) => {
     .filter(Boolean) // Remove empty strings
     .join("&");
 
-  const url = `/runtime/${stepId}${queryParams ? `?${queryParams}` : ""}`;
-  return await useSecureBaseFetch<Array<Runtime>>(url);
+  const url = `/api/metrics/runtime?stepId=${stepId}${
+    queryParams ? `&${queryParams}` : ""
+  }`;
+  return await useBaseFetch<Array<Runtime>>(url);
 };

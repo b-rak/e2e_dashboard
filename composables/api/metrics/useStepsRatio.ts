@@ -13,8 +13,8 @@ export default async ({ dashboardId, caseId, limit }: FetchParameters = {}) => {
     .filter(Boolean) // Remove empty strings
     .join("&");
 
-  const url = `/steps-ratio${queryParams ? `?${queryParams}` : ""}`;
-  return await useSecureBaseFetch<
+  const url = `/api/metrics/stepsRatio${queryParams ? `?${queryParams}` : ""}`;
+  return await useBaseFetch<
     Array<{ caseId: number; results: Array<CasePassRate> }>
   >(url);
 };

@@ -11,6 +11,8 @@ export default async (
     .filter(Boolean) // Remove empty strings
     .join("&");
 
-  const url = `/latest-step-results${queryParams ? `?${queryParams}` : ""}`;
-  return await useSecureBaseFetch<Array<StepResult>>(url);
+  const url = `/api/metrics/latestStepResults${
+    queryParams ? `?${queryParams}` : ""
+  }`;
+  return await useBaseFetch<Array<StepResult>>(url);
 };

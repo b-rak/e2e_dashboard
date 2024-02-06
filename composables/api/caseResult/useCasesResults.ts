@@ -26,6 +26,8 @@ export default async ({
     .filter(Boolean) // Remove empty strings
     .join("&");
 
-  const url = `/caseresults${queryParams ? `?${queryParams}` : ""}`;
-  return await useSecureBaseFetch<Array<CaseResult>>(url);
+  const url = `/api/caseResult/caseresults${
+    queryParams ? `?${queryParams}` : ""
+  }`;
+  return await useBaseFetch<Array<CaseResult>>(url);
 };

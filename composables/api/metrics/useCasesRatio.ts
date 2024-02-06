@@ -12,8 +12,8 @@ export default async (
     .filter(Boolean) // Remove empty strings
     .join("&");
 
-  const url = `/cases-ratios?from=${fromDate}&to=${toDate}${
+  const url = `/api/metrics/casesRatio?from=${fromDate}&to=${toDate}${
     queryParams ? `&${queryParams}` : ""
   }`;
-  return await useSecureBaseFetch<Array<CaseRatio>>(url);
+  return await useBaseFetch<Array<CaseRatio>>(url);
 };

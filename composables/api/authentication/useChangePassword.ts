@@ -4,8 +4,7 @@ export default async (
   confirmationPassword: string
 ) => {
   const config = useRuntimeConfig();
-  const jwtStore = useJwtStore();
-  const bearerToken = jwtStore.jwtData?.jwt.access_token;
+  const bearerToken = "jwtStore.jwtData?.jwt.access_token";
 
   const url = config.public.BASE_URL + `/auth/change-password`;
 

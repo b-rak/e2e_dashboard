@@ -1,8 +1,8 @@
 export default async (email: string, password: string) => {
-  const url = `/auth/authenticate`;
+  const url = `/api/authentication/authenticate`;
   const body = {
     email: email,
     password: password,
   };
-  return await useBaseFetch<JWT>(url, body);
+  return await useBaseFetch<{ message: string }>(url, body);
 };
