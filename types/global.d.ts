@@ -156,9 +156,21 @@ declare global {
     mainFiles: string;
   };
 
+  type staticDashboardCases = {
+    dashboards: Array<Dashboard>;
+    cases: Array<{
+      groupId: number;
+      caseList: Array<Case>;
+    }>;
+  };
+
   // User Authentication
   type JWT = {
     access_token: string;
     refresh_token: string;
   };
+
+  interface QueryParams {
+    [key: string]: string | number | boolean;
+  }
 }
