@@ -45,7 +45,13 @@ const props = defineProps<{
   iconName: string;
   dashboardId: number;
 }>();
-const cases = await useCases(props.dashboardId);
+
+const dashboardCasesData = useDashboardCasesStore()
+  .dashboardCasesData as staticDashboardCases;
+
+const cases = dashboardCasesData.cases.find(
+  (caseObj) => caseObj.groupId === props.dashboardId
+).caseList;
 const numberOfCases = cases.length;
 
 const results = await useStepsRatio({

@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  middleware: ["check-session"],
+  middleware: ["auth"],
 });
 
 //1

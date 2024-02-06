@@ -213,9 +213,9 @@
 
 <script lang="ts" setup>
 const configStoreData = useConfigStore().configData as ConfigData;
-console.log("DASHBOARD START");
-console.log("DASHBOARD COOKIE", useCookie("accessToken").value);
-const dashboards = await useDashboards();
+const dashboardCasesData = useDashboardCasesStore()
+  .dashboardCasesData as staticDashboardCases;
+const dashboards = dashboardCasesData.dashboards;
 
 const latestTwoCaseResults = await useTwoLatestCaseResult();
 const latestCaseResult = await useCasesResults({ sort: "createdDate,desc" });
@@ -244,7 +244,7 @@ const getTrendIcon = (trend: string) => {
 
 const breakpoint = useBreakpoint().breakpoints;
 definePageMeta({
-  middleware: ["check-session"],
+  middleware: ["auth"],
 });
 
 onMounted(() => {

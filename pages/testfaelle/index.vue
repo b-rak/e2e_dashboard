@@ -99,8 +99,8 @@ const dashboardsRatio = await useTwoLatestCaseResult();
 const breakpoint = useBreakpoint().breakpoints;
 
 const configStoreData = useConfigStore().configData as ConfigData;
-const dashboardCaseData = useDashboardCasesStore().dashboardCasesData;
-console.log("Dashboard DATA", dashboardCaseData);
+const dashboardCasesData = useDashboardCasesStore()
+  .dashboardCasesData as staticDashboardCases;
 
 type DashboardConfig = {
   id: number;
@@ -176,6 +176,6 @@ const navigate = (obj: any) => {
 };
 
 definePageMeta({
-  middleware: ["check-session"],
+  middleware: ["auth"],
 });
 </script>

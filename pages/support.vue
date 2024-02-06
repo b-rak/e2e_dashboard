@@ -37,7 +37,7 @@ const config = {
 };
 const dashboardsRatio = await useTwoLatestCaseResult();
 definePageMeta({
-  middleware: ["check-session"],
+  middleware: ["auth"],
 });
 
 const breakpoint = useBreakpoint();

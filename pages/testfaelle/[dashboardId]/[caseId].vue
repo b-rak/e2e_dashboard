@@ -277,7 +277,7 @@ const drawChart = async (event: Event) => {
 };
 
 definePageMeta({
-  middleware: ["check-session", "details"],
+  middleware: ["auth", "details"],
 });
 </script>
 
