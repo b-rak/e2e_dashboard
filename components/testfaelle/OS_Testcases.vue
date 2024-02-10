@@ -24,7 +24,7 @@
       class="grid gap-x-[1.625rem] gap-y-6 justify-center"
       style="grid-template-columns: repeat(auto-fill, minmax(24.125rem, 1fr))"
     >
-      <Testcase-Kachel
+      <TestcaseKachel
         v-for="(testcase, index) in cases"
         :key="index"
         :id="index"
