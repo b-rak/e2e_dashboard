@@ -5,14 +5,12 @@
 </template>
 
 <script lang="ts" setup>
-console.log("APP START");
 const configStore = useConfigStore();
 const dashboardCasesStore = useDashboardCasesStore();
 
-const user = await useFetch("/api/user", { method: "GET" });
-
-if (user.data.value) {
-  const token = user.data.value.projectToken;
+const user = await useUser();
+if (user) {
+  const token = user.project;
   let configName = "";
   if (token === "ALL") {
     configName = "rheinbahn.config.json";

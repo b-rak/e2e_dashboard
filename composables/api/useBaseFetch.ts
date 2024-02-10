@@ -12,13 +12,10 @@ export default async <T>(url: string, body?: object) => {
   });
 
   if (error.value) {
-    console.error(error.value);
-    console.error(error.value.statusCode);
     throw createError({
       statusCode: error.value.statusCode,
       statusMessage: `Could not fetch data from ${url}.`,
     });
   }
-  console.log("RETURN DATA", data.value);
   return data.value as T;
 };

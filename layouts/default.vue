@@ -17,7 +17,7 @@
       @toggle-profile-menu="(open: boolean) => profileMenu(open)"
       :openProfileMenu="openProfileMenu"
     />
-    <a v-else href="/" class="h-[5rem] ml-[4%] flex items-center">
+    <a v-else href="/" class="h-[5rem] w-fit ml-[4%] flex items-center">
       <img
         class="cursor-pointer h-6 w-[8.75rem]"
         src="~/assets/images/logo-appmatics-2.png"
@@ -84,10 +84,8 @@
 const route = useRoute();
 const path = ref(route.path);
 const breakpoint = useBreakpoint().breakpoints;
-const user = await useFetch("/api/user", {
-  headers: useRequestHeaders(["cookie"]),
-});
-const loggedIn = user.data.value;
+const user = await useUser();
+const loggedIn = user !== null;
 
 watch(
   () => route.path,

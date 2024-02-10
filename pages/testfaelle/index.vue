@@ -51,7 +51,7 @@
         class="flex items-center w-full mt-6 min-[500px]:justify-center"
         :class="[
           breakpoint.viewport === 'xs' || breakpoint.viewport === 'sm'
-            ? 'gap-x-2 px-6 overflow-x-scroll overflow-y-hidden'
+            ? 'gap-x-2 px-6 pb-2 overflow-x-scroll overflow-y-hidden scroll-px-6'
             : 'gap-x-8 px-[8.5rem]',
         ]"
       >
@@ -99,8 +99,6 @@ const dashboardsRatio = await useTwoLatestCaseResult();
 const breakpoint = useBreakpoint().breakpoints;
 
 const configStoreData = useConfigStore().configData as ConfigData;
-const dashboardCasesData = useDashboardCasesStore()
-  .dashboardCasesData as staticDashboardCases;
 
 type DashboardConfig = {
   id: number;

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-fit">
+  <div class="w-fit relative">
     <button
       type="button"
       class="mr-auto border border-solid p-2 border_small bg_light shadow_light_2"
