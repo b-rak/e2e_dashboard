@@ -1,10 +1,9 @@
 import { H3Event } from "h3";
 import Client from "~/server/api/client";
 import objectToQueryString from "./objectToQueryString";
-import getBackendURL from "./getBackendURL";
 
 const serverApi = (event: H3Event) => {
-  const BASE_URL = getBackendURL(event.context.user);
+  const BASE_URL = useRuntimeConfig().public.BASE_URL;
 
   const accessToken = getCookie(event, "Authorization");
   const refreshToken = getCookie(event, "Refresh-Token");

@@ -7,15 +7,6 @@ export const useDashboardCasesStore = defineStore("dashboardCases", {
   }),
   actions: {
     async getDashboardCases(customerName: string) {
-      //TODO: depending on backend different customer?
-      //superadmin: switching the project should update the store -> update function?
-      //try {
-      const backendPort = 8000;
-
-      /**
-       * if else customerName -> backendPort = port
-       */
-
       try {
         const dashboards = await useDashboards();
         const cases = await useCases();
@@ -31,7 +22,6 @@ export const useDashboardCasesStore = defineStore("dashboardCases", {
         this.dashboardCasesData = obj;
       } catch (e: any) {
         if (isNuxtError(e)) {
-          console.log("Login NUXTError");
           throw createError({
             statusCode: e.statusCode,
             statusMessage: e.message,

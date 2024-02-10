@@ -2,14 +2,14 @@ import getNewToken from "../api/utils/getNewToken";
 
 export default defineEventHandler(async (event) => {
   const cookies = parseCookies(event);
-
+  const BASE_URL = useRuntimeConfig().public.BASE_URL;
   if (
     cookies["Authorization"] &&
     cookies["Refresh-Token"] &&
     cookies["Authorization"] !== "" &&
     cookies["Refresh-Token"] !== ""
   ) {
-    const user = await $fetch("http://avv.monitoring.appmatics.de/users/self", {
+    const user = await $fetch(`${BASE_URL}/users/self`, {
       method: "GET",
       headers: { Authorization: "Bearer " + cookies["Authorization"] },
     });
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
     cookies["Refresh-Token"] !== ""
   ) {
     await getNewToken(event);
-    const user = await $fetch("http://avv.monitoring.appmatics.de/users/self", {
+    const user = await $fetch(`${BASE_URL}/users/self`, {
       method: "GET",
     });
     event.context.user = user;
