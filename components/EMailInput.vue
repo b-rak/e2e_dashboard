@@ -13,7 +13,7 @@
         ? 'f_border_secondary_00'
         : 'f_border_neutral_80 !focus:f_border_neutral_900',
     ]"
-    type="text"
+    type="email"
     name="e-mail"
     placeholder="E-Mail-Adresse"
     required
