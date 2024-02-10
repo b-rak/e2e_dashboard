@@ -173,4 +173,12 @@ declare global {
   interface QueryParams {
     [key: string]: string | number | boolean;
   }
+
+  type User = {
+    id: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+    project: string;
+  };
 }

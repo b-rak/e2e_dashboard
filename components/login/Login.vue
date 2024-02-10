@@ -80,15 +80,10 @@ const login = async () => {
   // send login request
   if (errorMessage.value === "" && errorMessagePw.value === "") {
     try {
-      const { message } = await useAuthenticate(email, password);
-      console.log("MESSAGE", message);
-
+      await useAuthenticate(email, password);
       loginError.value = false;
     } catch (e: any) {
-      console.log("Login Error");
-      console.log(e);
       if (isNuxtError(e)) {
-        console.log("Login NUXTError");
         if (e.statusCode === 500) {
           throw createError({
             statusCode: e.statusCode,

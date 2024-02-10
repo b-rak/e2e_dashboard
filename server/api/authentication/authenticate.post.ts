@@ -2,15 +2,20 @@ import { serverApi } from "../utils/serverApi";
 
 export default defineEventHandler(async (event) => {
   const api = serverApi(event);
+
   const { password, email } = await readBody(event);
 
   try {
-    const res = await api.raw("/auth/authenticate", "POST", {
-      body: {
-        email,
-        password,
-      },
-    });
+    const res = await api.raw(
+      "http://avv.monitoring.appmatics.de/auth/authenticate",
+      "POST",
+      {
+        body: {
+          email,
+          password,
+        },
+      }
+    );
 
     const access_token = res._data.access_token;
     const refresh_token = res._data.refresh_token;

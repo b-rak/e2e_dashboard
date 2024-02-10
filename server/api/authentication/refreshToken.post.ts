@@ -3,12 +3,10 @@ import { serverApi } from "../utils/serverApi";
 export default defineEventHandler(async (event) => {
   const api = serverApi(event);
   const { refreshToken } = await readBody(event);
-  console.log("+++++++++++++REFRÄSH TOKEN+++++++++++++", refreshToken);
   try {
     const res = await api.raw("/auth/refresh-token", "POST", {
       body: { refreshToken },
     });
-    console.log("RESPONSE:", res);
 
     const access_token = res._data.access_token;
     const refresh_token = res._data.refresh_token;
@@ -32,7 +30,6 @@ export default defineEventHandler(async (event) => {
 
     return { message: "success" };
   } catch (err) {
-    console.log(err);
     throw createError("An error occurred while fetching the data.");
   }
 });
