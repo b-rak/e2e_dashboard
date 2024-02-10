@@ -1,7 +1,5 @@
 export default defineNuxtRouteMiddleware(async () => {
-  const user = await useFetch("/api/user", {
-    headers: useRequestHeaders(["cookie"]),
-  });
-  if (user.data.value) return navigateTo("/dashboard");
+  const user = await useUser();
+  if (user) return navigateTo("/dashboard");
   return;
 });
