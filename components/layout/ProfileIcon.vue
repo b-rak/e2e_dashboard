@@ -9,16 +9,16 @@
     />
     <div
       v-if="openProfileMenu"
-      class="flex flex-col bg_light shadow_light_2 border_small absolute right-0 top-14 w-40 text-right"
+      class="flex flex-col bg_light shadow_light_2 border_small absolute right-0 top-16 text-right text_regular_18 basic_text_grey w-56"
       id="profile-menu"
     >
-      <div class="p-4">Appmatics User</div>
+      <div class="px-6 py-6">{{ `${user?.firstname} ${user?.lastname}` }}</div>
       <div class="flex flex-col border-y border-y-[#cbd0d4]">
-        <a href="/profil" class="p-4 hover:bg-[#cbd0d4]">Mein Profil</a>
-        <a href="/support" class="p-4 hover:bg-[#cbd0d4]">Support</a>
+        <a href="/profil" class="px-6 py-6 hover:bg-[#cbd0d4]">Mein Profil</a>
+        <a href="/support" class="px-6 py-6 hover:bg-[#cbd0d4]">Support</a>
       </div>
       <span
-        class="p-4 cursor-pointer hover:bg-[#dfe4e7] hover:rounded-b-[0.75rem]"
+        class="px-6 py-6 cursor-pointer hover:bg-[#dfe4e7] hover:rounded-b-[0.75rem]"
         @click="logout()"
         >Logout</span
       >
@@ -28,31 +28,16 @@
 
 <script lang="ts" setup>
 import { getActivePinia } from "pinia";
-
+const user = await useUser();
 const props = defineProps<{
   openProfileMenu: boolean;
 }>();
 
 const pinia = getActivePinia();
 
-const logout = () => {
-  useLogout();
-  // clear all cookies
-  const accessToken = useCookie("accessToken");
-  const accessTokenExp = useCookie("accessTokenExp");
-  const refreshToken = useCookie("refreshToken");
-  const refreshTokenExp = useCookie("refreshTokenExp");
-  const jwt = useCookie("jwt");
-
-  accessToken.value = null;
-  accessTokenExp.value = null;
-  refreshToken.value = null;
-  refreshTokenExp.value = null;
-  jwt.value = null;
-
-  // revert logged in state from local storage
-  localStorage.setItem("loggedIn", "false");
-
+const logout = async () => {
+  await useLogout();
+  emit("toggleProfileMenu", false);
   // reset all stores
   pinia._s.forEach((store) => store.$reset());
   // delete config and static data
@@ -60,10 +45,8 @@ const logout = () => {
   navigateTo("/login");
 };
 
-// TODO
 const emit = defineEmits(["toggleProfileMenu"]);
 const toggleProfileMenu = () => {
-  console.log("EMIT", !props.openProfileMenu);
   emit("toggleProfileMenu", !props.openProfileMenu);
 };
 </script>

@@ -80,8 +80,8 @@
       />
     </div>
     <div
-      class="fixed z-[10] top-0 left-0 md:hidden flex flex-col gap-4 p-6 pt-16 bg-[#eeeeee] transform transition-all duration-[250ms] ease-[cubic-bezier(0.645,0.045,0.355,1)]"
-      :class="[openMenu ? 'translate-x-0' : '-translate-x-full']"
+      class="fixed z-[10] top-20 left-0 md:hidden flex flex-col gap-8 py-6 px-10 bg_light shadow_light_2 border_small transform transition-all duration-[250ms] ease-[cubic-bezier(0.645,0.045,0.355,1)]"
+      :class="[openMenu ? 'translate-x-0 ml-[4%]' : '-translate-x-full']"
       id="menu"
     >
       <NavigationLink
