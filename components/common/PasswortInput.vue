@@ -33,8 +33,8 @@
 <script lang="ts" setup>
 const passwordVisible = ref(false);
 const props = defineProps<{
-  id: String;
-  label: String;
-  errorMessage: String;
+  id: string;
+  label: string;
+  errorMessage: string;
 }>();
 </script>

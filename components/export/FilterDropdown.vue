@@ -111,16 +111,31 @@ const groupFilters = [
   }),
 ];
 
-const filters = props.type === "OS" ? groupFilters : statusFilters;
+const filters: Array<FilterOption> =
+  props.type === "OS" ? groupFilters : statusFilters;
 
-const updateDisplay = (obj: object) => {
+type FilterOption = {
+  optionText: string;
+  iconName: string;
+  color: string;
+  selected: boolean;
+};
+
+const updateDisplay = (obj: FilterOption) => {
   if (obj.optionText === "Gesamt") {
-    filters.find((filter) => filter.optionText === "Gesamt").selected = true;
+    (
+      filters.find((filter) => filter.optionText === "Gesamt") as FilterOption
+    ).selected = true;
     deselectAllButtons();
   } else {
-    filters.find((filter) => filter.optionText === obj.optionText).selected =
-      obj.selected;
-    filters.find((filter) => filter.optionText === "Gesamt").selected = false;
+    (
+      filters.find(
+        (filter) => filter.optionText === obj.optionText
+      ) as FilterOption
+    ).selected = obj.selected;
+    (
+      filters.find((filter) => filter.optionText === "Gesamt") as FilterOption
+    ).selected = false;
     if (allButtonsSelected() || allButtonsDeselected()) {
       deselectAllButtons();
     }

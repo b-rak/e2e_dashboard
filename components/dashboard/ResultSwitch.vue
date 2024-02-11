@@ -27,5 +27,5 @@
 const togglePassed = ref(true);
 const emits = defineEmits(["toggleResultSwitch"]);
 
-const toggleSwitch =
+const toggleSwitch = {};
 </script>

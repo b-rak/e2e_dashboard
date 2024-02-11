@@ -20,7 +20,5 @@ const props = defineProps<{
   buttonText: String;
 }>();
 
-const exportData = () => {
-  console.log("TODO: Export");
-};
+const exportData = () => {};
 </script>

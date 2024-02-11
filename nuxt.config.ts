@@ -67,9 +67,14 @@ export default defineNuxtConfig({
 
   components: [
     "~/components/",
+    "~/components/common",
+    "~/components/dashboard",
+    "~/components/details",
+    "~/components/export",
     "~/components/icons",
     "~/components/layout",
     "~/components/login",
+    "~/components/shared",
     "~/components/testfaelle",
   ],
 

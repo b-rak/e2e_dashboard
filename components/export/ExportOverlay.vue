@@ -42,7 +42,7 @@
             />
             <span class="h2_bold_28">{{ dashboard.name }}</span>
           </div>
-          <CaseIndicator numberOfCases="8" type="Case" class="bg_light" />
+          <CaseIndicator :numberOfCases="8" type="Case" class="bg_light" />
         </div>
         <div class="border_small bg_light">
           <div

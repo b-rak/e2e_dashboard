@@ -21,7 +21,7 @@
       </div>
     </div>
     <CaseIndicator
-      numberOfCases="8"
+      :numberOfCases="8"
       type="Subcase"
       class="f_neutral_80 ml-auto"
     />
