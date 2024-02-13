@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 const props = defineProps<{
-  displaySuccessChart: boolean;
+  displayStatus: string;
   numberOfChart: number;
   dashboard: Dashboard;
   ratios: Array<CaseRatio> | undefined;
@@ -31,9 +31,17 @@ const props = defineProps<{
 
 const breakpoint = useBreakpoint().breakpoints;
 
+const dashboardCasesData = useDashboardCasesStore()
+  .dashboardCasesData as staticDashboardCases;
+const caseData = (
+  dashboardCasesData.cases.find(
+    (casesObj) => casesObj.groupId === props.dashboard.id
+  ) as { groupId: number; caseList: Case[] }
+).caseList;
+
 const errorData = ref(false);
 watch(
-  () => props.displaySuccessChart,
+  () => props.displayStatus,
   async (value) => {
     if (props.ratios === undefined) {
       errorData.value = true;
@@ -41,7 +49,8 @@ watch(
       await usePolarAreaChart(
         "polarAreaChart-" + props.numberOfChart,
         value,
-        props.ratios
+        props.ratios,
+        caseData
       );
       errorData.value = false;
     }
@@ -54,8 +63,9 @@ onMounted(() => {
     } else {
       await usePolarAreaChart(
         "polarAreaChart-" + props.numberOfChart,
-        true,
-        props.ratios
+        "PASSED",
+        props.ratios,
+        caseData
       );
       errorData.value = false;
     }

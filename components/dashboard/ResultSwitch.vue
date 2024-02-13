@@ -1,31 +1,40 @@
 <template>
-  <div
-    class="px-3 py-1 rounded-l-lg status_bold_12"
-    :class="[
-      togglePassed
-        ? 'status_pass_100 basic_text_white'
-        : 'f_neutral_90 f_text_neutral_500',
-    ]"
-    @click="togglePassed ? '' : (togglePassed = true)"
-  >
-    PASSED
-  </div>
-  <div
-    class="px-3 py-1 rounded-r-lg status_bold_12"
-    :class="[
-      !togglePassed
-        ? 'status_fail_100 basic_text_white'
-        : 'f_neutral_90 f_text_neutral_500',
-    ]"
-    @click="togglePassed ? (togglePassed = false) : ''"
-  >
-    FAILED
+  <div class="flex cursor-pointer">
+    <ResultStatusButton
+      status="PASSED"
+      color="status_pass_100"
+      :selected="selectedStatus === 'PASSED'"
+      class="rounded-l-lg"
+      @click="selectStatus('PASSED')"
+    />
+    <ResultStatusButton
+      status="FAILED"
+      color="status_fail_100"
+      :selected="selectedStatus === 'FAILED'"
+      @click="selectStatus('FAILED')"
+    />
+    <ResultStatusButton
+      status="WARNING"
+      color="status_warning_100"
+      :selected="selectedStatus === 'WARNING'"
+      @click="selectStatus('WARNING')"
+    />
+    <ResultStatusButton
+      status="SKIPPED"
+      color="status_skip_100"
+      :selected="selectedStatus === 'SKIPPED'"
+      class="rounded-r-lg"
+      @click="selectStatus('SKIPPED')"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-const togglePassed = ref(true);
-const emits = defineEmits(["toggleResultSwitch"]);
+const emits = defineEmits(["selectStatus"]);
+const selectedStatus = ref("PASSED");
 
-const toggleSwitch = {};
+const selectStatus = (status: string) => {
+  selectedStatus.value = status;
+  emits("selectStatus", selectedStatus.value);
+};
 </script>

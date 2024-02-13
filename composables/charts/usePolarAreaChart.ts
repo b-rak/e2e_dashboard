@@ -3,22 +3,23 @@ import {
   fNeutral900,
   statusPass100,
   statusFail100,
+  statusWarning100,
+  statusSkip100,
 } from "./chartConfig";
-import usePercentage from "../utils/usePercentage";
 
 // Polar Area Chart on dashboard page
 export default async (
   canvasId: string,
-  successChart: boolean,
-  caseRatios: Array<CaseRatio>
+  resultStatus: string,
+  caseRatios: Array<CaseRatio>,
+  caseData: Case[]
 ) => {
   const data = caseRatios.map((caseRatio) => {
     return {
-      testcaseName: caseRatio.caseId,
-      successRate: usePercentage(
-        caseRatio.passed,
-        caseRatio.passed + caseRatio.failed
-      ),
+      testcaseName: (
+        caseData.find((testcase) => testcase.id === caseRatio.caseId) as Case
+      ).readableName,
+      percentages: calculatePercentages(caseRatio),
     };
   });
   let chartStatus = Chart.getChart(canvasId); // <canvas> id
@@ -30,14 +31,13 @@ export default async (
     data: {
       datasets: [
         {
-          label: "PolarArea Chart " + "Passed",
+          label: "PolarArea Chart",
           data: data.map((x) => {
-            const value = successChart ? x.successRate : 100 - x.successRate;
-            return value < 20 ? 20 : value;
+            return x.percentages[resultStatus.toLowerCase()] < 20
+              ? 20
+              : x.percentages[resultStatus.toLowerCase()];
           }),
-          backgroundColor: data.map(() =>
-            successChart ? statusPass100 : statusFail100
-          ),
+          backgroundColor: getColor(resultStatus),
         },
       ],
     },
@@ -70,10 +70,9 @@ export default async (
             },
             label: (context) => {
               const testcaseName = data[context.dataIndex].testcaseName;
-              const successRate = data[context.dataIndex].successRate;
-              return successChart
-                ? testcaseName + ": " + successRate + " %"
-                : testcaseName + ": " + (100 - successRate) + " %";
+              const successRate =
+                data[context.dataIndex].percentages[resultStatus.toLowerCase()];
+              return testcaseName + ": " + successRate + " %";
             },
           },
         },
@@ -90,4 +89,67 @@ export default async (
       aspectRatio: 1,
     },
   });
+};
+
+const getColor = (resultStatus: string) => {
+  if (resultStatus === "PASSED") {
+    return statusPass100;
+  } else if (resultStatus === "WARNING") {
+    return statusWarning100;
+  } else if (resultStatus === "FAILED") {
+    return statusFail100;
+  } else {
+    return statusSkip100;
+  }
+};
+
+const calculatePercentages = (caseRatio: CaseRatio) => {
+  // Calculate total
+  const total =
+    caseRatio.passed + caseRatio.failed + caseRatio.warning + caseRatio.skipped;
+
+  // Calculate percentages without rounding
+  const passedPercentage = (caseRatio.passed / total) * 100;
+  const failedPercentage = (caseRatio.failed / total) * 100;
+  const warningPercentage = (caseRatio.warning / total) * 100;
+  const skippedPercentage = (caseRatio.skipped / total) * 100;
+
+  // Calculate the rounding adjustment
+  const roundingAdjustment =
+    100 -
+    (Math.round(passedPercentage) +
+      Math.round(failedPercentage) +
+      Math.round(warningPercentage) +
+      Math.round(skippedPercentage));
+
+  // Adjust the percentage with the largest rounding error
+  const maxPercentage = Math.max(
+    passedPercentage,
+    failedPercentage,
+    warningPercentage,
+    skippedPercentage
+  );
+
+  let adjustedPassedPercentage = passedPercentage;
+  let adjustedFailedPercentage = failedPercentage;
+  let adjustedWarningPercentage = warningPercentage;
+  let adjustedSkippedPercentage = skippedPercentage;
+
+  if (roundingAdjustment !== 0) {
+    if (maxPercentage === passedPercentage) {
+      adjustedPassedPercentage += roundingAdjustment;
+    } else if (maxPercentage === failedPercentage) {
+      adjustedFailedPercentage += roundingAdjustment;
+    } else if (maxPercentage === warningPercentage) {
+      adjustedWarningPercentage += roundingAdjustment;
+    } else {
+      adjustedSkippedPercentage += roundingAdjustment;
+    }
+  }
+  return {
+    passed: Math.round(passedPercentage),
+    failed: Math.round(failedPercentage),
+    warning: Math.round(warningPercentage),
+    skipped: Math.round(skippedPercentage),
+  };
 };

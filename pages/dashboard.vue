@@ -71,32 +71,13 @@
               'min-w-[51.75rem]': !breakpoint.mobile,
             }"
           >
-            <div class="flex justify-between items-center h-full">
+            <div
+              class="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center sm:gap-0 h-full"
+            >
               <Heading-2 titleText="Testfallvergleich" />
-              <div class="flex cursor-pointer">
-                <div
-                  class="px-3 py-1 rounded-l-lg status_bold_12"
-                  :class="[
-                    togglePassed
-                      ? 'status_pass_100 basic_text_white'
-                      : 'f_neutral_90 f_text_neutral_500',
-                  ]"
-                  @click="togglePassed ? '' : (togglePassed = true)"
-                >
-                  PASSED
-                </div>
-                <div
-                  class="px-3 py-1 rounded-r-lg status_bold_12"
-                  :class="[
-                    !togglePassed
-                      ? 'status_fail_100 basic_text_white'
-                      : 'f_neutral_90 f_text_neutral_500',
-                  ]"
-                  @click="togglePassed ? (togglePassed = false) : ''"
-                >
-                  FAILED
-                </div>
-              </div>
+              <ResultSwitch
+                @select-status="(selection) => (selectedStatus = selection)"
+              />
             </div>
             <div
               class="grid gap-3"
@@ -108,7 +89,7 @@
             >
               <PolarAreaChart
                 v-for="(dashboard, index) of dashboards"
-                :displaySuccessChart="togglePassed"
+                :displayStatus="selectedStatus"
                 :numberOfChart="index + 1"
                 :dashboard="dashboard"
                 :ratios="dashboardCaseRatios[index]"
@@ -126,62 +107,12 @@
             <div
               class="p-3 flex flex-col gap-6 border_small basic_white min-h-[11.25rem]"
             >
-              <div
+              <SuccessRateChart
                 v-for="(dashboard, index) of dashboards"
-                class="flex items-center gap-6"
-              >
-                <div class="flex items-center gap-4 f_text_neutral_900 h-6">
-                  <GroupIcon
-                    :name="useIcon(dashboard.name, dashboard.icon)"
-                    :iconWidth="useRem() * 1.5 + ''"
-                    :iconHeight="useRem() * 1.5 + ''"
-                  />
-                  <span class="h3_bold_18 w-[6.25rem] !leading-6">{{
-                    dashboard.name
-                  }}</span>
-                </div>
-                <div
-                  class="flex items-center justify-center min-w-[10rem] grow"
-                  :class="{
-                    'h-[9.75rem]': dashboards.length === 1,
-                    'h-[4.125rem]': dashboards.length === 2,
-                    'h-[2.25rem]': dashboards.length > 2,
-                    'min-w-[28.25rem]': !breakpoint.mobile,
-                  }"
-                >
-                  <canvas
-                    v-if="trends[index].trend !== 'error'"
-                    :id="'successrate-' + dashboard.id"
-                    class="border_xsmall"
-                  ></canvas>
-                  <span v-else class="text_regular_16"
-                    >Error loading data...</span
-                  >
-                </div>
-                <div
-                  class="flex justify-center items-center gap-2 min-w-[6.75rem]"
-                >
-                  <font-awesome-icon
-                    v-if="
-                      trends[index].trend !== 'constant' &&
-                      trends[index].trend !== 'error'
-                    "
-                    :icon="{
-                      prefix: 'far',
-                      iconName: getTrendIcon(trends[index].trend),
-                    }"
-                    class="h-[1.5rem] w-[1.5rem] text-[1.5rem]"
-                    :class="[
-                      getTrendIcon(trends[index].trend) === 'arrow-up'
-                        ? 'status_text_pass_100'
-                        : 'status_text_fail_100',
-                    ]"
-                  />
-                  <span class="rate_bold_28 uppercase w-full text-right"
-                    >{{ trends[index].successRate }}%</span
-                  >
-                </div>
-              </div>
+                :numberOfDashboards="dashboards.length"
+                :dashboard="dashboard"
+                :trend="trends[index]"
+              />
             </div>
           </div>
         </div>
@@ -233,14 +164,7 @@ const lastMonthSuccessRates = await useDashboardPassRate(
   thirtyDaysAgoString,
   currentDateString
 );
-const togglePassed = ref(true);
-const getTrendIcon = (trend: string) => {
-  if (trend === "positive") {
-    return "arrow-up";
-  } else if (trend === "negative") {
-    return "arrow-down";
-  }
-};
+const selectedStatus = ref("PASSED"); // initial state for PolarAreaChart
 
 const breakpoint = useBreakpoint().breakpoints;
 definePageMeta({
