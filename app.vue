@@ -17,7 +17,7 @@ if (user) {
   }
 
   await configStore.loadConfigFile(configName);
-  await dashboardCasesStore.getDashboardCases(configName);
+  await dashboardCasesStore.getDashboardCases();
 } else {
   navigateTo("/login");
 }

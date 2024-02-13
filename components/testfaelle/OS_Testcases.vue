@@ -49,8 +49,10 @@ const props = defineProps<{
 const dashboardCasesData = useDashboardCasesStore()
   .dashboardCasesData as staticDashboardCases;
 
-const cases = dashboardCasesData.cases.find(
-  (caseObj) => caseObj.groupId === props.dashboardId
+const cases = (
+  dashboardCasesData.cases.find(
+    (caseObj) => caseObj.groupId === props.dashboardId
+  ) as { groupId: number; caseList: Case[] }
 ).caseList;
 const numberOfCases = cases.length;
 

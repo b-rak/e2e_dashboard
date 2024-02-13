@@ -6,7 +6,7 @@ export const useDashboardCasesStore = defineStore("dashboardCases", {
     dashboardCasesData: null as staticDashboardCases | null,
   }),
   actions: {
-    async getDashboardCases(customerName: string) {
+    async getDashboardCases() {
       try {
         const dashboards = await useDashboards();
         const cases = await useCases();
