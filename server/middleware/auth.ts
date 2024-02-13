@@ -19,9 +19,10 @@ export default defineEventHandler(async (event) => {
     cookies["Refresh-Token"] &&
     cookies["Refresh-Token"] !== ""
   ) {
-    await getNewToken(event);
+    const newAccessToken = await getNewToken(event);
     const user = await $fetch(`${BASE_URL}/users/self`, {
       method: "GET",
+      headers: { Authorization: "Bearer " + newAccessToken },
     });
     event.context.user = user;
   } else {

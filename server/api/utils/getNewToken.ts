@@ -1,11 +1,15 @@
 import { serverApi } from "../utils/serverApi";
 import { H3Event } from "h3";
 
-export default async (event: H3Event) => {
+export default async (event: H3Event): Promise<string> => {
   const api = serverApi(event);
   const cookies = parseCookies(event);
 
-  const res = await api.raw("/auth/refresh-token", "POST", {
+  let url = "/auth/refresh-token";
+  if (!api.baseUrl)
+    url = "http://avv.monitoring.appmatics.de/auth/refresh-token";
+
+  const res = await api.raw(url, "POST", {
     body: { refreshToken: cookies["Refresh-Token"] },
   });
 
@@ -28,4 +32,5 @@ export default async (event: H3Event) => {
     httpOnly: true,
     sameSite: true,
   });
+  return access_token;
 };
