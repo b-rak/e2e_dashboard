@@ -59,14 +59,18 @@
           @select-all="selectAll"
           :displayAll="displayAll"
           positionHeading="center"
-          :ratios="dashboardsRatio"
+          :latestTwoCaseResults="latestTwoCaseResults"
           class="hover:scale-[1.05]"
         />
         <OSKachel
           v-for="config in configs"
           :key="config.id"
           :config="config"
-          :ratios="dashboardsRatio"
+          :latestTwoCaseResults="
+            latestTwoCaseResults.filter(
+              (caseResult) => caseResult.environment === config.dashboardId + ''
+            )
+          "
           @update:display="updateDisplay"
           :selected="config.selected.value"
         />
@@ -87,6 +91,7 @@
           :name="config.os_name"
           :iconName="config.iconName"
           :dashboardId="config.dashboardId"
+          :results="(sortedResults.find(sortedResult => sortedResult.dashId === config.dashboardId)?.cases as any)"
           @go-to:details="navigate"
         />
       </template>
@@ -95,7 +100,6 @@
 </template>
 
 <script lang="ts" setup>
-const dashboardsRatio = await useTwoLatestCaseResult();
 const breakpoint = useBreakpoint().breakpoints;
 
 const configStoreData = useConfigStore().configData as ConfigData;
@@ -168,6 +172,41 @@ const selectAll = () => {
     }
   }
 };
+
+// results for bar charts
+const results = await useStepsRatio({
+  limit: 50,
+});
+
+const sortedResults: sortedCasePassRate[] = [];
+// sort results for
+for (let dashboard of configStoreData.dashboards) {
+  const caseIds = (
+    useDashboardCasesStore().dashboardCasesData as staticDashboardCases
+  ).cases
+    .find((cases) => cases.groupId === dashboard.id)
+    ?.caseList.map((testcase) => testcase.id);
+  const caseArr = [];
+  for (const result of results) {
+    if (caseIds?.includes(result.caseId)) {
+      caseArr.push(result);
+    }
+  }
+  sortedResults.push({ dashId: dashboard.id, cases: caseArr });
+}
+
+const latestTwoCaseResults = sortedResults.flatMap((obj) => {
+  return obj.cases.flatMap((caseResults) => {
+    return caseResults.results.slice(0, 2).map((caseResult, index) => {
+      return {
+        caseId: caseResult.caseId,
+        environment: caseResult.environment,
+        result: useResultStatus(caseResult),
+        row_num: index + 1,
+      };
+    });
+  });
+});
 
 const navigate = (obj: any) => {
   navigateTo(("/testfaelle/" + obj.dashboardId + "/" + obj.caseId) as string);

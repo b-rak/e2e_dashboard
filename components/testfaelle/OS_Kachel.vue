@@ -69,7 +69,7 @@
       <SuccessRate
         :selected="selected"
         :dashboardId="props.config.dashboardId"
-        :latestTwoCaseResults="ratios"
+        :latestTwoCaseResults="latestTwoCaseResults"
         :class="{ '!px-0': breakpoint.viewport === 'lg' }"
       />
     </div>
@@ -77,25 +77,18 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType } from "vue";
-interface Config {
+type Config = {
   id: number;
   dashboardId: number;
   iconName: string;
   os_name: string;
   numberOfCases: number;
-}
-const props = defineProps({
-  config: {
-    type: Object as PropType<Config>,
-    required: true,
-  },
-  selected: Boolean,
-  ratios: {
-    type: Array<LatestCaseResult>,
-    required: true,
-  },
-});
+};
+const props = defineProps<{
+  config: Config;
+  selected: Boolean;
+  latestTwoCaseResults: LatestCaseResult[];
+}>();
 const emits = defineEmits(["update:display"]);
 
 const breakpoint = useBreakpoint().breakpoints;
@@ -109,7 +102,10 @@ const toggleDisplay = () => {
 
 onMounted(() => {
   setTimeout(() => {
-    useOverviewChart(String(props.config.id), props.config.dashboardId);
+    const lastResults = props.latestTwoCaseResults.filter(
+      (caseResult) => caseResult.row_num === 1
+    );
+    useOverviewChart(props.config.id, lastResults);
   }, 1);
 });
 </script>

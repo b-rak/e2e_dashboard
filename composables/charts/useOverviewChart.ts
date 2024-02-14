@@ -8,8 +8,8 @@ import {
 } from "./chartConfig";
 
 // OS/Group Kachel Chart
-export default async (groupdId: String, dashboardId: number) => {
-  const data = await getResults(dashboardId);
+export default async (groupdId: number, results: LatestCaseResult[]) => {
+  const data = await getResults(results);
 
   // define Plugin: change color of bar depending on passed or failed; exception: value 0 is grey
   const updateColor = {
@@ -102,11 +102,10 @@ export default async (groupdId: String, dashboardId: number) => {
   });
 };
 
-async function getResults(dashboardId: number) {
-  const data = await useLatestCaseResults(dashboardId);
+async function getResults(results: LatestCaseResult[]) {
   let passed = 0;
   let failed = 0;
-  for (const caseResult of data) {
+  for (const caseResult of results) {
     if (caseResult.result === "PASSED") {
       passed++;
     } else if (caseResult.result === "FAILED") {

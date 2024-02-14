@@ -44,6 +44,7 @@ const props = defineProps<{
   name: string;
   iconName: string;
   dashboardId: number;
+  results: Array<{ caseId: number; results: CasePassRate[] }>;
 }>();
 
 const dashboardCasesData = useDashboardCasesStore()
@@ -56,12 +57,9 @@ const cases = (
 ).caseList;
 const numberOfCases = cases.length;
 
-const results = await useStepsRatio({
-  limit: 50,
-});
-
 const lastResults = (testcase: Case) => {
-  return results.find((element) => element.caseId === testcase.id)?.results;
+  return props.results.find((element) => element.caseId === testcase.id)
+    ?.results;
 };
 
 const emits = defineEmits(["goTo:details"]);

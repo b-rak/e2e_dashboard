@@ -1,12 +1,10 @@
 type FetchParameters = {
-  dashboardId?: number;
   caseId?: number;
   limit?: number;
 };
 
-export default async ({ dashboardId, caseId, limit }: FetchParameters = {}) => {
+export default async ({ caseId, limit }: FetchParameters = {}) => {
   const queryParams = [
-    dashboardId !== undefined ? `dashboardId=${dashboardId}` : "",
     caseId !== undefined ? `caseId=${caseId}` : "",
     limit !== undefined ? `limit=${limit}` : "limit=5",
   ]

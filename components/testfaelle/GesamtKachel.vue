@@ -33,7 +33,7 @@
       v-if="!breakpoint.mobile"
       :selected="displayAll"
       :dashboardId="-1"
-      :latestTwoCaseResults="ratios"
+      :latestTwoCaseResults="latestTwoCaseResults"
     />
   </div>
 </template>
@@ -42,7 +42,7 @@
 const props = defineProps<{
   displayAll: Boolean;
   positionHeading: String;
-  ratios: Array<LatestCaseResult>;
+  latestTwoCaseResults: LatestCaseResult[];
 }>();
 const breakpoint = useBreakpoint().breakpoints;
 
