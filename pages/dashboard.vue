@@ -48,7 +48,11 @@
             v-for="dashboard of dashboards"
             :osName="dashboard.name"
             :iconName="useIcon(dashboard.name, dashboard.icon)"
-            :dashboardId="dashboard.id"
+            :results="
+              latestCaseResults.filter(
+                (caseResult) => caseResult.environment === dashboard.id + ''
+              )
+            "
           />
         </div>
       </div>
@@ -108,10 +112,10 @@
               class="p-3 flex flex-col gap-6 border_small basic_white min-h-[11.25rem]"
             >
               <SuccessRateChart
-                v-for="(dashboard, index) of dashboards"
+                v-for="dashboard of dashboards"
                 :numberOfDashboards="dashboards.length"
                 :dashboard="dashboard"
-                :trend="trends[index]"
+                :trend="findTrend(dashboard.id)"
               />
             </div>
           </div>
@@ -148,7 +152,6 @@ const dashboardCasesData = useDashboardCasesStore()
   .dashboardCasesData as staticDashboardCases;
 const dashboards = dashboardCasesData.dashboards;
 
-const latestTwoCaseResults = await useTwoLatestCaseResult();
 const latestCaseResult = await useCasesResults({ sort: "createdDate,desc" });
 const currentDate = new Date();
 const thirtyDaysAgo = new Date();
@@ -164,6 +167,7 @@ const lastMonthSuccessRates = await useDashboardPassRate(
   thirtyDaysAgoString,
   currentDateString
 );
+
 const selectedStatus = ref("PASSED"); // initial state for PolarAreaChart
 
 const breakpoint = useBreakpoint().breakpoints;
@@ -173,8 +177,11 @@ definePageMeta({
 
 onMounted(() => {
   setTimeout(() => {
-    for (const [index, dashboard] of dashboards.entries()) {
-      useSuccessRateChart(dashboard.id, lastMonthSuccessRates[index]);
+    for (const lastMonthSuccessRate of lastMonthSuccessRates) {
+      useSuccessRateChart(
+        lastMonthSuccessRate.dashboardId,
+        lastMonthSuccessRate
+      );
     }
   }, 1);
 });
@@ -209,18 +216,55 @@ for (const lastMonthSuccessRate of lastMonthSuccessRates) {
     successRate: usePercentage(dashboardRates[0].ratio, 1),
   });
 }
-outerLoop: for (const dashboard of dashboards) {
-  for (const trend of trends) {
-    if (dashboard.id === trend.dashboardId) {
-      continue outerLoop;
+
+const findTrend = (dashboardId: number) => {
+  let trend = trends.find((trend) => trend.dashboardId === dashboardId);
+  if (trend) return trend;
+  else
+    return {
+      dashboardId: -1,
+      trend: "error",
+      successRate: "-",
+    };
+};
+// results for bar charts
+const results = await useStepsRatio({
+  limit: 2,
+});
+
+const sortedResults: sortedCasePassRate[] = [];
+// sort results for
+for (let dashboard of configStoreData.dashboards) {
+  const caseIds = (
+    useDashboardCasesStore().dashboardCasesData as staticDashboardCases
+  ).cases
+    .find((cases) => cases.groupId === dashboard.id)
+    ?.caseList.map((testcase) => testcase.id);
+  const caseArr = [];
+  for (const result of results) {
+    if (caseIds?.includes(result.caseId)) {
+      caseArr.push(result);
     }
   }
-  trends.push({
-    dashboardId: -1,
-    trend: "error",
-    successRate: "-",
-  });
+  sortedResults.push({ dashId: dashboard.id, cases: caseArr });
 }
+
+const latestTwoCaseResults = sortedResults.flatMap((obj) => {
+  return obj.cases.flatMap((caseResults) => {
+    return caseResults.results.slice(0, 2).map((caseResult, index) => {
+      return {
+        caseId: caseResult.caseId,
+        environment: caseResult.environment,
+        result: useResultStatus(caseResult),
+        row_num: index + 1,
+      };
+    });
+  });
+});
+
+const latestCaseResults = latestTwoCaseResults.filter(
+  (caseResult) => caseResult.row_num === 1
+);
 </script>
 
 <style scoped>

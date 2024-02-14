@@ -11,7 +11,7 @@
       :class="[showTooltip ? 'visible opacity-100' : 'invisible opacity-0']"
       :id="id"
       >{{
-        result.caseReadableName +
+        testcase.readableName +
         ": " +
         result.result.charAt(0).toUpperCase() +
         result.result.slice(1).toLowerCase()
@@ -23,10 +23,17 @@
 <script lang="ts" setup>
 const props = defineProps<{
   id: string;
-  result: CaseResult;
+  result: LatestCaseResult;
 }>();
 
 const showTooltip = ref(false);
+
+const dashboardCasesData = useDashboardCasesStore()
+  .dashboardCasesData as staticDashboardCases;
+
+const testcase = dashboardCasesData.cases
+  .find((data) => data.groupId + "" === props.result.environment)
+  ?.caseList.find((testcase) => testcase.id === props.result.caseId) as Case;
 
 const setMargin = () => {
   const textElement = document.getElementById(props.id);

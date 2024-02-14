@@ -14,7 +14,7 @@
     </div>
     <div class="flex gap-x-[0.20813rem] gap-y-2 flex-wrap">
       <OSPerformanceResult
-        v-for="(result, index) of caseResults"
+        v-for="(result, index) of results"
         :id="osName + '-' + index"
         :result="result"
       >
@@ -27,7 +27,6 @@
 const props = defineProps<{
   osName: string;
   iconName: string;
-  dashboardId: number;
+  results: LatestCaseResult[];
 }>();
-const caseResults = await useLatestCaseResults(props.dashboardId);
 </script>

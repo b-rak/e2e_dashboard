@@ -20,19 +20,9 @@ declare global {
   };
 
   type LatestCaseResult = {
-    id: number;
-    case_id: number;
+    caseId: number;
     environment: string;
-    createdDate: string;
-    startedDate: string;
-    endedDate: string;
-    runtime: number;
-    screenshot: string;
-    video: string;
-    falsePositive: number;
     result: string;
-    testparameter: string;
-    randomtoken: string;
     row_num: number;
   };
 
@@ -162,6 +152,11 @@ declare global {
       groupId: number;
       caseList: Array<Case>;
     }>;
+  };
+
+  type sortedCasePassRate = {
+    dashId: number;
+    cases: Array<{ caseId: number; results: CasePassRate[] }>;
   };
 
   // User Authentication
