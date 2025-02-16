@@ -19,9 +19,9 @@
     />
     <a v-else href="/" class="h-[5rem] w-fit ml-[4%] flex items-center">
       <img
-        class="cursor-pointer h-6 w-[8.75rem]"
-        src="~/assets/images/logo-appmatics-2.png"
-        alt="Appmatics Logo"
+        class="cursor-pointer h-12 w-[8.75rem]"
+        src="~/assets/images/logo-company.png"
+        alt="Company Logo"
       />
     </a>
 

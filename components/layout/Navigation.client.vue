@@ -8,12 +8,12 @@
     <div
       class="flex justify-around items-center gap-x-[3.75rem] lg:gap-x-[9.188rem]"
     >
-      <a href="/" id="appmatics">
+      <a href="/" id="company">
         <img
-          src="~/assets/images/logo-appmatics-2.png"
-          alt="Appmatics Logo"
-          id="appmatics-logo"
-          class="cursor-pointer h-6 w-[8.75rem]"
+          src="~/assets/images/logo-company.png"
+          alt="Company Logo"
+          id="company-logo"
+          class="cursor-pointer h-12 w-[8.75rem]"
         />
       </a>
       <div id="cont-1" class="flex gap-x-14">
@@ -57,17 +57,17 @@
       />
       <a
         href="/"
-        id="appmatics"
+        id="company"
         :class="{
           'filter blur-[5px] brightness-[0.7] select-none pointer-events-none':
             openMenu,
         }"
       >
         <img
-          src="~/assets/images/logo-appmatics-2.png"
-          alt="Appmatics Logo"
-          id="appmatics-logo"
-          class="cursor-pointer h-6 w-[8.75rem]"
+          src="~/assets/images/logo-company.png"
+          alt="Company Logo"
+          id="company-logo"
+          class="cursor-pointer h-12 w-[8.75rem]"
         />
       </a>
       <ProfileIcon

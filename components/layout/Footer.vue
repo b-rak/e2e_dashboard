@@ -7,24 +7,24 @@
         : 'justify-between',
     ]"
   >
-    <span class="f_text_neutral_700 h-8">© 2024 appmatics</span>
+    <span class="f_text_neutral_700 h-8">© 2025 test company</span>
     <div class="flex justify-between w-[22.375rem] f_text_neutral_900 h-8">
       <NuxtLink
-        to="https://www.appmatics.de"
+        to=""
         id="appmatics-homepage"
         class="cursor-pointer f_text_neutral_700"
         target="_blank"
-        >Appmatics</NuxtLink
+        >Test Company</NuxtLink
       >
       <NuxtLink
-        to="https://www.appmatics.com/de/datenschutz"
+        to="https://www.burak-tas.com"
         id="appmatics-homepage"
         class="cursor-pointer f_text_neutral_700"
         target="_blank"
         >Datenschutz</NuxtLink
       >
       <NuxtLink
-        to="https://www.appmatics.com/de/impressum"
+        to="https://www.burak-tas.com"
         id="appmatics-homepage"
         class="cursor-pointer f_text_neutral_700"
         target="_blank"
