@@ -1,4 +1,5 @@
 import getNewToken from "../api/utils/getNewToken";
+import user from "../mocks/user/user";
 
 export default defineEventHandler(async (event) => {
   const cookies = parseCookies(event);
@@ -9,10 +10,11 @@ export default defineEventHandler(async (event) => {
     cookies["Authorization"] !== "" &&
     cookies["Refresh-Token"] !== ""
   ) {
-    const user = await $fetch(`${BASE_URL}/users/self`, {
-      method: "GET",
-      headers: { Authorization: "Bearer " + cookies["Authorization"] },
-    });
+    // commented out due to mock
+    // const user = await $fetch(`${BASE_URL}/users/self`, {
+    //   method: "GET",
+    //   headers: { Authorization: "Bearer " + cookies["Authorization"] },
+    // });
     event.context.user = user;
   } else if (
     !cookies["Authorization"] &&
@@ -20,10 +22,11 @@ export default defineEventHandler(async (event) => {
     cookies["Refresh-Token"] !== ""
   ) {
     const newAccessToken = await getNewToken(event);
-    const user = await $fetch(`${BASE_URL}/users/self`, {
-      method: "GET",
-      headers: { Authorization: "Bearer " + newAccessToken },
-    });
+    // commented out due to mock
+    // const user = await $fetch(`${BASE_URL}/users/self`, {
+    //   method: "GET",
+    //   headers: { Authorization: "Bearer " + newAccessToken },
+    // });
     event.context.user = user;
   } else {
     event.context.user = null;

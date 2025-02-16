@@ -80,6 +80,9 @@ const login = async () => {
   // send login request
   if (errorMessage.value === "" && errorMessagePw.value === "") {
     try {
+      if (email !== "demo@mail.de" || password !== "JZecn@ug$K") {
+        throw createError({ statusCode: 401, message: "Wrong credentials!" });
+      }
       await useAuthenticate(email, password);
       loginError.value = false;
     } catch (e: any) {
