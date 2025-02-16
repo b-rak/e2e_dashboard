@@ -13,7 +13,7 @@ if (user) {
   const token = user.project;
   let configName = "";
   if (token === "DEMO") {
-    configName = "appmaticsdemo.config.json";
+    configName = "demo.config.json";
   }
 
   await configStore.loadConfigFile(configName);

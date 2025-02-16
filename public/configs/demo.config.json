@@ -1,29 +1,29 @@
 {
-  "mainName": "Appmatics",
-  "logo": "/logos/appmatics.png",
+  "mainName": "Test Company",
+  "logo": "/logos/company.png",
   "numberOfCases": 15,
   "dashboards": [
     {
       "name": "Web",
       "id": 4,
       "numberOfCases": 5,
-      "icon": "/logos/appmatics.png",
+      "icon": "/logos/company.png",
       "cases": ["Startseite", "Insights", "Karriere", "Kontakt", "Team"]
     },
     {
       "name": "iOS",
       "id": 5,
       "numberOfCases": 5,
-      "icon": "/logos/appmatics.png",
+      "icon": "/logos/company.png",
       "cases": ["Startseite", "Insights", "Karriere", "Kontakt", "Team"]
     },
     {
       "name": "Android",
       "id": 6,
       "numberOfCases": 5,
-      "icon": "/logos/appmatics.png",
+      "icon": "/logos/company.png",
       "cases": ["Startseite", "Insights", "Karriere", "Kontakt", "Team"]
     }
   ],
-  "mainFiles": "https://d2hwf9qphmsjfe.cloudfront.net/"
+  "mainFiles": "TEST_URL"
 }
