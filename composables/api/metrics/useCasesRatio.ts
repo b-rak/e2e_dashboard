@@ -1,3 +1,4 @@
+import { getCasesRatio } from "~/server/mocks/metrics/casesRatio";
 export default async (
   fromDate: string,
   toDate: string,
@@ -15,5 +16,7 @@ export default async (
   const url = `/api/metrics/casesRatio?from=${fromDate}&to=${toDate}${
     queryParams ? `&${queryParams}` : ""
   }`;
-  return await useBaseFetch<Array<CaseRatio>>(url);
+
+  return getCasesRatio(fromDate, toDate, Number(dashboardId), Number(caseId));
+  // return await useBaseFetch<Array<CaseRatio>>(url);
 };

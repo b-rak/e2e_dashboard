@@ -1,3 +1,5 @@
+import { getSteps } from "~/server/mocks/steps/steps";
+
 export default async (
   dashboardId?: number,
   caseId?: number,
@@ -12,5 +14,6 @@ export default async (
     .join("&");
 
   const url = `/api/steps/steps${queryParams ? `?${queryParams}` : ""}`;
-  return await useBaseFetch<Array<Step>>(url);
+  return getSteps(Number(dashboardId), Number(caseId));
+  // return await useBaseFetch<Array<Step>>(url);
 };

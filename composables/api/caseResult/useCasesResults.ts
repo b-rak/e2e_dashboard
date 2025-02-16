@@ -1,3 +1,5 @@
+import caseResults from "~/server/mocks/caseResult/caseResults";
+
 type FetchParameters = {
   dashboardId?: number;
   caseId?: number;
@@ -29,5 +31,6 @@ export default async ({
   const url = `/api/caseResult/caseresults${
     queryParams ? `?${queryParams}` : ""
   }`;
-  return await useBaseFetch<Array<CaseResult>>(url);
+  return caseResults;
+  // return await useBaseFetch<Array<CaseResult>>(url);
 };

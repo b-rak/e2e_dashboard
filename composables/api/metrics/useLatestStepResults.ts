@@ -1,3 +1,5 @@
+import { getLatestStepResults } from "~/server/mocks/metrics/latestStepResults";
+
 export default async (
   dashboardId?: number,
   caseId?: number,
@@ -14,5 +16,6 @@ export default async (
   const url = `/api/metrics/latestStepResults${
     queryParams ? `?${queryParams}` : ""
   }`;
-  return await useBaseFetch<Array<StepResult>>(url);
+  return getLatestStepResults(Number(dashboardId), Number(caseId), stepId);
+  // return await useBaseFetch<Array<StepResult>>(url);
 };

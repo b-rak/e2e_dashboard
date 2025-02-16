@@ -130,7 +130,6 @@ export default (
             usePointStyle: true,
             callbacks: {
               label: (ctx) => {
-                console.log("CTX", ctx);
                 let createdDate = useDateAndTime(
                   data[ctx.datasetIndex][ctx.dataIndex].createdDate
                 );

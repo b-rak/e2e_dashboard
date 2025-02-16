@@ -1,3 +1,5 @@
+import stepsRatio from "~/server/mocks/metrics/stepsRatio";
+
 type FetchParameters = {
   caseId?: number;
   limit?: number;
@@ -12,7 +14,8 @@ export default async ({ caseId, limit }: FetchParameters = {}) => {
     .join("&");
 
   const url = `/api/metrics/stepsRatio${queryParams ? `?${queryParams}` : ""}`;
-  return await useBaseFetch<
-    Array<{ caseId: number; results: Array<CasePassRate> }>
-  >(url);
+  return stepsRatio;
+  // return await useBaseFetch<
+  //   Array<{ caseId: number; results: Array<CasePassRate> }>
+  // >(url);
 };

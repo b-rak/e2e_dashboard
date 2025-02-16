@@ -1,3 +1,4 @@
 export default (url: string) => {
-  window.open("https://d2hwf9qphmsjfe.cloudfront.net/" + url, "_blank");
+  window.open("/" + url, "_blank");
+  // window.open("FILE_SERVER_PATH" + url, "_blank");
 };

@@ -66,7 +66,7 @@ declare global {
   };
 
   type CasePassRate = {
-    value: string;
+    value: string | number;
     passedCount: number;
     failedCount: number;
     warningCount: number;

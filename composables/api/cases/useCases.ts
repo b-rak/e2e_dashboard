@@ -1,3 +1,5 @@
+import { getCases } from "~/server/mocks/cases/cases";
+
 export default async (dashboardId?: number, caseId?: number) => {
   const queryParams = [
     dashboardId !== undefined ? `dashboardId=${dashboardId}` : "",
@@ -7,5 +9,6 @@ export default async (dashboardId?: number, caseId?: number) => {
     .join("&");
 
   const url = `/api/cases/cases${queryParams ? `?${queryParams}` : ""}`;
-  return await useBaseFetch<Array<Case>>(url);
+  return getCases(Number(dashboardId), Number(caseId));
+  // return await useBaseFetch<Array<Case>>(url);
 };

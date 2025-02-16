@@ -1,3 +1,5 @@
+import runtime from "~/server/mocks/metrics/runtime";
+
 export default async (stepId: number, limit?: number) => {
   const queryParams = [limit !== undefined ? `limit=${limit}` : ""]
     .filter(Boolean) // Remove empty strings
@@ -6,5 +8,6 @@ export default async (stepId: number, limit?: number) => {
   const url = `/api/metrics/runtime?stepId=${stepId}${
     queryParams ? `&${queryParams}` : ""
   }`;
-  return await useBaseFetch<Array<Runtime>>(url);
+  return runtime.slice();
+  // return await useBaseFetch<Array<Runtime>>(url);
 };
