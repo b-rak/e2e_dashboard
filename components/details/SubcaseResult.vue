@@ -148,7 +148,7 @@ const status = ref(props.stepResult.falsePositive !== 0);
 const updateFalsePositive = async (statusToggle: Boolean) => {
   status.value = statusToggle as boolean;
   // patch in DB
-  await usePatchStepResult(props.stepResult.id, Number(status.value));
+  // await usePatchStepResult(props.stepResult.id, Number(status.value)); Deactivated since using mock data
   emits("update:last:result", {
     stepresultId: props.stepResult.id,
     falsePositive: Number(status.value),
